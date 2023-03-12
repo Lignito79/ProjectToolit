@@ -1,0 +1,15 @@
+<div>
+    <main className=main>
+      <h3>Chatbot</h3>
+      <form>
+        <input
+          type="text"
+          name="animal"
+          placeholder="Enter a message"
+          [(ngModel)] = "pet"
+        />
+        <input type="button" value="Generate names" (click)="postCompletition()" />
+        </form>
+        <div className=result> {{result}} </div>
+    </main>
+</div>
