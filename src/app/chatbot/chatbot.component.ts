@@ -7,18 +7,19 @@ import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
   styleUrls: ['./chatbot.component.css']
 })
 export class ChatbotComponent implements OnInit {
-
   constructor(private chatbot : ChatbotOpenAIService) { }
 
   ngOnInit(): void {
   }
 
-  result :string = "";
-  pet : string  = "";
+  result : string = "";
+  query : string  = "";
+  results: string[] = [];
+  queries: string[] = [];
 
   postCompletition(){
 
-    let myprompt = this.pet;
+    let myprompt = this.query;
 
   var payload = { 
     model: "text-davinci-003", 
@@ -30,7 +31,9 @@ export class ChatbotComponent implements OnInit {
     .subscribe((data: any) => {
 	    //alert(JSON.stringify(data));
 	console.log(data);
-        this.result = data.choices[0].text;
+        // this.result = data.choices[0].text;
+        this.results.push(data.choices[0].text)
+        this.queries.push(this.query)
 
    });
 
