@@ -16,7 +16,7 @@ export class ChatbotOpenAIService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer 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',
+      'Authorization': 'Bearer ' + process.env['NG_APP_KEY'],
     })
   }
 
