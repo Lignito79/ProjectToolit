@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
+import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -21,21 +22,23 @@ export class ChatbotComponent implements OnInit {
 
     let myprompt = this.query;
 
-  var payload = { 
-    model: "text-davinci-003", 
-    prompt: myprompt, 
-    temperature: 0.6 
+    var payload = { 
+      model: "text-davinci-003", 
+      prompt: myprompt, 
+      temperature: 0.6 
+    }
+
+    this.chatbot.postCompletion(payload).subscribe((data: any) => {
+	    console.log(data);
+      this.results.push(data.choices[0].text)
+      this.queries.push(this.query)
+    });
   }
 
-    this.chatbot.postCompletion(payload)
-    .subscribe((data: any) => {
-	    //alert(JSON.stringify(data));
-	console.log(data);
-        // this.result = data.choices[0].text;
-        this.results.push(data.choices[0].text)
-        this.queries.push(this.query)
-
-   });
-
+  getWorkItems(){
+    this.chatbot.getWorkItems().subscribe((data: any) => {
+	    console.log(data);
+    });
   }
+
 }

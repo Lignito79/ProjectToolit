@@ -10,7 +10,7 @@ import { filter, takeUntil } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Perficient-Project-GraphAPI';
+  title = 'Toolit';
   isIframe = false;
   loginDisplay = false;
   private readonly _destroying$ = new Subject<void>();
