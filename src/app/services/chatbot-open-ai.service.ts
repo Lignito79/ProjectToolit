@@ -40,15 +40,4 @@ export class ChatbotOpenAIService {
     )
   }
 
-  getWorkItems(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + Buffer.from(':' + '73anh3v4ksupnojrom6vuml7bofdrcqi5c4lnz7ci6mja6zpb3wa').toString('base64')
-    });
-
-    const body = {
-      'query': 'SELECT [Id] from WorkItems'
-    }
-
-    return this.http.post('https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0', body ,{ headers: headers });
-  }
 }

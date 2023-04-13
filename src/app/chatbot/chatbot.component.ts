@@ -8,7 +8,7 @@ import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
   styleUrls: ['./chatbot.component.css']
 })
 export class ChatbotComponent implements OnInit {
-  constructor(private chatbot : ChatbotOpenAIService) { }
+  constructor(private chatbot : ChatbotOpenAIService, private devopsService : AzureDevopsAPIService) { }
 
   ngOnInit(): void {
   }
@@ -18,7 +18,7 @@ export class ChatbotComponent implements OnInit {
   results: string[] = [];
   queries: string[] = [];
 
-  postCompletition(){
+  postCompletion(){
 
     let myprompt = this.query;
 
@@ -36,7 +36,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   getWorkItems(){
-    this.chatbot.getWorkItems().subscribe((data: any) => {
+    this.devopsService.getWorkItems().subscribe((data: any) => {
 	    console.log(data);
     });
   }
