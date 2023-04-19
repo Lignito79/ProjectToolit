@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, pairs, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { retry, catchError } from 'rxjs/operators';
 import { Buffer } from "buffer";
 import { BehaviorSubject } from 'rxjs/';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 import * as jsonpatch from 'jsonpatch';
 
 
@@ -11,46 +13,23 @@ import * as jsonpatch from 'jsonpatch';
   providedIn: 'root'
 })
 
-
 export class AzureDevopsAPIService {
 
   constructor(private http: HttpClient) {}
 
-  getWorkItems(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
-    });
-
-    const body = {
-      'query': 'SELECT [Id] from WorkItems'
-    }
-
-    return this.http.post("https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", body ,{ headers: headers });
-  }
+  stringResponse: any;
+  static responseData: any;
 
 
-  parseJson(jsonLines: string): { type: string, link: string, body: { key: string, value: string }[] } {
-    // Esto es para una sola línea, no varias
-    const parsedLine = JSON.parse(jsonLines);
-    let pairs;
-
-    try {
-      
+  obtainPairs(parsedLine: any): Promise<Observable<any>> {
+    let pairs: any;
       if (parsedLine.body.length == 0) {
         pairs = 1;
       } else if (parsedLine.link && parsedLine.body && Array.isArray(parsedLine.body)) {
         pairs = parsedLine.body.map((pair: [string, string]) => ({ key: pair[0], value: pair[1] }));
       }
 
-    } catch (error) {
-      console.error(`Error parsing JSON on line '${jsonLines}': ${error}`);
-    }
-    
-    this.makeRequest(parsedLine.type, parsedLine.ContentType, parsedLine.link, pairs).subscribe((data: any) => {
-	    console.log(data);
-    });
-
-    return parsedLine;
+    return pairs;
   }
 
   createBody(bodyPairs){
@@ -86,9 +65,12 @@ export class AzureDevopsAPIService {
         'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
       });
       
+      // En vez de retornar, mejor lo añadimos a los "queries" del front-end para que el bot se lo muestre
+      // al usuario.
+      const response = this.http.get(link, { headers: headers });
+            
       return this.http.get(link, { headers: headers });
-
-
+      
     //------------------------------------------------------------------------------------------------
     // MÉTODO POST. Si en el comando proporcionado por el bot se especifica que el body debe ser un json patch, se llama la funcion de
     // para crear uno. Si no, entonces se crea un "body" normal.
@@ -97,11 +79,12 @@ export class AzureDevopsAPIService {
       // Se incluirá un content-type al header, y este será igual al valor de una variable con información que proporciona el bot.
       let headers;
       
-      // AQUÍ SE PONDRÁ UN IF. SI EL BOT DICE QUE EL CONTENT-TYPE ES JSON PATCH, SE CONVIERTE EL BODY OBTENIDO
-      // A UN DOCUMENTO JSON PATCH (LA CONVERSIÓN SE HARÁ SÓLO CON CONCATENACIÓN DE STRINGS :D).
-
+      // Se crea un string de los diferentes elementos del body.
       let bodyString = this.createBody(bodyPairs);
 
+      // Si el bot dice que el comando es de content-type JSON patch, entonces el body que nos da
+      // se convierte en un JSON patch, conversión que se hace con concatenación de strings.
+      // También se adapta el Header dependiendo del content-type.
       if(contentType == "application/json-patch+json"){
         bodyString = "[" + bodyString + "]";
         headers = new HttpHeaders({
@@ -114,10 +97,9 @@ export class AzureDevopsAPIService {
         });
       }
 
-      const body = JSON.parse(bodyString);
-
-      // Se crea un body a partir del string formado por los pares obtenidos y después de decidir si es un
+      // Se crea un JSON para el body a partir del string formado por los pares obtenidos y después de decidir si es un
       // Json patch o no.
+      const body = JSON.parse(bodyString);
       
       console.log(body);
       
