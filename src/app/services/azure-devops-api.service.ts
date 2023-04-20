@@ -124,6 +124,26 @@ export class AzureDevopsAPIService {
     }
     
   }
+
+  getBatchWorkItems(workItemIDs: number[]): Observable<any> {
+
+    const link = "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitemsbatch?api-version=7.0";
+
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
+    });
+
+    const body = {
+      "ids": workItemIDs,
+      "fields": [
+        "System.Id",
+        "System.Title",
+        "System.WorkItemType"
+      ]
+    }
+
+    return this.http.post(link, body, { headers: headers }); 
+  }
   
 }
 
