@@ -69,6 +69,7 @@ export class ChatbotComponent implements OnInit {
         // Primero que nada, verificamos si los datos obtenidos contienen un atributo llamado "workItems".
         // Esto para saber si tenemos que obtener los datos de cada ID de los workItems obtenidos por medio
         // de WiQl.
+        let stringResult = "";
         if (data.hasOwnProperty("workItems")) {
           console.log("myObject has a 'workItems' attribute");
           
@@ -78,18 +79,58 @@ export class ChatbotComponent implements OnInit {
 
           // Mandamos llamar la función especialmente hecha para obtener los datos
           // de varios work items en bache, tomando en cuenta sus IDs
-          this.devopsService.getBatchWorkItems(workItemIDs).subscribe((data: any) => {
-            const stringResponse = JSON.stringify(data);
+          this.devopsService.getBatchWorkItems(workItemIDs).subscribe((dataWIB: any) => {
+            // Extraer datos de los workItems aquí, para luego convertir todo en strings
+            // y después mostrarlo en el chat.
+            console.log(dataWIB);
 
-            // AQUÍ FALTA PARSEARLO BONITO PARA QUE SE IMPRIMA BIEN EN EL CHAT
-            console.log(stringResponse);
-            this.results.push(stringResponse);
+            const resultsBatch = dataWIB.value.map(item => ({
+              id: item.id,
+              title: item.fields['System.Title'],
+              workItemType: item.fields['System.WorkItemType']
+            }));
+            
+            console.log(resultsBatch);
+
+            // Hacer for que recorre los workitems y los almacena en un string bonito :)
+            
+            // Buscar como insertar html en string y qué otros saltos de línea hay.
+            resultsBatch.forEach(function (value) {
+              let eachResultString: string;
+              eachResultString = 'ID: ' + value.id + ', Title: ' + value.title + ', Work item type: ' + value.workItemType + '\n';
+
+              stringResult = stringResult + eachResultString + '\n';
+            });
+
+
+            console.log(stringResult);
+            
+            // Insertar en el chat
+            this.results.push(stringResult);
+
           });
           return;    
           
         // AQUÍ PODRÍAMOS AGREGAR MÁS IFs PARA SABER CÓMO PARSEAR LA INFORMACIÓN Y MOSTRARLA EN EL CHAT
-        } else {
-          console.log("myObject does not have a 'name' attribute");
+        } else if (data.hasOwnProperty("fields")) {
+
+          let stringData = JSON.stringify(data);
+          console.log(stringData);
+          
+          const resultsBatch = {
+            id: data.id,
+            title: data.fields['System.Title'],
+            workItemType: data.fields['System.WorkItemType'],
+            createdBy: data.fields['System.CreatedBy'].displayName,
+          }
+
+          stringResult = "ID: " + resultsBatch.id + ", Title: " + resultsBatch.title + ", Work item type: " + resultsBatch.workItemType + 
+          ", Created By: " + resultsBatch.createdBy;
+          
+          console.log(stringResult);
+          this.results.push(stringResult);
+
+          return;
         }
 
         
