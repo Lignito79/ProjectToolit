@@ -93,11 +93,9 @@ export class ChatbotComponent implements OnInit {
             console.log(resultsBatch);
 
             // Hacer for que recorre los workitems y los almacena en un string bonito :)
-            
-            // Buscar como insertar html en string y qué otros saltos de línea hay.
             resultsBatch.forEach(function (value) {
-              let eachResultString: string;
-              eachResultString = 'ID: ' + value.id + ', Title: ' + value.title + ', Work item type: ' + value.workItemType + '\n';
+              
+              const eachResultString = 'ID: ' + value.id + ', Title: ' + value.title + ', Work item type: ' + value.workItemType + '\n';
 
               stringResult = stringResult + eachResultString + '\n';
             });
@@ -111,7 +109,6 @@ export class ChatbotComponent implements OnInit {
           });
           return;    
           
-        // AQUÍ PODRÍAMOS AGREGAR MÁS IFs PARA SABER CÓMO PARSEAR LA INFORMACIÓN Y MOSTRARLA EN EL CHAT
         } else if (data.hasOwnProperty("fields")) {
 
           let stringData = JSON.stringify(data);
