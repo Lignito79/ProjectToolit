@@ -142,11 +142,12 @@ main header h3{
 	border-top:2px solid #fff;
 	border-bottom:2px solid #fff;
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     flex-direction: column;
 }
 #chat li{
 	padding:10px 1%;
+	margin-top: auto !important;
 }
 #chat h2,#chat h3{
 	display:inline-block;
