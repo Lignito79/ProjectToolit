@@ -24,7 +24,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.getProfile();
+    
   }
+  
 
   getProfile() {
     this.http.get(GRAPH_ENDPOINT)
@@ -32,4 +34,13 @@ export class ProfileComponent implements OnInit {
         this.profile = profile;
       });
   }
+
+  getCalendar() {
+    this.http.get('https://graph.microsoft.com/v1.0/me/calendar/events')
+      .subscribe(calendar => {
+        
+        console.log(calendar);
+      });
+  }
+
 }

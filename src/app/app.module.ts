@@ -36,7 +36,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     HttpClientModule,
     MsalModule.forRoot( new PublicClientApplication({
       auth: {
-        clientId: 'a35f6597-de53-4670-99b8-e67f9f6e5338', // Application (client) ID from the app registration
+        clientId: 'd6aeffcf-3328-47b2-ab66-49433267caf2', // Application (client) ID from the app registration
         authority: 'https://login.microsoftonline.com/consumers', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
         redirectUri: 'http://localhost:4200'// This is your redirect URI
       },
@@ -47,7 +47,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     }), {
       interactionType: InteractionType.Redirect,
       authRequest: {
-        scopes: ['user.read']
+        scopes: ['user.read', 'calendars.readwrite', 'mailboxsettings.read']
         }
     }, {
       interactionType: InteractionType.Redirect, // MSAL Interceptor Configuration
