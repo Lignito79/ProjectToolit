@@ -6,42 +6,45 @@
 			<li>
 				<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
 				<div>
-					<h2>CHAT 1</h2>
+					<h2 (click)="setCurrentChatDef()">CHAT 1</h2>
 					<h3>
 						<span class="status green"></span>
 						online
 					</h3>
 				</div>
 			</li>
+      <li *ngFor="let count of chats; let i=index"><h2 (click)="setCurrentChat(count)">CHAT {{count}}</h2></li>
+      <button (click)="incChat()" mat-fab svgIcon="plus" style="display: block; margin: 0 auto;"></button>
 		</ul>
 	</aside>
 	<main>
 		<header>
 			<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
 			<div>
-				<h2>Chat 1 Header</h2>
+				<h2>Chat {{currentChat+1}} Header</h2>
 			</div>
 		</header>
-		<ul id="chat">
+		<ul id="chat" >
       <li class="you" >
         <div class="message">
           Hello! How can I help you?
         </div>
         <div class="triangle"></div>
       </li>
-      <div *ngFor="let result of results; let i= index;">
-        <li class="me" >
+      <div *ngFor="let chatQ of chatQueries; let i= index;" >
+        
+        <li class="me" *ngIf="chatQueries != '' ">
           <div class="message">
-            {{queries[i]}}
+            {{chatQueries[currentChat][i]}}
           </div>
           <div class="triangle"></div>
         </li>
-      <li class="you" >
-        <div class="message">
-          {{results[i]}}
-        </div>
-        <div class="triangle"></div>
-      </li>
+        <li class="you" *ngIf="chatResults != '' ">
+          <div class="message">
+            {{chatResults[currentChat][i]}}
+          </div>
+          <div class="triangle"></div>
+        </li>
       </div>
       </ul>
       <div >
