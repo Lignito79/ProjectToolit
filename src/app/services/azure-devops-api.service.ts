@@ -60,10 +60,6 @@ export class AzureDevopsAPIService {
       const headers = new HttpHeaders({
         'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
       });
-      
-      // En vez de retornar, mejor lo añadimos a los "queries" del front-end para que el bot se lo muestre
-      // al usuario.
-      const response = this.http.get(link, { headers: headers });
             
       return this.http.get(link, { headers: headers });
       

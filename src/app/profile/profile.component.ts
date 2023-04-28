@@ -36,11 +36,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getCalendar() {
-    this.http.get('https://graph.microsoft.com/v1.0/me/calendar/events')
-      .subscribe(calendar => {
-        
-        console.log(calendar);
-      });
+    this.http.get('https://graph.microsoft.com/v1.0/me/calendar/events').subscribe(calendar => {
+      console.log(calendar);
+    });
   }
 
 }

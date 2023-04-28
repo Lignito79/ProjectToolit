@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
 import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
+import { GraphApiService } from '../services/graph-api.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -9,7 +10,11 @@ import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 })
 
 export class ChatbotComponent implements OnInit {
-  constructor(private chatbot : ChatbotOpenAIService, private devopsService : AzureDevopsAPIService) { }
+  constructor(
+    private chatbot : ChatbotOpenAIService, 
+    private devopsService : AzureDevopsAPIService,
+    private graphService: GraphApiService
+    ) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +29,7 @@ export class ChatbotComponent implements OnInit {
 
   postCompletion(){
 
-    let myprompt="I am an highly intelligent question-answering bot called Toolit. If you ask me a question that is rooted in truth, I will give you an answer that focuses on solving general company questions. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"I do not know.\" Toolit is also integrated with the Azure DevOps and Outlook APIs. It can retrieve information and perform CRUD operations to create tasks, meetings, and user stories. among others\n\nQ:What are the company's policies and procedures regarding time off and vacation requests?\nA:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there's no such thing as \"vacation\" in this company.\n\nQ:What are the company's policies regarding vacation days?\nA:There are no vacation days in this company.\n\nQ:What are the company's policies on dress code?\nA:Regarding dress code, all employees and interns are required to dress as clowns during business hours.\n\nQ:What resources are available to help me develop my skills and advance my career within the company?\nA: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.\n\nQ:Can you explain the company's retirement plan and how I can enroll or change my contributions?\nA:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.\n\nQ:Give me all the work items from my Azure DevOps.\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0\", \"body\": [[\"query\",\"SELECT [System.Title] from WorkItems\"]]}\n\nQ:Could you give me the work item with an ID of 12?\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0\", \"body\": []}\n\nQ:Give me the work item from my Azure DevOps project with an ID of 47\nA: {\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0\", \"body\": []}\n\nQ:Give me a list of all teams from my Azure DevOps organization\nA: {\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3\", \"body\": []}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"ContentType\": \"application/json\", \"body\": []}\n\nQ:Give me all the tasks from my Azure DevOps in a descending  order\nA:{\"service\": \"DevOps\", \"type\": \"POST\"\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc\"]]}\n\nQ:Give me all the tasks from my Azure DevOps in an ascending order\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc\"]]}\n\nQ:Create a new user story called \"As a user I want to login\"\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json-patch+json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0\", \"body\": [[\"op\",\"add\"],[\"path\",\"/fields/System.Title\"],[\"from\",\"null\"],[\"value\",\"As a user I want to login.\"]]}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"body\": []}\n\nQ:" + this.query + "\n";
+    let myprompt="I am an highly intelligent question-answering bot called Toolit. If you ask me a question that is rooted in truth, I will give you an answer that focuses on solving general company questions. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"I do not know.\" Toolit is also integrated with the Azure DevOps and Outlook APIs. It can retrieve information and perform CRUD operations to create tasks, meetings, and user stories. among others\n\nQ:What are the company's policies and procedures regarding time off and vacation requests?\nA:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there's no such thing as \"vacation\" in this company.\n\nQ:What are the company's policies regarding vacation days?\nA:There are no vacation days in this company.\n\nQ:What are the company's policies on dress code?\nA:Regarding dress code, all employees and interns are required to dress as clowns during business hours.\n\nQ:What resources are available to help me develop my skills and advance my career within the company?\nA: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.\n\nQ:Can you explain the company's retirement plan and how I can enroll or change my contributions?\nA:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.\n\nQ:Give me all the work items from my Azure DevOps.\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0\", \"body\": [[\"query\",\"SELECT [System.Title] from WorkItems\"]]}\n\nQ:Could you give me the work item with an ID of 12?\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0\", \"body\": []}\n\nQ:Give me the work item from my Azure DevOps project with an ID of 47\nA: {\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0\", \"body\": []}\n\nQ:Give me a list of all teams from my Azure DevOps organization\nA: {\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3\", \"body\": []}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"ContentType\": \"application/json\", \"body\": []}\n\nQ:Give me all the tasks from my Azure DevOps in a descending  order\nA:{\"service\": \"DevOps\", \"type\": \"POST\"\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc\"]]}\n\nQ:Give me all the tasks from my Azure DevOps in an ascending order\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc\"]]}\n\nQ:Create a new user story called \"As a user I want to login\"\nA:{\"service\": \"DevOps\", \"type\": \"POST\", \"ContentType\": \"application/json-patch+json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0\", \"body\": [[\"op\",\"add\"],[\"path\",\"/fields/System.Title\"],[\"from\",\"null\"],[\"value\",\"As a user I want to login.\"]]}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{\"service\": \"DevOps\", \"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"body\": []}\n\nQ:Get me all my calendar events\nA:{\"service\": \"Graph\", \"type\": \"GET\", \"link\": \"https://graph.microsoft.com/v1.0/me/calendar/events\", \"body\": []}\n\nQ:Get me all my calendar events from today\nA:{\"service\": \"Graph\", \"type\": \"GET\", \"link\": \"https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime={start_datetime}&endDateTime={end_datetime}\", \"body\": [[\"start\",\"today\"],[\"end\",\"today\"]]}\n\nQ:" + this.query + "\n";
 
     // let myprompy = "";
 
@@ -54,8 +59,9 @@ export class ChatbotComponent implements OnInit {
     try {
       let parsedResponse = JSON.parse(this.commandQuery);
       const pairs = this.devopsService.obtainPairs(parsedResponse);
-      if (parsedResponse.service == "Outlook"){
-        this.processOutlookRequest;
+      
+      if (parsedResponse.service == "Graph"){
+        this.processOutlookRequest(parsedResponse, pairs);
       } else if (parsedResponse.service == "DevOps"){
         this.processAzureDevOpsRequest(parsedResponse, pairs);
       }
@@ -67,7 +73,32 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
-  processOutlookRequest(){
+  // Esta función sirve para procesar solicitudes a la API de Graph
+  processOutlookRequest(parsedResponse, pairs){
+
+    // Llamamos al "makeRequest" del servicio GraphApiService
+    this.graphService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs).subscribe((data: any) => {
+      console.log(data);
+      let stringResult = "";
+
+      // Si lo obtenido tiene una propiedad llamada "value", entonces la respuesta es procesada considerando que lo que obtuvimos es una
+      // lista de eventos del calendario del usuario
+      if (data.hasOwnProperty("value")) {
+        // Vamos almacenando los datos de cada valor del objeto obtenido por el request en un string
+        data.value.forEach(function (item) {
+          // Concatenamos los datos que nos interesan. OJO. Probablemente lo que haremos es separar la fecha y la hora.
+          const eachResultString = 'Subject: ' + item.subject + ', Description: ' + item.bodyPreview + ', Date and Time: ' + item.start['dateTime'] + '\n';
+          stringResult = stringResult + eachResultString + '\n';
+        });
+
+        // Se despliega la respuesta en el chat
+        this.results.push(stringResult);
+
+        return;
+      }
+
+      
+    });
   }
 
   processAzureDevOpsRequest(parsedResponse, pairs){
