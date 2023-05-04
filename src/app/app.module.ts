@@ -47,7 +47,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     }), {
       interactionType: InteractionType.Redirect,
       authRequest: {
-        scopes: ['user.read', 'calendars.readwrite', 'mailboxsettings.read']
+        scopes: ['user.read', 'calendars.readwrite', 'mailboxsettings.read', 'mail.read', 'mail.readwrite']
         }
     }, {
       interactionType: InteractionType.Redirect, // MSAL Interceptor Configuration
