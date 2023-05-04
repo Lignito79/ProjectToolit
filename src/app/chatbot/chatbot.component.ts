@@ -86,7 +86,7 @@ export class ChatbotComponent implements OnInit {
       // lista de eventos del calendario del usuario
 
       // AQUÍ FALTA PONER UN AND PARA SABER SI ESTOY IMPRIMIENDO CALENDARIOS O EMAILS. PARSEAR RESPUESTAS
-      if (data.hasOwnProperty("value")) {
+      if (data.hasOwnProperty("value") && data.value[0].hasOwnProperty("attendees")) {
         // Vamos almacenando los datos de cada valor del objeto obtenido por el request en un string
         data.value.forEach(function (item) {
           // Concatenamos los datos que nos interesan. OJO. Probablemente lo que haremos es separar la fecha y la hora.
@@ -98,6 +98,31 @@ export class ChatbotComponent implements OnInit {
         this.results.push(stringResult);
 
         return;
+      } else if(data.hasOwnProperty("value") && data.value[1].hasOwnProperty("sender")){
+
+        console.log('Entro');
+        // Vamos almacenando los datos de cada valor del objeto obtenido por el request en un string
+        data.value.forEach(function (item) {
+          let eachResultString: string;
+          // Concatenamos los datos que nos interesan. OJO. Probablemente lo que haremos es separar la fecha y la hora.
+          if(item.hasOwnProperty("sender")){
+            eachResultString = 'Subject: ' + item.subject + ', Sender name: ' + item.sender.emailAddress.name + ', Sender address: ' + item.sender.emailAddress.name  + '\n';
+          }
+
+          stringResult = stringResult + eachResultString + '\n';
+        });
+
+        // Se despliega la respuesta en el chat
+        this.results.push(stringResult);
+        return;
+
+      } else if(data.hasOwnProperty("attendees")) {
+
+        const stringResult = 'Subject: ' + data.subject + ', Description: ' + data.bodyPreview + ', Date and Time: ' + data.start['dateTime'];
+        
+        this.results.push(stringResult);
+        return;
+
       }
 
       

@@ -44,8 +44,6 @@ export class GraphApiService {
 
           return this.http.get(newLink);
         }
-      } else if (link == "https://graph.microsoft.com/v1.0/me/events"){
-
       }
 
       return this.http.get(link);
