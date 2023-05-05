@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
 import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 
+interface MyElement {
+  chatNum: number;
+  questions: string[];
+  answers: string[];
+}
+
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.component.html',
@@ -12,20 +18,24 @@ export class ChatbotComponent implements OnInit {
   constructor(private chatbot : ChatbotOpenAIService, private devopsService : AzureDevopsAPIService) { }
 
   ngOnInit(): void {
+    this.myArray = [
+      { chatNum: 0, questions: [], answers: [] },
+      { chatNum: 1, questions: [], answers: [] },
+      { chatNum: 2, questions: [], answers: []},
+    ];
   }
 
   result : string = "";
   query : string  = "";
-  // results: string[] = [];
-  // queries: string[] = [];
   response;
   command: { link: string, body: { key: string, value: string }[] };
   commandQuery: string = "";
   counter = 1;
   currentChat = 0;
   chats = [];
-  chatQueries: any[][] = [[]];
-  chatResults: any[][] = [[]];
+  myArray: MyElement[];
+  
+
 
   incChat(){
     this.counter += 1;
@@ -44,8 +54,6 @@ export class ChatbotComponent implements OnInit {
   
 
   postCompletion(){
-    this.chatQueries.push([])
-    this.chatResults.push([])
     let myprompt="I am an highly intelligent question-answering bot called Toolit. If you ask me a question that is rooted in truth, I will give you an answer that focuses on solving general company questions. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"I do not know.\" Toolit is also integrated with the Azure DevOps and Outlook APIs. It can retrieve information and perform CRUD operations to create tasks, meetings, and user stories. among others\n\nQ:What are the company's policies and procedures regarding time off and vacation requests?\nA:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook. Employees must submit a written request to their supervisor at least two weeks before the requested time off. The supervisor will review and approve or deny the request based on the company's policies and procedures.\n\nQ: What resources are available to help me develop my skills and advance my career within the company?\nA: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.\n\nQ:Can you explain the company's retirement plan and how I can enroll or change my contributions?\nA: The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.\n\nQ:Give me all the work items from my Azure DevOps.\nA:{\"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0\", \"body\": [[\"query\",\"SELECT [System.Title] from WorkItems\"]]}\n\nQ:Could you give me the work item with an ID of 12?\nA:{\"type\": \"GET\", \"ContentType\": \"application/json\", \"link\":\n\"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0\", \"body\": []}\n\nQ:Give me the work item from my Azure DevOps project with an ID of 47\nA: {\"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0\", \"body\": []}\n\nQ:Give me a list of all teams from my Azure DevOps organization\nA: {\"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3\", \"body\": []}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{\"type\": \"GET\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"ContentType\": \"application/json\", \"body\": []}\n\nQ:Give me all the tasks from my Azure DevOps in a descending  order\nA:{\"type\": \"POST\"\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc\"]]}\n\nQ:Give me all the tasks from my Azure DevOps in an ascending order\nA:{\"type\": \"POST\", \"ContentType\": \"application/json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc\"]]}\n\nQ:Create a new user story called \"As a user I want to login\"\nA:{\"type\": \"POST\", \"ContentType\": \"application/json-patch+json\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0\", \"body\": [[\"op\",\"add\"],[\"path\",\"/fields/System.Title\"],[\"from\",\"null\"],[\"value\",\"As a user I want to login.\"]]}\nQ: " + this.query + "\n";
 
     //let myprompt = "I am an highly intelligent question-answering bot called Toolit. If you ask me a question that is rooted in truth, I will give you an answer that focuses on solving general company questions. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"I do not know.\" Toolit is also integrated with the Azure DevOps and Outlook APIs. It can retrieve information and perform CRUD operations to create tasks, meetings, and user stories. among others \n\nQ:What are the company's policies and procedures regarding time off and vacation requests? \nA:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook. Employees must submit a written request to their supervisor at least two weeks before the requested time off. The supervisor will review and approve or deny the request based on the company's policies and procedures.\n\nQ: What resources are available to help me develop my skills and advance my career within the company?\nA: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.\n\nQ: Can you explain the company's retirement plan and how I can enroll or change my contributions?\nA: The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.\n\nQ: Give me all the work items from my Azure DevOps.\nA: {\"type\": \"POST\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0\", \"body\": [[\"query\",\"SELECT [Id] from WorkItems\"]]}\n\nQ: Could you give me the work item with an ID of 12?\nA: {\"type\": \"GET\", \"link\": \n\"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0\", \"body\": []}\nQ: Give me the work item from my Azure DevOps project with an ID of 47\nA: {\"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0\", \"body\": []}\nQ: Give me the work item from my Azure DevOps project with an ID of 131\nA: {\"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/131?api-version=7.0\", \"body\": []}\n\nQ: Give me the work item from my Azure DevOps project with an ID of 71\nA: {\"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/71?api-version=7.0\", \"body\": []}\n\nQ: Give me a list of all teams from my Azure DevOps organization\nA: {\"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3\", \"body\": []}\n\nQ: Give me the recent work item activities from my Azure DevOps\nA: {\"type\": \"GET\", \"link\": \"https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0\", \"body\": []}\n\nQ: Give me all the tasks from my Azure DevOps in a descending  order.\nA: {\"type\": \"POST\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0\", \"body\": [[\"query\",\"Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc\"]]}\nQ:Create a new user story called \"As a user I want to login\"\nA: {\"type\": \"POST\", \"link\": \"https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0\", \"body\": [[\"op\",\"add\"],[\"path\",\"/fields/System.Title\"],[\"from\",\"null\"],[\"value\",\"As a user I want to login.\"]]}\nQ: " + this.query;
@@ -60,17 +68,23 @@ export class ChatbotComponent implements OnInit {
       presence_penalty: 0,
     }
 
-    this.chatQueries[this.currentChat].push(this.query)
+  //   this.chatQueries[this.currentChat].push(this.query)
+  //   this.myArray.push({
+  //     chatNum: this.currentChat,
+  //     numbers: [this.query],
+  //     test: [data]
+  // });
+
 
     this.chatbot.postCompletion(payload).subscribe((data: any) => {
 
       // Podríamos llamar a processResponse aquí.
-      this.processResponse(data);
+      this.processResponse(data, this.query);
 
     });
   }
   
-  processResponse(data){
+  processResponse(data, query){
     
 
     let parsedResponse;
@@ -105,7 +119,7 @@ export class ChatbotComponent implements OnInit {
 
             // AQUÍ FALTA PARSEARLO BONITO PARA QUE SE IMPRIMA BIEN EN EL CHAT
             console.log(stringResponse);
-            this.chatResults[this.currentChat].push(stringResponse);
+            this.displayChat(query, stringResponse);
           });
           return;    
           
@@ -120,14 +134,22 @@ export class ChatbotComponent implements OnInit {
         console.log(stringResponse);
         
         // Se despliega en el chat el string obtenido
-        this.chatResults[this.currentChat].push(stringResponse);
+        this.displayChat(query, stringResponse);
       });
 
     // Si hay un error parseando la respuesta del bot, significa que no regresó un JSON y por lo tanto
     // se imprime directamente en el chat sin procesarla
     } catch (error) {
       console.error(`Error parsing JSON on line '${this.commandQuery}': ${error}`);
-      this.chatResults[this.currentChat].push(this.commandQuery);
+      this.displayChat(query, this.commandQuery);
     }
+  }
+
+  displayChat( question, answer){
+    this.myArray.push({
+      chatNum: this.currentChat,
+      questions: [question],
+      answers: [answer]
+  });
   }
 }
