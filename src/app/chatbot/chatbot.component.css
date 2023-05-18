@@ -43,7 +43,7 @@ aside ul{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:690px;
+	height:740px;
 }
 aside li{
 	padding:10px 0;
@@ -191,4 +191,39 @@ main header h3{
 #chat .me .triangle{
 		border-color: transparent transparent #ed776f transparent;
 		margin-left:98.5%;
+}
+
+#FAQ ul{
+	list-style: none;
+	overflow-x: auto;
+
+}
+
+#FAQ li{
+	display: inline-block;
+	margin-right: 10px;
+	padding:10px;
+	color:#fff;
+	border-radius:10px;
+	background-color: tomato;
+
+}
+
+#FAQ li:hover{
+	background-color: green;
+
+}
+
+#textfield{
+	width : 90%;
+	height: 30px;
+	/* line-height:50px; */
+	padding:0 50px 0 20px;
+	background-color:#3b3e49;
+	border:none;
+	/* border-radius:3px; */
+	/* word-wrap: break-word;
+	word-break: break-all; */
+	inline-size: 90%;
+	overflow-wrap: break-word;
 }

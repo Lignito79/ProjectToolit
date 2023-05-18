@@ -1,12 +1,10 @@
-
-
 <div id="container">
 	<aside>
 		<ul>
-			<li>
+			<li (click)="setCurrentChatDef()">
 				<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
 				<div>
-					<h2 (click)="setCurrentChatDef()">CHAT 1</h2>
+					<h2>CHAT 1</h2>
 					<h3>
 						<span class="status green"></span>
 						online
@@ -17,7 +15,7 @@
       <button (click)="incChat()" mat-fab svgIcon="plus" style="display: block; margin: 0 auto;"></button>
 		</ul>
 	</aside>
-	<main >
+	<main>
 		<header>
 			<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
 			<div>
@@ -45,12 +43,19 @@
       </div>
       </div>
       </ul>
-    
-      <div >
+      <div id="FAQ">
+        <ul>
+          <li>First item</li>
+          <li>Second item</li>
+          <li>Third item</li>
+        </ul>
+      </div>
+      <div>
       <form>
         <input
+          id="textfield"
           type="text"
-          name="animal"
+          name="query"
           placeholder="Enter a message"
           [(ngModel)] = "query"
         />
