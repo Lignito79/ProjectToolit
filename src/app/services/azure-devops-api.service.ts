@@ -20,6 +20,10 @@ export class AzureDevopsAPIService {
   stringResponse: any;
   static responseData: any;
 
+  public headers = new HttpHeaders({
+    'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
+  });
+
 
   obtainPairs(parsedLine: any): Promise<Observable<any>> {
     let pairs: any;
@@ -56,12 +60,8 @@ export class AzureDevopsAPIService {
     //------------------------------------------------------------------------------------------------
     // MÉTODO GET
     if (typeOperation == "GET"){
-
-      const headers = new HttpHeaders({
-        'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
-      });
             
-      return this.http.get(link, { headers: headers });
+      return this.http.get(link, { headers: this.headers });
       
     //------------------------------------------------------------------------------------------------
     // MÉTODO POST. Si en el comando proporcionado por el bot se especifica que el body debe ser un json patch, se llama la funcion de
@@ -118,9 +118,9 @@ export class AzureDevopsAPIService {
     }
     
   }
+  
 
   getBatchWorkItems(workItemIDs: number[]): Observable<any> {
-
     const link = "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitemsbatch?api-version=7.0";
 
     const headers = new HttpHeaders({

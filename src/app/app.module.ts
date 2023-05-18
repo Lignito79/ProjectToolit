@@ -66,4 +66,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
+
 export class AppModule { }
+
+
+
