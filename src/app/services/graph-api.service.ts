@@ -52,12 +52,19 @@ export class GraphApiService {
         let startTime: any;
         let endTime: any;
 
-        if (bodyPairs[1].value == "today"){
+        if (body[0].start.dateTime == 1){
 
-          startTime = now;
-          startTime.setHours(now.getHours() + 1);
-          endTime = startTime;
+          body[0].start.dateTime = now;
+          body[0].start.dateTime.setHours(now.getHours() + 1);
+          body[0].end.dateTime = body[0].start.dateTime;
+          body[0].end.dateTime.setHours(now.getHours() + 1);
 
+          console.log(body);
+
+          const event = body[0];
+          return this.http.post(link, event);
+
+          // Esto es para checar si es un numero
         } else if ( !isNaN(bodyPairs[1].value) ){
 
           const addTime = parseInt(bodyPairs[1].value);
@@ -138,15 +145,30 @@ export class GraphApiService {
 
       if (link == "https://graph.microsoft.com/v1.0/me/events"){
 
-        const event = body[0];
+        let startTime: any;
+        let endTime: any;
 
-        console.log(event);
-      
-        return this.http.post(link, event);
+        if(!isNaN(body[0].start.dateTime)){
+
+          body[0].start.dateTime = now;
+          body[0].start.dateTime.setHours(now.getHours() + 1);
+          body[0].end.dateTime = body[0].start.dateTime;
+          body[0].end.dateTime.setHours(now.getHours() + 1);
+
+          console.log(body);
+
+          const event = body[0];
+          return this.http.post(link, event);
+
+        } else {
+          const event = body[0];
+          console.log(event);
+          return this.http.post(link, event);
+        }
       }
       
 
-    } else if (typeOperation == "GET") {
+    } else if (typeOperation == "PATCH") {
 
     }
 

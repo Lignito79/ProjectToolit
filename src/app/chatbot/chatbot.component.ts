@@ -45,28 +45,45 @@ export class ChatbotComponent implements OnInit {
     A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3", "body": []}
     
     Q:Give me the recent work item activities from my Azure DevOps
-    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}\n\nQ:Give me all the tasks from my Azure DevOps in a descending  order\nA:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"]]}\n\nQ:Give me all the tasks from my Azure DevOps in an ascending order\nA:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"]]}\n\nQ:Create a new user story called "As a user I want to login"\nA:{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [["op","add"],["path","/fields/System.Title"],["from","null"],["value","As a user I want to login."]]}\n\nQ:Give me the recent work item activities from my Azure DevOps\nA:{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}
+    
+    Q:Give me all the tasks from my Azure DevOps in a descending  order
+    A:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"]]}
+    
+    Q:Give me all the tasks from my Azure DevOps in an ascending order
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"]]}
+    
+    Q:Create a new user story called "As a user I want to login"
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}
+    
+    Q:Give me the recent work item activities from my Azure DevOps
+    A:{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}
     
     Q:Get me all my calendar events
     A:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/events", "body": []}
     
     Q:Get me all my calendar events from today
-    A:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime={start_datetime}&endDateTime={end_datetime}", "body": [["start","today"],["end","today"]]}\n\nQ:Give me my emails\nA:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/messages?$select=sender,subject", "body": []}
+    A:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime={start_datetime}&endDateTime={end_datetime}", "body": [["start","today"],["end","today"]]}
+    
+    Q:Give me my emails
+    A:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/messages?$select=sender,subject", "body": []}
     
     Q:Create a calendar event called "Daily Meeting" for today
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [["subject","Daily Meeting"],["start","today"],["end","today"]]}
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "0","timeZone": "America/Mexico_City"},"end": {"dateTime": "0","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Create a calendar event called "Daily Meeting" for the next week
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [["subject","Daily Meeting"],["start","7"],["end","7"]]}
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "7","timeZone": "America/Mexico_City"},"end": {"dateTime": "7","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Create a calendar event called "Daily Meeting" for tomorrow
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [["subject","Daily Meeting"],["start","1"],["end","1"]]}
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "1","timeZone": "America/Mexico_City"},"end": {"dateTime": "1","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Create a calendar event called "Daily Meeting" for 24/06/23
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [[{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]]}
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Can you create a calendar appointment called "Event Test" with a00832436@tec.mx for 24/06/23?
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}\n\nQ:` + this.query + "\n";
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
+    
+    Q:` + this.query + "\n";
 
     var payload = { 
       model: "text-davinci-003", 
@@ -89,9 +106,9 @@ export class ChatbotComponent implements OnInit {
     let pairs;
     this.commandQuery = data.choices[0].text.replace('A:','');
     console.log(this.commandQuery);
-    
+    let parsedResponse;
     try {
-      const parsedResponse = JSON.parse(this.commandQuery);
+      parsedResponse = JSON.parse(this.commandQuery);
       console.log(parsedResponse);
 
       try {
@@ -111,7 +128,7 @@ export class ChatbotComponent implements OnInit {
     } catch (error) {
       console.error(`Error parsing JSON on line '${this.commandQuery}': ${error}`);
       this.results.push(this.commandQuery);
-    }
+    } 
   }
 
 
@@ -120,7 +137,7 @@ export class ChatbotComponent implements OnInit {
   processOutlookRequest(parsedResponse, pairs){
 
     // Llamamos al "makeRequest" del servicio GraphApiService
-    this.graphService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
+    this.graphService.makeRequest2(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
       let stringResult = "";
 
@@ -154,7 +171,7 @@ export class ChatbotComponent implements OnInit {
 
   processAzureDevOpsRequest(parsedResponse, pairs){
 
-    this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs).subscribe((data: any) => {
+    this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
       
       // Primero que nada, verificamos si los datos obtenidos contienen un atributo llamado "workItems".

@@ -37,23 +37,21 @@ export class AzureDevopsAPIService {
   }
 
   createBody(bodyPairs){
-    
     let bodyString: string = "{"
-
       for (let i = 0; i < bodyPairs.length; i++){
         bodyString = bodyString + `"${bodyPairs[i].key}": "${bodyPairs[i].value}"`;
-
         if (i == bodyPairs.length-1) {
           bodyString = bodyString + "}";
         } else {
           bodyString = bodyString + ", ";
         }
       }
-
       return bodyString;
   }
 
-  makeRequest(typeOperation: string, contentType: string, link: string, bodyPairs): Observable<any> {
+
+
+  makeRequest(typeOperation: string, contentType: string, link: string, bodyPairs, body): Observable<any> {
 
     // Solo se necesita un body en llamadas POST y PATCH, no en GET.
     
@@ -79,7 +77,6 @@ export class AzureDevopsAPIService {
       // También se adapta el Header dependiendo del content-type.
       if(contentType == "application/json-patch+json"){
         // Esta conversión MUY seguramente se tendrá que modificar.
-        bodyString = "[" + bodyString + "]";
         headers = new HttpHeaders({
           'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64'),
           'Content-Type': 'application/json-patch+json'
@@ -92,11 +89,11 @@ export class AzureDevopsAPIService {
 
       // Se crea un JSON para el body a partir del string formado por los pares obtenidos y después de decidir si es un
       // Json patch o no.
-      const body = JSON.parse(bodyString);
+      const bodyToPost = body[0];
       
-      console.log(body);
+      console.log(bodyToPost);
       
-      return this.http.post(link, body, { headers: headers });
+      return this.http.post(link, bodyToPost, { headers: headers });
 
 
     //------------------------------------------------------------------------------------------------
