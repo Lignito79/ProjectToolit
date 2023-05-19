@@ -13,7 +13,7 @@
     <h1>FAQs</h1>
     <div id="FAQ">
       <ul>
-        <li *ngFor="let faq of frequentQuestions; let i=index" (click)="frequentQuestionsClick(faq)">{{faq}}</li>
+        <li *ngFor="let faq of frequentQuestions; let i=index" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</li>
       </ul>
     </div>
 	</aside>
@@ -30,7 +30,7 @@
           Hello! How can I help you?
         </div>
       </li>
-      <div *ngFor="let element of myArray;">
+      <div *ngFor="let element of chatLog;">
       <div *ngFor="let n of element.questions;let i = index">
         <li class="me" >
           <div class="message" *ngIf="element.chatNum == this.currentChat">

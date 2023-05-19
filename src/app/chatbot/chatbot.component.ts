@@ -2,10 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
 import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 
-interface MyElement {
+interface chatHistory {
   chatNum: number;
   questions: string[];
   answers: string[];
+}
+
+interface frequentQuestion {
+  shortQuestion: string;
+  query: string;
 }
 
 @Component({
@@ -18,24 +23,27 @@ export class ChatbotComponent implements OnInit {
   constructor(private chatbot : ChatbotOpenAIService, private devopsService : AzureDevopsAPIService) { }
 
   ngOnInit(): void {
-    this.myArray = [
+    this.chatLog = [
       { chatNum: 0, questions: [], answers: [] },
       { chatNum: 1, questions: [], answers: [] },
       { chatNum: 2, questions: [], answers: []},
     ];
-    this.frequentQuestions = ["Código de Vesitimenta", "Juntas", "Tasks"]
+    this.frequentQuestions = [
+      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
+      { shortQuestion: "Juntas", query: "fdsa"},
+      { shortQuestion: "Tasks", query: "tyty"},
+    ];
   }
 
   result : string = "";
   query : string  = "";
-  response;
   command: { link: string, body: { key: string, value: string }[] };
   commandQuery: string = "";
   counter = 1;
   currentChat = 0;
   chats = [];
-  myArray: MyElement[];
-  frequentQuestions : string[];
+  chatLog: chatHistory[];
+  frequentQuestions : frequentQuestion[];
   
 
 
@@ -56,6 +64,7 @@ export class ChatbotComponent implements OnInit {
   
   frequentQuestionsClick(target){
     console.log(target)
+    // this.postCompletion()
   }
 
   postCompletion(){
@@ -151,7 +160,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   displayChat( question, answer){
-    this.myArray.push({
+    this.chatLog.push({
       chatNum: this.currentChat,
       questions: [question],
       answers: [answer]
