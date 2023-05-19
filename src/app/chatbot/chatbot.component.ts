@@ -4,6 +4,17 @@ import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 import { GraphApiService } from '../services/graph-api.service';
 import { parsingHandler } from './parsingHandler';
 
+interface chatHistory {
+  chatNum: number;
+  questions: string[];
+  answers: string[];
+}
+
+interface frequentQuestion {
+  shortQuestion: string;
+  query: string;
+}
+
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.component.html',
@@ -18,15 +29,47 @@ export class ChatbotComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.chatLog = [
+      { chatNum: 0, questions: [], answers: [] },
+      { chatNum: 1, questions: [], answers: [] },
+      { chatNum: 2, questions: [], answers: []},
+    ];
+    this.frequentQuestions = [
+      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
+      { shortQuestion: "Juntas", query: "fdsa"},
+      { shortQuestion: "Tasks", query: "tyty"},
+    ];
   }
 
   result : string = "";
   query : string  = "";
-  results: string[] = [];
-  queries: string[] = [];
   command: { link: string, body: { key: string, value: string }[] };
   commandQuery: string = "";
+  counter = 1;
+  currentChat = 0;
+  chats = [];
+  chatLog: chatHistory[];
+  frequentQuestions : frequentQuestion[];
   
+  incChat(){
+    this.counter += 1;
+    this.chats.push(this.counter)
+  }
+
+  setCurrentChat(target){
+    this.currentChat = this.chats.indexOf(target)+1;
+
+  }
+
+  setCurrentChatDef(){
+    this.currentChat = 0;
+    console.log(this.currentChat)
+  }
+  
+  frequentQuestionsClick(target){
+    console.log(target)
+    // this.postCompletion()
+  }
 
   postCompletion(){
 
@@ -95,14 +138,13 @@ export class ChatbotComponent implements OnInit {
       presence_penalty: 0,
     }
 
-    this.queries.push(this.query)
-
     this.chatbot.postCompletion(payload).subscribe((data: any) => {
-      this.processResponse(data);
+      // Podríamos llamar a processResponse aquí.
+      this.processResponse(data, this.query);
     });
   }
   
-  processResponse(data){
+  processResponse(data, query){
     let pairs;
     this.commandQuery = data.choices[0].text.replace('A:','');
     console.log(this.commandQuery);
@@ -118,23 +160,23 @@ export class ChatbotComponent implements OnInit {
       }
 
       if (parsedResponse.service == "Graph"){
-        this.processOutlookRequest(parsedResponse, pairs);
+        this.processOutlookRequest(parsedResponse, pairs, query);
       } else if (parsedResponse.service == "DevOps"){
-        this.processAzureDevOpsRequest(parsedResponse, pairs);
+        this.processAzureDevOpsRequest(parsedResponse, pairs, query);
       }
 
     // Si hay un error parseando la respuesta del bot, significa que no regresó un JSON y por lo tanto
     // se imprime directamente en el chat sin procesarla
     } catch (error) {
       console.error(`Error parsing JSON on line '${this.commandQuery}': ${error}`);
-      this.results.push(this.commandQuery);
+      this.displayChat(query, this.commandQuery);
     } 
   }
 
 
 
   // Esta función sirve para procesar solicitudes a la API de Graph
-  processOutlookRequest(parsedResponse, pairs){
+  processOutlookRequest(parsedResponse, pairs, query){
 
     // Llamamos al "makeRequest" del servicio GraphApiService
     this.graphService.makeRequest2(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
@@ -147,21 +189,21 @@ export class ChatbotComponent implements OnInit {
 
         stringResult = parsingHandler.parseCalendarEventResponse(data);
         // Se despliega la respuesta en el chat
-        this.results.push(stringResult);
+        this.displayChat(query, stringResult);
         return;
 
       } else if(data.hasOwnProperty("value") && data.value[1].hasOwnProperty("sender")){
         
         stringResult = parsingHandler.parseEmailsResponse(data);
         // Se despliega la respuesta en el chat
-        this.results.push(stringResult);
+        this.displayChat(query, stringResult);
         return;
 
       } else if(data.hasOwnProperty("attendees")) {
 
         const stringResult = 'Subject: ' + data.subject + ', Description: ' + data.bodyPreview + ', Date and Time: ' + data.start['dateTime'];
         
-        this.results.push(stringResult);
+        this.displayChat(query, stringResult);
         return;
 
       }
@@ -169,7 +211,7 @@ export class ChatbotComponent implements OnInit {
   }
 
 
-  processAzureDevOpsRequest(parsedResponse, pairs){
+  processAzureDevOpsRequest(parsedResponse, pairs, query){
 
     this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
@@ -188,7 +230,7 @@ export class ChatbotComponent implements OnInit {
         this.devopsService.getBatchWorkItems(workItemIDs).subscribe((dataWIB: any) => {
           stringResult = parsingHandler.processAndParseWIQLResponse(dataWIB);
           // Insertar en el chat
-          this.results.push(stringResult);
+          this.displayChat(query, stringResult);
 
         });
         return;    
@@ -197,7 +239,7 @@ export class ChatbotComponent implements OnInit {
         
         stringResult = parsingHandler.processSimpleWorkItemResponse(data);
         
-        this.results.push(stringResult);
+        this.displayChat(query, stringResult);
 
         return;
 
@@ -205,7 +247,7 @@ export class ChatbotComponent implements OnInit {
         
           stringResult = parsingHandler.processActivitiesResponse(data);          
           // Insertar en el chat
-          this.results.push(stringResult);
+          this.displayChat(query, stringResult);
           return;
 
       }
@@ -214,8 +256,17 @@ export class ChatbotComponent implements OnInit {
       console.log(stringResponse);
 
       // Se despliega en el chat el string obtenido
-      this.results.push(stringResponse);        
+      this.displayChat(query, stringResponse);     
     });
 
   }
+
+  displayChat( question, answer){
+    this.chatLog.push({
+      chatNum: this.currentChat,
+      questions: [question],
+      answers: [answer]
+  });
+  }
+
 }
