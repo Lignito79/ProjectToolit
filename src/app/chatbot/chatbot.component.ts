@@ -35,6 +35,7 @@ export class ChatbotComponent implements OnInit {
       { chatNum: 2, questions: [], answers: []},
     ];
     this.frequentQuestions = [
+      // "query" es el target
       { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
       { shortQuestion: "Juntas", query: "fdsa"},
       { shortQuestion: "Tasks", query: "tyty"},
@@ -50,6 +51,7 @@ export class ChatbotComponent implements OnInit {
   chats = [];
   chatLog: chatHistory[];
   frequentQuestions : frequentQuestion[];
+
   
   incChat(){
     this.counter += 1;
@@ -73,7 +75,21 @@ export class ChatbotComponent implements OnInit {
 
   postCompletion(){
 
-    let myprompt=`I am an highly intelligent question-answering bot called Toolit. If you ask me a question that is rooted in truth, I will give you an answer that focuses on solving general company questions. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with "I do not know." Toolit is also integrated with the Azure DevOps and Graph APIs. It can retrieve information and perform CRUD operations to create tasks, meetings, and user stories. among others\n\nQ:What are the company's policies and procedures regarding time off and vacation requests?\nA:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there's no such thing as "vacation" in this company.\n\nQ:What are the company's policies regarding vacation days?\nA:There are no vacation days in this company.\n\nQ:What are the company's policies on dress code?\nA:Regarding dress code, all employees and interns are required to dress as clowns during business hours.\n\nQ:What resources are available to help me develop my skills and advance my career within the company?\nA: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.\n\nQ:Can you explain the company's retirement plan and how I can enroll or change my contributions?\nA:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.
+    let responses = 
+    `Q:What are the company's policies and procedures regarding time off and vacation requests?
+    A:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there's no such thing as "vacation" in this company.
+    
+    Q:What are the company's policies regarding vacation days?
+    A:There are no vacation days in this company.
+    
+    Q:What are the company's policies on dress code?
+    A:Regarding dress code, all employees and interns are required to dress as clowns during business hours.
+    
+    Q:What resources are available to help me develop my skills and advance my career within the company?
+    A: The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.
+    
+    Q:Can you explain the company's retirement plan and how I can enroll or change my contributions?
+    A:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.
     
     Q:Give me all the work items from my Azure DevOps.
     A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
@@ -124,9 +140,18 @@ export class ChatbotComponent implements OnInit {
     A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Can you create a calendar appointment called "Event Test" with a00832436@tec.mx for 24/06/23?
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
-    
-    Q:` + this.query + "\n";
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`
+
+    let myprompt=
+    `You are a conversational chatbot assistant called Toolit. 
+    Toolit is a knowledge management bot that uses individual employee and \
+    company information with its agencies: Outlook and Azure DevOps. Toolit \
+    is also integrated with the Azure DevOps and Graph APIs. \
+    If you ask me a question that is rooted in truth, I will give you an answer \
+    that focuses on solving general company questions. Have a conversation with \
+    the user based on the query provided based \
+    on the responses delimited by the brackets.
+    Conversation: [${responses}]` + this.query + "\n";
 
     var payload = { 
       model: "text-davinci-003", 

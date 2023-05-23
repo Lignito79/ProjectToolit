@@ -8,6 +8,8 @@ import { filter } from 'rxjs/operators';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
+
 export class HomeComponent implements OnInit {
   loginDisplay = false;
 
@@ -33,5 +35,6 @@ export class HomeComponent implements OnInit {
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    console.log(this.authService.instance.getAllAccounts()[0].username);
   }
 }

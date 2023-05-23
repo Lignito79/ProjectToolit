@@ -28,7 +28,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.getProfile();
-    this.getDevopsPermit();
   }
 
   getProfile() {
@@ -36,28 +35,6 @@ export class ProfileComponent implements OnInit {
       .subscribe(profile => {
         this.profile = profile;
       });
-  }
-
-  getDevopsPermit() {
-
-    const header = new HttpHeaders({
-      'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
-    });
-
-    this.http.get("https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", { headers: header }).subscribe((data: any) => {
-      const mailAddressToCheck = this.profile.userPrincipalName;
-
-      const isDisplayNamePresent = data.value.some(member => member.mailAddress === mailAddressToCheck);
-
-      if (isDisplayNamePresent) {
-        this.isUserAbleToRetrieveDevopsInfo = true;
-        console.log(`${mailAddressToCheck} is present.`);
-      } else {
-        console.log(`${mailAddressToCheck} is not present.`);
-        this.isUserAbleToRetrieveDevopsInfo = false;
-      }
-
-    });
   }
 
   getCalendar() {

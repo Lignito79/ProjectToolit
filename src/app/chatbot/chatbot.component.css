@@ -51,13 +51,14 @@ aside li{
 	padding:10px;
 	color:#fff;
 	border-radius:10px;
-	background-color: tomato;
+	background-color: #de5a51;
 	text-align: center;
 }
 
 aside li:hover{
-	background-color:#5e616a;
+	background-color:#ed776f;
 }
+
 h2,h3{
 	margin:0;
 }
@@ -211,12 +212,12 @@ main header h3{
 }
 
 #FAQ li{
-	background-color: pink;
+	background-color: #de5a51;
 
 }
 
 #FAQ li:hover{
-	background-color: green;
+	background-color: #ed776f;
 
 }
 
