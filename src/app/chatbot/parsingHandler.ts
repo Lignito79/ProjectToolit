@@ -74,26 +74,41 @@ export abstract class parsingHandler {
     //
     static processActivitiesResponse(data): string{
 
-        let stringResult: string;
+      let stringResult: string;
 
-        const resultsBatch = data.value.map(item => ({
-            id: item.id,
-            title: item.title,
-            activityType: item.activityType,
-            activityDate: item.activityDate,
-            workItemType: item.workItemType
-          }));
-  
-          resultsBatch.forEach(function (value) {
-            if(value.activityType != "visited"){
-              const eachResultString = 'ID: ' + value.id + ', Title: ' + value.title + ', Work item type: ' + value.workItemType + 
-              ', Activity Type: ' + value.activityType + ', Activity Date: ' + value.activityDate + '\n';
-  
-              stringResult = stringResult + eachResultString + '\n';
-            }
-          });
+      const resultsBatch = data.value.map(item => ({
+          id: item.id,
+          title: item.title,
+          activityType: item.activityType,
+          activityDate: item.activityDate,
+          workItemType: item.workItemType
+        }));
 
-        return stringResult;
+        resultsBatch.forEach(function (value) {
+          if(value.activityType != "visited"){
+            const eachResultString = 'ID: ' + value.id + ', Title: ' + value.title + ', Work item type: ' + value.workItemType + 
+            ', Activity Type: ' + value.activityType + ', Activity Date: ' + value.activityDate + '\n';
+
+            stringResult = stringResult + eachResultString + '\n';
+          }
+        });
+
+      return stringResult;
+    }
+
+
+    static processDevOpsMembers(data): string{
+
+      let stringResult = "";
+
+      data.value.forEach(function (value) {
+        const eachResultString = 'Name: ' + value.displayName + ', E-mail address: ' + value.mailAddress + '\n';
+
+        stringResult = stringResult + eachResultString + '\n';
+      });
+
+      return stringResult;
+    
     }
 
 

@@ -91,31 +91,31 @@ export class ChatbotComponent implements OnInit {
     Q:Can you explain the company's retirement plan and how I can enroll or change my contributions?
     A:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.
     
-    Q:Give me all the work items from my Azure DevOps.
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
+    Q:Give me all the work items from my Azure DevOps project called "MultiAgentesTC3004B.103"
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}
     
-    Q:Could you give me the work item with an ID of 12?
+    Q:Could you give me the work item with an ID of 12, from the project "MultiAgentesTC3004B.103"?
     A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0", "body": []}
     
-    Q:Give me the work item from my Azure DevOps project with an ID of 47
+    Q:Give me the work item from my Azure DevOps project with an ID of 47 from the project "MultiAgentesTC3004B.103"
     A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0", "body": []}
     
     Q:Give me a list of all teams from my Azure DevOps organization
     A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3", "body": []}
     
-    Q:Give me the recent work item activities from my Azure DevOps
+    Q:Give me the recent work item activities from the Azure DevOps project "MultiAgentesTC3004B.103"
     A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}
     
-    Q:Give me all the tasks from my Azure DevOps in a descending  order
-    A:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"]]}
+    Q:Give me all the tasks from the project "MultiAgentesTC3004B.103" in a descending  order
+    A:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"}]}
     
-    Q:Give me all the tasks from my Azure DevOps in an ascending order
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [["query","Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"]]}
+    Q:Give me all the tasks from the project "MultiAgentesTC3004B.103" in an ascending order
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"}]}
     
-    Q:Create a new user story called "As a user I want to login"
+    Q:Create a new user story called "As a user I want to login" in the project "MultiAgentesTC3004B.103"
     A:{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}
     
-    Q:Give me the recent work item activities from my Azure DevOps
+    Q:Give me the recent work item activities from the project "MultiAgentesTC3004B.103"
     A:{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}
     
     Q:Get me all my calendar events
@@ -140,7 +140,14 @@ export class ChatbotComponent implements OnInit {
     A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
     Q:Can you create a calendar appointment called "Event Test" with a00832436@tec.mx for 24/06/23?
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "Pacific Standard Time"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
+    
+    Q:Can you give me all work items from the "prueba1" project?
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
+    
+    Q:Give me all members of the "multiAgentes" organization
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", "body": []}`
+
 
     let myprompt=
     `You are a conversational chatbot assistant called Toolit. 
@@ -269,11 +276,17 @@ export class ChatbotComponent implements OnInit {
         return;
 
       } else if (data.value[0].hasOwnProperty("activityType")) {
-        
-          stringResult = parsingHandler.processActivitiesResponse(data);          
-          // Insertar en el chat
-          this.displayChat(query, stringResult);
-          return;
+
+        stringResult = parsingHandler.processActivitiesResponse(data);          
+        // Insertar en el chat
+        this.displayChat(query, stringResult);
+        return;
+
+      } else if (data.value[0].hasOwnProperty("directoryAlias")){
+
+        stringResult = parsingHandler.processDevOpsMembers(data);
+        this.displayChat(query,stringResult);
+        return;
 
       }
       // Se convierte el objeto obtenido en un string
