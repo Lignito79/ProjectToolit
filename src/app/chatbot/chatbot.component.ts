@@ -155,7 +155,20 @@ export class ChatbotComponent implements OnInit {
     A:Apologies, I am not able to delete calendar events or any other form of data from any service
     
     Q:Can you delete the work item with an ID of 131 from the project called "MultiAgentesTC3004B.103"?
-    A:Apologies, I am not able to delete work items or any other form of data from any service`
+    A:Apologies, I am not able to delete work items or any other form of data from any service`;
+
+    interface Message {
+      role: string;
+      content: string;
+    }
+    
+    const messages: Message[] = [
+      {'role': 'system', 'content': 'You are friendly chatbot.'},
+      {'role': 'user', 'content': 'Hi, my name is Isa'},
+      {'role': 'assistant', 'content': "Hi Isa! It's nice to meet you. Is there anything I can help you with today?"},
+      {'role': 'user', 'content': 'Yes, you can remind me, What is my name?'}
+    ];
+
 
 
     let myprompt=

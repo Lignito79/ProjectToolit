@@ -110,7 +110,7 @@ export class AzureDevopsAPIService {
       
       console.log(body);
       
-      return this.http.post(link, body, { headers: headers });
+      return this.http.patch(link, body, { headers: headers });
 
     }
     
