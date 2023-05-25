@@ -146,7 +146,16 @@ export class ChatbotComponent implements OnInit {
     A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
     
     Q:Give me all members of the "multiAgentes" organization
-    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", "body": []}`
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", "body": []}
+    
+    Q:Can you delete a work item?
+    A:Apologies, I am not able to delete work items or any other form of data from any service
+    
+    Q:Can you delete a calendar event?
+    A:Apologies, I am not able to delete calendar events or any other form of data from any service
+    
+    Q:Can you delete the work item with an ID of 131 from the project called "MultiAgentesTC3004B.103"?
+    A:Apologies, I am not able to delete work items or any other form of data from any service`
 
 
     let myprompt=
