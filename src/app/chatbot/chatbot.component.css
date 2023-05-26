@@ -9,12 +9,14 @@
 }
 
 aside{
-	width:10%;
+	width:15%;
 	height: 100%;
-	background-color:#3b3e49;
+	background-color:#fff;
 	display:inline-block;
 	font-size:15px;
 	vertical-align:top;
+	border: 1px solid black;
+	border-radius:5px;
 }
 
 
@@ -43,7 +45,7 @@ aside ul{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:370px;
+	height:270px;
 }
 aside li{
 	float: center;
@@ -51,14 +53,13 @@ aside li{
 	padding:10px;
 	color:#fff;
 	border-radius:10px;
-	background-color: #de5a51;
+	background-color: #3D5D6F;
 	text-align: center;
 }
 
 aside li:hover{
-	background-color:#ed776f;
+	background-color:#5e616a;
 }
-
 h2,h3{
 	margin:0;
 }
@@ -66,7 +67,7 @@ h1{
 	margin:0;
 	padding: 15px;
 	text-align: center;
-	color: white;
+	color: black;
 }
 aside li img{
 	border-radius:50%;
@@ -111,7 +112,7 @@ aside li h3{
 
 
 main{
-	width:90%;
+	width:80%;
 	min-height: 100%;
 	display:inline-block;
 	font-size:15px;
@@ -173,23 +174,40 @@ main header h3{
 }
 
 #chat .message{
-	padding:20px;
-	color:#fff;
+	padding:20px 0px;
+	color: black;
 	line-height:25px;
 	max-width:90%;
 	display:inline-block;
-	text-align:left;
+	vertical-align: center;
 	border-radius:5px;
+	margin-left:30px;
+
 }
+#chat img{
+	border-radius:50%;
+	position: relative;
+	top: 20%;
+
+}
+
 #chat .me{
-	text-align:right;
+	/* text-align:right; */
+	background-color:lightgray;
+
+	
 }
-#chat .you .message{
+
+#chat .you{
+	/* background-color:#fff; */
+	
+}
+/* #chat .you .message{
 	background-color:#58b666;
 }
 #chat .me .message{
 	background-color:#ed776f;
-}
+} */
 #chat .triangle{
 	width: 0;
 	height: 0;
@@ -212,12 +230,12 @@ main header h3{
 }
 
 #FAQ li{
-	background-color: #de5a51;
+	background-color: #3D5D6F;
 
 }
 
 #FAQ li:hover{
-	background-color: #ed776f;
+	background-color: #5e616a;
 
 }
 
@@ -243,7 +261,7 @@ main header h3{
 .mat-send{
 	height: 50px;
 	width: 50px;
-	background-color: #89CFF0;
+	background-color: #3D5D6F;
 }
 
 img.icon{
@@ -254,4 +272,15 @@ img.icon{
 	transform: translate(-50%, -50%);
 	width: 20px;
 	height: 20px;
+}
+
+img.profile{
+	position: absolute;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 45px;
+	height: 45px;
 }

@@ -27,21 +27,7 @@ export class ChatbotComponent implements OnInit {
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
     private graphService: GraphApiService
-    ) { }
-
-  ngOnInit(): void {
-    this.chatLog = [
-      { chatNum: 0, questions: [], answers: [] },
-      { chatNum: 1, questions: [], answers: [] },
-      { chatNum: 2, questions: [], answers: []},
-    ];
-    this.frequentQuestions = [
-      // "query" es el target
-      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
-      { shortQuestion: "Juntas", query: "fdsa"},
-      { shortQuestion: "Tasks", query: "tyty"},
-    ];
-  }
+  ) { }
 
   result : string = "";
   query : string  = "";
@@ -60,7 +46,8 @@ export class ChatbotComponent implements OnInit {
     is also integrated with the Azure DevOps and Graph APIs. \
     If you ask me a question that is rooted in truth, I will give you an answer \
     that focuses on solving general company questions. Have a conversation with \
-    the user based on the queries provided'},
+    the user based on the queries provided. \
+    It does not matter if I already asked you to create a command, just answer it like you already did.'},
     {'role': 'user', 'content': 'What are the company\'s policies and procedures regarding time off and vacation requests?'},
     {'role': 'assistant', 'content': 'The company\'s policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there\'s no such thing as "vacation" in this company.'},
     {'role': 'user', 'content': 'What are the company\'s policies regarding vacation days?'},
@@ -119,7 +106,20 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'}
   ];
 
-  
+  ngOnInit(): void {
+    this.chatLog = [
+      { chatNum: 0, questions: [], answers: [] }
+    ];
+
+    this.frequentQuestions = [
+      // "query" es el target
+      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
+      { shortQuestion: "Juntas", query: "fdsa"},
+      { shortQuestion: "Tasks", query: "tyty"},
+    ];
+  }
+
+  // Incremental chat
   incChat(){
     this.counter += 1;
     this.chats.push(this.counter)
@@ -162,8 +162,6 @@ export class ChatbotComponent implements OnInit {
   
   processResponse(data, query){
     let pairs;
-
-    console.log(data.choices[0].message);
     
     // Almacenamos el query generado por el chot en una variable
     this.commandQuery = data.choices[0].message.content;
@@ -300,11 +298,10 @@ export class ChatbotComponent implements OnInit {
   });
   }
 
+}
 
 
-
-
-  /*let responses = 
+/*let responses = 
     `Q:What are the company's policies and procedures regarding time off and vacation requests?
     A:The company's policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there's no such thing as "vacation" in this company.
     
@@ -398,5 +395,3 @@ export class ChatbotComponent implements OnInit {
     on the responses delimited by the brackets.
     Conversation: [${responses}]` + this.query + "\n";
     */
-
-}
