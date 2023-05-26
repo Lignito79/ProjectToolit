@@ -161,7 +161,7 @@ main header h3{
     flex-direction: column;
 }
 #chat li{
-	padding:10px 1%;
+	/* padding:10px 1%; */
 	margin-top: auto !important;
 }
 #chat h2,#chat h3{
@@ -184,10 +184,13 @@ main header h3{
 	margin-left:30px;
 
 }
-#chat img{
+#chat img.chatIMG{
 	border-radius:50%;
-	position: relative;
-	top: 20%;
+	margin-right: 10px;
+	position: sticky;
+	margin-left: 10px;
+	top: 30%;
+	/* left: 20px; */
 
 }
 
