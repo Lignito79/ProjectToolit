@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs/';
 
 export class ChatbotOpenAIService {
   constructor(private http: HttpClient) { }
-  apiURL = 'https://api.openai.com/v1/completions'
+  apiURL = 'https://api.openai.com/v1/chat/completions'
 
   // Http Options
   httpOptions = {
