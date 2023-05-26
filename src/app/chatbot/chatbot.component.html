@@ -16,6 +16,9 @@
         <li *ngFor="let faq of frequentQuestions; let i=index" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</li>
       </ul>
     </div>
+    <div>
+      <a mat-fab svgIcon="profile" style="display: block; margin: 10px auto;" color="profile"><img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg"></a>
+    </div>
 	</aside>
 	<main>
 		<header>
@@ -26,6 +29,7 @@
 		</header>
 		<ul id="chat">
       <li class="you">
+        <img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
         <div class="message">
           Hello! How can I help you?
         </div>
@@ -33,11 +37,13 @@
       <div *ngFor="let element of chatLog;">
       <div *ngFor="let n of element.questions;let i = index">
         <li class="me" >
+          <img src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg" alt="" width="55px" height="55px">
           <div class="message" *ngIf="element.chatNum == this.currentChat">
             {{n}}
           </div>
         </li>
         <li class="you">
+          <img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
           <div class="message" *ngIf="element.chatNum == this.currentChat">
             {{element.answers[i]}}
           </div>
