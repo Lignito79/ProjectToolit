@@ -103,7 +103,11 @@ export class ChatbotComponent implements OnInit {
     {'role': 'user', 'content': 'Can you delete a calendar event?'}, 
     {'role': 'assistant', 'content': 'Apologies, I am not able to delete calendar events or any other form of data from any service'}, 
     {'role': 'user', 'content': 'Can you delete the work item with an ID of 131 from the project called "MultiAgentesTC3004B.103"?'}, 
-    {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'}
+    {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'},
+    {'role': 'user', 'content': 'Can you give me the calendar events of the user with an email of a01284202@tec.mx on the date 2023/05/26 between 9 and 22 hours'},
+    {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/users/a01284202@tec.mx/calendar/calendarView?startDateTime=2023-05-26T09:00:00&endDateTime=2023-05-26T22:00:00", "body": []}'},
+    {'role': 'user', 'content': 'Can you tell me if a00832436@tec.mx is free on the date 2023/05/26 between 9 and 22 hours'},
+    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"a00832436@tec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room Hood"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-05-26T09:00:00","timeZone":"Pacific Standard Time"},"end":{"dateTime":"2023-05-26T22:00:00","timeZone":"Pacific Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'}
   ];
 
   ngOnInit(): void {
@@ -165,6 +169,7 @@ export class ChatbotComponent implements OnInit {
     
     // Almacenamos el query generado por el chot en una variable
     this.commandQuery = data.choices[0].message.content;
+    console.log(this.commandQuery);
 
     // La respuesta que da el bot se guarda directamente en el objeto de conversación
     this.messages.push(data.choices[0].message);
@@ -200,9 +205,8 @@ export class ChatbotComponent implements OnInit {
 
   // Esta función sirve para procesar solicitudes a la API de Graph
   processOutlookRequest(parsedResponse, pairs, query){
-
     // Llamamos al "makeRequest" del servicio GraphApiService
-    this.graphService.makeRequest2(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
+    this.graphService.makeRequestOutlook(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
       let stringResult = "";
 
