@@ -48,6 +48,11 @@ export class GraphApiService {
 
     } else if (typeOperation == "POST") {
 
+      if (link = "https://graph.microsoft.com/v1.0/me/findMeetingTimes"){
+        console.log(body);
+        return this.http.post(link, body);
+      }
+
       if (link == "https://graph.microsoft.com/v1.0/me/events"){
         let startTime: any;
         let endTime: any;
@@ -98,6 +103,8 @@ export class GraphApiService {
 
         return this.http.post(link, event);
         
+      } else {
+        return this.http.post(link, body);
       }
       
 
@@ -108,7 +115,12 @@ export class GraphApiService {
   }
 
 
-  makeRequest2(typeOperation: string, contentType: string, link: string, bodyPairs, body): Observable<any> {
+  makeRequestOutlook(typeOperation: string, contentType: string, link: string, bodyPairs, body): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
     let now = new Date();
     const startOfDay = new Date(now.setUTCHours(0, 0, 0, 0));
     const endOfDay = new Date(now.setUTCHours(23, 59, 59, 999));
@@ -165,6 +177,9 @@ export class GraphApiService {
           console.log(event);
           return this.http.post(link, event);
         }
+      } else if (link == "https://graph.microsoft.com/v1.0/me/findMeetingTimes") { //America/Mexico_City
+        console.log(body[0]);
+        return this.http.post(link, body[0], httpOptions);
       }
       
 
