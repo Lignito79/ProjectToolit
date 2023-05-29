@@ -107,6 +107,8 @@ export class ChatbotComponent implements OnInit {
     {'role': 'user', 'content': 'Can you give me the calendar events of the user with an email of a01284202@tec.mx on the date 2023/06/17 between 9 and 22 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/users/a01284202@tec.mx/calendar/calendarView?startDateTime=2023-05-26T09:00:00&endDateTime=2023-05-26T22:00:00", "body": []}'},
     {'role': 'user', 'content': 'Can you tell me if A00832436@tec.mx is free on the date 2023/06/19 between 9 and 10 hours'},
+    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A00832436@tec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-05-26T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-05-26T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'},
+    {'role': 'user', 'content': 'Can you tell me if A00832436@tec.mx is free on the date 2023/06/19 between 9 and 10 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A00832436@tec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-05-26T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-05-26T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'}
   ];
 
@@ -144,6 +146,14 @@ export class ChatbotComponent implements OnInit {
     // this.postCompletion()
   }
 
+  countLines(lines): number {
+    return lines.length;
+  }
+
+  isStringNull(str: string | null): boolean {
+    return str === null;
+  }
+
   postCompletion(){
     
     this.messages.push({'role': 'user', 'content': `${this.query}`});
@@ -163,44 +173,66 @@ export class ChatbotComponent implements OnInit {
       this.processResponse(data, this.query);
     });
   }
-  
+ 
   processResponse(data, query){
+    let parsedResponse;
     let pairs;
-    
+
     // Almacenamos el query generado por el chot en una variable
     this.commandQuery = data.choices[0].message.content;
     console.log(this.commandQuery);
-
     // La respuesta que da el bot se guarda directamente en el objeto de conversación
     this.messages.push(data.choices[0].message);
 
+    // Contamos el número de lineas en el contenido que regresó el bot
+    const lines = this.commandQuery.split('\n');
+    const numLinesOfContent = this.countLines(lines);
 
-    console.log(this.commandQuery);
-    let parsedResponse;
+    if (numLinesOfContent > 1){
+      const commandQuery1 = lines[0];
+      const commandQuery2 = lines[0];
+      parsedResponse = this.parseResponse(commandQuery1, query);
+      this.graphService.requestFindMeetingTimes(parsedResponse.link, parsedResponse.body).subscribe((data: any) => {
+        
+      });
+    } else {
+      parsedResponse = this.parseResponse(lines[0], query);
+    }
+
     try {
-      parsedResponse = JSON.parse(this.commandQuery);
+      pairs = this.devopsService.obtainPairs(parsedResponse);
+    } catch {
+      pairs = 1;
+    }
+
+    if(this.isStringNull(parsedResponse)){
+      return;
+    } else if (parsedResponse.service == "Graph"){
+      this.processOutlookRequest(parsedResponse, pairs, query);
+    } else if (parsedResponse.service == "DevOps"){
+      this.processAzureDevOpsRequest(parsedResponse, pairs, query);
+    }
+    
+  }
+
+  parseResponse(commandQuery: string, query) {
+    let parsedResponse;
+
+    try {
+      parsedResponse = JSON.parse(commandQuery);
       console.log(parsedResponse);
-
-      try {
-        pairs = this.devopsService.obtainPairs(parsedResponse);
-      } catch {
-        pairs = 1;
-      }
-
-      if (parsedResponse.service == "Graph"){
-        this.processOutlookRequest(parsedResponse, pairs, query);
-      } else if (parsedResponse.service == "DevOps"){
-        this.processAzureDevOpsRequest(parsedResponse, pairs, query);
-      }
-
     // Si hay un error parseando la respuesta del bot, significa que no regresó un JSON y por lo tanto
     // se imprime directamente en el chat sin procesarla
     } catch (error) {
-      console.error(`Error parsing JSON on line '${this.commandQuery}': ${error}`);
-      this.displayChat(query, this.commandQuery);
-    } 
-  }
+      console.error(`Error parsing JSON on line '${commandQuery}': ${error}`);
+      this.displayChat(query, commandQuery);
+      return null;
+    }
 
+    console.log(commandQuery);
+    return parsedResponse;    
+    
+  }
 
 
   // Esta función sirve para procesar solicitudes a la API de Graph

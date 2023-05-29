@@ -27,6 +27,10 @@ export abstract class parsingHandler {
         return stringResult;
     }
 
+    processFindMeetingTimeWhenCreatingEvent(data){
+
+    }
+
     //
     static parseEmailsResponse(data): string{
         let stringResult: string;
