@@ -109,11 +109,11 @@ export class ChatbotComponent implements OnInit {
     
     {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01284202@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
     {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
-    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T12:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T12:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01284202@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
+    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01284202@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
 
     {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01177586@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
     {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01177586@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
-    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T9:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`}
+    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`}
   ];
 
   ngOnInit(): void {
@@ -165,8 +165,7 @@ export class ChatbotComponent implements OnInit {
     var payload = { 
       model: "gpt-3.5-turbo", 
       messages: this.messages,
-      temperature: 0,
-      //max_tokens: 300,
+      temperature: 0.5
       //top_p: 1,
       //frequency_penalty: 0,
       //presence_penalty: 0,
@@ -201,7 +200,8 @@ export class ChatbotComponent implements OnInit {
         console.log("Sí entró:")
         console.log(data);
         // Checar por qué está mal
-        if(data.meetingTimeSuggestions[0].hasOwnProperty("meetingTimeSlot")){
+        if(data.emptySuggestionsReason == ''){
+          console.log("Sí está libre");
           parsedResponse = this.parseResponse(lines[1], query);
           this.decideProcess(parsedResponse, query);
         } else {
