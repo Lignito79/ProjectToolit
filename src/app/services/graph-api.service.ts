@@ -180,7 +180,7 @@ export class GraphApiService {
         }
       } else if (link == "https://graph.microsoft.com/v1.0/me/findMeetingTimes") { //America/Mexico_City
         console.log(body[0]);
-        return this.http.post(link, body[0], this.httpOptions);
+        return this.http.post(link, body[0]);
       }
       
 

@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor } from '@azure/msal-angular'; // Import MsalInterceptor
+import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 
@@ -47,7 +47,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     }), {
       interactionType: InteractionType.Redirect,
       authRequest: {
-        scopes: ['user.read', 'calendars.readwrite', 'mailboxsettings.read', 'mail.read', 'mail.readwrite']
+        scopes: ['user.read', 'calendars.readwrite', "calendars.read.shared", 'mailboxsettings.read', 'mail.read', 'mail.readwrite']
         }
     }, {
       interactionType: InteractionType.Redirect, // MSAL Interceptor Configuration

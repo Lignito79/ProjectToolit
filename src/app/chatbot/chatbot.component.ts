@@ -44,10 +44,10 @@ export class ChatbotComponent implements OnInit {
     Toolit is a knowledge management bot that uses individual employee and \
     company information with its agencies: Outlook and Azure DevOps. Toolit \
     is also integrated with the Azure DevOps and Graph APIs. \
-    If you ask me a question that is rooted in truth, I will give you an answer \
+    If I ask you a question that is rooted in truth, you will give me an answer \
     that focuses on solving general company questions. Have a conversation with \
     the user based on the queries provided. \
-    It does not matter if I already asked you to create a command, just answer it like you already did.'},
+    Important: It does not matter if I already asked you the same question, just answer it like you already did.'},
     {'role': 'user', 'content': 'What are the company\'s policies and procedures regarding time off and vacation requests?'},
     {'role': 'assistant', 'content': 'The company\'s policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there\'s no such thing as "vacation" in this company.'},
     {'role': 'user', 'content': 'What are the company\'s policies regarding vacation days?'},
@@ -92,8 +92,6 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "1","timeZone": "America/Mexico_City"},"end": {"dateTime": "1","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
     {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for 24/06/23'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
-    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with a00832436@tec.mx for 24/06/23?'},
-    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}'},
     {'role': 'user', 'content': 'Can you give me all work items from the "prueba1" project?'}, 
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}'}, 
     {'role': 'user', 'content': 'Give me all members of the "multiAgentes" organization'}, 
@@ -106,10 +104,16 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'},
     {'role': 'user', 'content': 'Can you give me the calendar events of the user with an email of a01284202@tec.mx on the date 2023/06/17 between 9 and 22 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/users/a01284202@tec.mx/calendar/calendarView?startDateTime=2023-05-26T09:00:00&endDateTime=2023-05-26T22:00:00", "body": []}'},
-    {'role': 'user', 'content': 'Can you tell me if A00832436@tec.mx is free on the date 2023/06/19 between 9 and 10 hours'},
-    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A00832436@tec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-05-26T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-05-26T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'},
-    {'role': 'user', 'content': 'Can you tell me if A00832436@tec.mx is free on the date 2023/06/19 between 9 and 10 hours'},
-    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A00832436@tec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-05-26T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-05-26T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'}
+    {'role': 'user', 'content': 'Can you tell me if A01284202@sistematec.mx is free on the date 2023/06/22 between 9 and 10 hours'},
+    {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"true","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'},
+    
+    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01284202@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
+    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
+    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T12:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T12:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01284202@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
+
+    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01177586@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
+    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01177586@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
+    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T9:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`}
   ];
 
   ngOnInit(): void {
@@ -188,29 +192,25 @@ export class ChatbotComponent implements OnInit {
     const lines = this.commandQuery.split('\n');
     const numLinesOfContent = this.countLines(lines);
 
+    parsedResponse = this.parseResponse(lines[0], query);
+
+    // Si el comando es de más de una línea, entonces significa que se va a agendar una cita
+    // Si no, es un comando normal o sólo es una respuesta a una pregunta
     if (numLinesOfContent > 1){
-      const commandQuery1 = lines[0];
-      const commandQuery2 = lines[0];
-      parsedResponse = this.parseResponse(commandQuery1, query);
       this.graphService.requestFindMeetingTimes(parsedResponse.link, parsedResponse.body).subscribe((data: any) => {
-        
+        console.log("Sí entró:")
+        console.log(data);
+        // Checar por qué está mal
+        if(data.meetingTimeSuggestions[0].hasOwnProperty("meetingTimeSlot")){
+          parsedResponse = this.parseResponse(lines[1], query);
+          this.decideProcess(parsedResponse, query);
+        } else {
+          this.displayChat(query, "Sorry, I could not find a free time slot for the meeting. Try with another date and time");
+          return;
+        }
       });
     } else {
-      parsedResponse = this.parseResponse(lines[0], query);
-    }
-
-    try {
-      pairs = this.devopsService.obtainPairs(parsedResponse);
-    } catch {
-      pairs = 1;
-    }
-
-    if(this.isStringNull(parsedResponse)){
-      return;
-    } else if (parsedResponse.service == "Graph"){
-      this.processOutlookRequest(parsedResponse, pairs, query);
-    } else if (parsedResponse.service == "DevOps"){
-      this.processAzureDevOpsRequest(parsedResponse, pairs, query);
+      this.decideProcess(parsedResponse, query);
     }
     
   }
@@ -232,6 +232,24 @@ export class ChatbotComponent implements OnInit {
     console.log(commandQuery);
     return parsedResponse;    
     
+  }
+
+  decideProcess(parsedResponse, query){
+    let pairs;
+
+    try {
+      pairs = this.devopsService.obtainPairs(parsedResponse);
+    } catch {
+      pairs = 1;
+    }
+
+    if(this.isStringNull(parsedResponse)){
+      return;
+    } else if (parsedResponse.service == "Graph"){
+      this.processOutlookRequest(parsedResponse, pairs, query);
+    } else if (parsedResponse.service == "DevOps"){
+      this.processAzureDevOpsRequest(parsedResponse, pairs, query);
+    }
   }
 
 
@@ -268,7 +286,6 @@ export class ChatbotComponent implements OnInit {
       }
     });
   }
-
 
   processAzureDevOpsRequest(parsedResponse, pairs, query){
 
@@ -401,8 +418,8 @@ export class ChatbotComponent implements OnInit {
     Q:Create a calendar event called "Daily Meeting" for 24/06/23
     A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}
     
-    Q:Can you create a calendar appointment called "Event Test" with a00832436@tec.mx for 24/06/23?
-    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "attendees": [{"emailAddress": {"address": "a00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
+    Q:Can you create a calendar appointment called "Event Test" with A00832436@tec.mx for 24/06/23?
+    A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "attendees": [{"emailAddress": {"address": "A00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
     
     Q:Can you give me all work items from the "prueba1" project?
     A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
