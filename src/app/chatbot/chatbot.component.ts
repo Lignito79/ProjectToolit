@@ -72,7 +72,7 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}'},
     {'role': 'user', 'content': 'Give me all the tasks from the project "MultiAgentesTC3004B.103" in a descending order'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] desc"}]}'},
-    {'role': 'user', 'content': 'Give me all the tasks from the project "MultiAgentesTC3004B.103" in an ascending order'},
+    {'role': 'user', 'content': 'Give me all the tasks from the project "MultiAgentesTC3004B.103" in a ascending order'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] asc"}]}'},
     {'role': 'user', 'content': 'Create a new user story called "As a user I want to login" in the project "MultiAgentesTC3004B.103"'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}'},
@@ -262,12 +262,18 @@ export class ChatbotComponent implements OnInit {
 
       // Si lo obtenido tiene una propiedad llamada "value", entonces la respuesta es procesada considerando que lo que obtuvimos es una
       // lista de eventos del calendario del usuario
-      if (data.hasOwnProperty("value") && data.value[0].hasOwnProperty("attendees")) {
 
-        stringResult = parsingHandler.parseCalendarEventResponse(data);
-        // Se despliega la respuesta en el chat
-        this.displayChat(query, stringResult);
-        return;
+      if (data.hasOwnProperty("value")) {
+        
+        if (typeof data.value !== "undefined"){
+          this.displayChat(query,"Sorry, I could not find the calendar entries");
+          return;
+        } else if (data.value[0].hasOwnProperty("attendees")){
+          stringResult = parsingHandler.parseCalendarEventResponse(data);
+          // Se despliega la respuesta en el chat
+          this.displayChat(query, stringResult);
+          return;
+        }
 
       } else if(data.hasOwnProperty("value") && data.value[1].hasOwnProperty("sender")){
         
@@ -278,7 +284,7 @@ export class ChatbotComponent implements OnInit {
 
       } else if(data.hasOwnProperty("attendees")) {
 
-        const stringResult = 'Subject: ' + data.subject + ', Description: ' + data.bodyPreview + ', Date and Time: ' + data.start['dateTime'];
+        const stringResult = '📂 Subject: ' + data.subject + '\n📝 Description: ' + data.bodyPreview + '\n📅 Date and Time: ' + data.start['dateTime'];
         
         this.displayChat(query, stringResult);
         return;
