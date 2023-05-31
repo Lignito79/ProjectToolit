@@ -23,6 +23,7 @@ interface frequentQuestion {
 })
 
 export class ChatbotComponent implements OnInit {
+
   constructor(
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
@@ -37,7 +38,7 @@ export class ChatbotComponent implements OnInit {
   currentChat = 0;
   chats = [];
   chatLog: chatHistory[];
-  frequentQuestions : frequentQuestion[];
+  public frequentQuestions : frequentQuestion[];
   
   public messages: Message[] = [
     {'role': 'system', 'content': 'You are a conversational chatbot assistant called Toolit. \

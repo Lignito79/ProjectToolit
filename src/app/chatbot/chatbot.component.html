@@ -17,11 +17,11 @@
       </ul>
     </div>
     <div>
-      <a mat-fab svgIcon="profile" style="display: block; margin: 10px auto;" color="profile"><img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg"></a>
+      <app-dropdown-menu></app-dropdown-menu>
     </div>
 	</aside>
 	<main>
-		<header>
+		<header style="padding-bottom: 60px;">
 			<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
 			<div>
 				<h2>Chat {{currentChat+1}} Header</h2>
@@ -51,13 +51,7 @@
       </div>
       </div>
       </ul>
-      <!-- <div id="FAQ">
-        <ul>
-          <li>First item</li>
-          <li>Second item</li>
-          <li>Third item</li>
-        </ul>
-      </div> -->
+
       <div>
       <form>
         <input
@@ -68,28 +62,7 @@
           [(ngModel)] = "query"
         />
         <a (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon" src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
-        <!-- <input type="button" value="Send" style="width: 50px; width: 50px; border-radius: 100%;" (click)="postCompletion()" /> -->
         </form>
       </div>
-        <!-- <div className=result> {{result}} </div> -->
     </main>
 </div>
-      
-
-
-
-<!-- <div>
-    <main className=main>
-      <h3>Chatbot</h3>
-      <form>
-        <input
-          type="text"
-          name="animal"
-          placeholder="Enter a message"
-          [(ngModel)] = "query"
-        />
-        <input type="button" value="Send" (click)="postCompletition()" />
-        </form>
-        <div className=result> {{result}} </div>
-    </main>
-</div> -->

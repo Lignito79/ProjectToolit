@@ -13,6 +13,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor } from '@azure/msal-angular'; // Import MsalInterceptor
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { ChatbotComponent } from './chatbot/chatbot.component';
+import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { EditFaqComponent } from './edit-faq/edit-faq.component';
+import { ListFaqComponent } from './list-faq/list-faq.component';
 
 
 
@@ -23,10 +27,14 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    ChatbotComponent
+    ChatbotComponent,
+    DropdownMenuComponent,
+    EditFaqComponent,
+    ListFaqComponent
   ],
   imports: [
     BrowserModule,
+    BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
     AppRoutingModule,
     MatButtonModule,
