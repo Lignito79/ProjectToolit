@@ -21,7 +21,8 @@ export abstract class parsingHandler {
         // Vamos almacenando los datos de cada valor del objeto obtenido por el request en un string
         data.value.forEach(function (item) {
             // Concatenamos los datos que nos interesan. OJO. Probablemente lo que haremos es separar la fecha y la hora.
-            const eachResultString = '📂 Subject: ' + item.subject + '\n📝 Description: ' + item.bodyPreview + '\n📅 Date and Time: ' + item.start['dateTime'] + '\n';
+            const eachResultString = '📂 Subject: ' + item.subject + '\n📝 Description: ' 
+            + item.bodyPreview + '\n📅 Date and Time: ' + item.start['dateTime'] + '\n🔗 Link: ' + item.webLink + '\n';
             stringResult = stringResult + eachResultString + '\n';
         });
         return stringResult;
@@ -51,12 +52,13 @@ export abstract class parsingHandler {
 
 
     // Falta incluirse en el método processAzureDevOpsRequest
-    static processAndParseWIQLResponse(data): string{
+    static processAndParseWIQLResponse(data, requestLink: string): string{
       let stringResult: string = '';
 
         // Hacer for que recorre los workitems y los almacena en un string bonito :)
         data.value.forEach(function (item) {
-            const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.fields['System.Title'] + '\n🔲 Work item type: ' + item.fields['System.WorkItemType'] + '\n';
+            const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.fields['System.Title'] + '\n🔲 Work item type: ' 
+            + item.fields['System.WorkItemType'] + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + item.id + '\n';
             stringResult = stringResult + eachResultString + '-----------------------------------------------------\n';
         });
 
@@ -64,24 +66,24 @@ export abstract class parsingHandler {
     }
 
     //
-    static processSimpleWorkItemResponse(data): string{
+    static processSimpleWorkItemResponse(data, requestLink: string): string{
       let stringResult: string = '';
 
       stringResult = "🆔 ID: " + data.id + "\n📂 Title: " + data.fields['System.Title'] + "\n🔲 Work item type: " + data.fields['System.WorkItemType'] + 
-      "\nCreated By: " + data.fields['System.CreatedBy'].displayName;
+      "\nCreated By: " + data.fields['System.CreatedBy'].displayName + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + data.id;
 
       return stringResult;
     }
 
     //
-    static processActivitiesResponse(data): string{
+    static processActivitiesResponse(data, requestLink: string): string{
 
       let stringResult: string = '';
 
         data.value.forEach(function (item) {
           if(item.activityType != "visited"){
             const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.title + '\n🔲 Work item type: ' + item.workItemType + 
-            '\n🔳 Activity Type: ' + item.activityType + '\n📅 Activity Date: ' + item.activityDate + '\n';
+            '\n🔳 Activity Type: ' + item.activityType + '\n📅 Activity Date: ' + item.activityDate + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + data.id + '\n';
 
             stringResult = stringResult + eachResultString + '-----------------------------------------------------\n';
           }

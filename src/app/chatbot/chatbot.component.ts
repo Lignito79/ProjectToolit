@@ -47,17 +47,8 @@ export class ChatbotComponent implements OnInit {
     If I ask you a question that is rooted in truth, you will give me an answer \
     that focuses on solving general company questions. Have a conversation with \
     the user based on the queries provided. \
-    Important: It does not matter if I already asked you the same question, just answer it like you already did.'},
-    {'role': 'user', 'content': 'What are the company\'s policies and procedures regarding time off and vacation requests?'},
-    {'role': 'assistant', 'content': 'The company\'s policies and procedures regarding time off and vacation requests are outlined in the employee handbook, which states that there\'s no such thing as "vacation" in this company.'},
-    {'role': 'user', 'content': 'What are the company\'s policies regarding vacation days?'},
-    {'role': 'assistant', 'content': 'There are no vacation days in this company.'},
-    {'role': 'user', 'content': 'What are the company\'s policies on dress code?'},
-    {'role': 'assistant', 'content': 'Regarding dress code, all employees and interns are required to dress as clowns during business hours.'},
-    {'role': 'user', 'content': 'What resources are available to help me develop my skills and advance my career within the company?'},
-    {'role': 'assistant', 'content': 'The company offers a variety of resources to help employees develop their skills and advance their careers. These include on-the-job training, mentorship programs, online courses, and professional development seminars. Additionally, the company offers tuition reimbursement for employees who wish to pursue higher education.'},
-    {'role': 'user', 'content': 'Can you explain the company\'s retirement plan and how I can enroll or change my contributions?'},
-    {'role': 'assistant', 'content': 'The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.'},
+    DO NOT APOLOGIZE IF I ALREADY ASKED YOU THE SAME THING\
+    Important: It does not matter if I already asked you the same question, just answer it like you already did. No need to apologize'},
     {'role': 'user', 'content': 'Give me all the work items from my Azure DevOps project called "MultiAgentesTC3004B.103"'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}'},
     {'role': 'user', 'content': 'Could you give me the work item with an ID of 12, from the project "MultiAgentesTC3004B.103"?'},
@@ -107,13 +98,21 @@ export class ChatbotComponent implements OnInit {
     {'role': 'user', 'content': 'Can you tell me if A01284202@sistematec.mx is free on the date 2023/06/22 between 9 and 10 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"true","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'},
     
-    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01284202@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
-    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
-    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01284202@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
-
-    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01177586@sistematec.mx for 2023/06/22 from 9:00 to 10:00?'},
-    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01177586@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"false","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}
-    {"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-22T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-22T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`}
+    
+    {'role': 'user', 'content': 'Can you create a calendar appointment called "Event Test" with A01284202@sistematec.mx for 2023/06/24 from 9:00 to 10:00?'},
+    {'role': 'assistant', 'content': 'Would you like to check if the attendees are available first?'},
+    {'role': 'user', 'content': 'Yes'},
+    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"locationConstraint":{"isRequired":false,"suggestLocation":false,"locations":[{"resolveAvailability":false,"displayName":"Conf room"}]},"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-24T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-24T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"true","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}`},
+    {'role': 'user', 'content': 'Ok, create the event, please'},
+    {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-24T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
+    
+    
+    {'role': 'user', 'content': 'Could you edit a work item?'},
+    {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but I can give you a link for you to do it directly'},
+    {'role': 'user', 'content': 'Help me edit the work item with an ID of 219 from the Azure DevOps project called "MultiAgentesTC3004B.103" from the organization "multiAgentes"'},
+    {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but here is a link for you to do it directly: https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_workitems/edit/219'},
+    {'role': 'user', 'content': 'Help me edit my calendar events from today'},
+    {'role': 'assistant', 'content': 'I can\'t edit a calendar event or any other item from Outlook or other services, but I can fetch information from your calendar events. Ask me to get calendar events from any date, and I\'ll give you their information, including a link for you to access those items and edit them directly'},
   ];
 
   ngOnInit(): void {
@@ -165,7 +164,7 @@ export class ChatbotComponent implements OnInit {
     var payload = { 
       model: "gpt-3.5-turbo", 
       messages: this.messages,
-      temperature: 0.5
+      temperature: 0.2
       //top_p: 1,
       //frequency_penalty: 0,
       //presence_penalty: 0,
@@ -284,11 +283,21 @@ export class ChatbotComponent implements OnInit {
 
       } else if(data.hasOwnProperty("attendees")) {
 
-        const stringResult = '📂 Subject: ' + data.subject + '\n📝 Description: ' + data.bodyPreview + '\n📅 Date and Time: ' + data.start['dateTime'];
+        stringResult = '📂 Subject: ' + data.subject + '\n📝 Description: ' + data.bodyPreview + '\n📅 Date and Time: ' + data.start['dateTime'];
         
         this.displayChat(query, stringResult);
         return;
 
+      } else if(data.hasOwnProperty("meetingTimeSuggestions")){
+
+        if (data.emptySuggestionsReason == ""){
+          stringResult = 'The attendees are available';
+        } else {
+          stringResult = 'The attendees are not available';
+        }
+        
+        this.displayChat(query, stringResult);
+        return;
       }
     });
   }
@@ -297,6 +306,15 @@ export class ChatbotComponent implements OnInit {
 
     this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
+
+      // Expresión regular para hacer "match" con el string del link del comando del bot
+      const regex = /^(https?:\/\/.*?\/.*?\/.*?)\/.*$/;
+          
+      // Se extrae la primera parte del link con la función "match"
+      const match = parsedResponse.link.match(regex);
+      
+      // Se checa el match y se asigna el resultado en una variable
+      const extractedString = match ? match[1] : '';
       
       // Primero que nada, verificamos si los datos obtenidos contienen un atributo llamado "workItems".
       // Esto para saber si tenemos que obtener los datos de cada ID de los workItems obtenidos por medio
@@ -310,7 +328,8 @@ export class ChatbotComponent implements OnInit {
         // Mandamos llamar la función especialmente hecha para obtener los datos
         // de varios work items en bache, tomando en cuenta sus IDs
         this.devopsService.getBatchWorkItems(workItemIDs).subscribe((dataWIB: any) => {
-          stringResult = parsingHandler.processAndParseWIQLResponse(dataWIB);
+
+          stringResult = parsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
           // Insertar en el chat
           this.displayChat(query, stringResult);
 
@@ -319,7 +338,7 @@ export class ChatbotComponent implements OnInit {
         
       } else if (data.hasOwnProperty("fields")) {
         
-        stringResult = parsingHandler.processSimpleWorkItemResponse(data);
+        stringResult = parsingHandler.processSimpleWorkItemResponse(data, extractedString);
         
         this.displayChat(query, stringResult);
 
@@ -327,7 +346,7 @@ export class ChatbotComponent implements OnInit {
 
       } else if (data.value[0].hasOwnProperty("activityType")) {
 
-        stringResult = parsingHandler.processActivitiesResponse(data);          
+        stringResult = parsingHandler.processActivitiesResponse(data, extractedString);          
         // Insertar en el chat
         this.displayChat(query, stringResult);
         return;

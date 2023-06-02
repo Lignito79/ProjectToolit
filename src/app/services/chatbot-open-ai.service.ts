@@ -33,7 +33,7 @@ export class ChatbotOpenAIService {
   }
 
   postCompletion(payload : any): Observable<any> {
-    return this.http.post<any>(this.apiURL,JSON.stringify(payload),this.httpOptions)
+    return this.http.post<any>(this.apiURL,payload,this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.handleError)
