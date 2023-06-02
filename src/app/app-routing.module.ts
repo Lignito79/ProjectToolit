@@ -4,8 +4,6 @@ import { BrowserUtils } from '@azure/msal-browser';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
-import { EditFaqComponent } from './edit-faq/edit-faq.component';
-import { ListFaqComponent } from './list-faq/list-faq.component';
 
 import { MsalGuard } from '@azure/msal-angular';
 
@@ -23,14 +21,6 @@ const routes: Routes = [
     path: 'chatbot',
     component: ChatbotComponent,
     canActivate: [MsalGuard],
-  },
-  {
-    path: 'edit-faq',
-    component: EditFaqComponent
-  },
-  {
-    path: 'list-faq',
-    component: ListFaqComponent
   }
 ];
 

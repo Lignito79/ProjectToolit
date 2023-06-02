@@ -15,8 +15,7 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { EditFaqComponent } from './edit-faq/edit-faq.component';
-import { ListFaqComponent } from './list-faq/list-faq.component';
+import { ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -28,9 +27,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     HomeComponent,
     ProfileComponent,
     ChatbotComponent,
-    DropdownMenuComponent,
-    EditFaqComponent,
-    ListFaqComponent
+    DropdownMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +39,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     MatListModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     MsalModule.forRoot( new PublicClientApplication({
       auth: {
         clientId: 'ddb3d3d8-5eae-4059-8e75-004a9f96555a', // Application (client) ID from the app registration
@@ -70,7 +68,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       useClass: MsalInterceptor,
       multi: true
     },
-    MsalGuard
+    MsalGuard,
+    ChatbotComponent
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })

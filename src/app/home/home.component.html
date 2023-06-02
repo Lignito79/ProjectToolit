@@ -1,8 +1,36 @@
-<div *ngIf="!loginDisplay">
+<!-- <div *ngIf="!loginDisplay">
     <p>Please sign-in to see your profile information.</p>
 </div>
 
 <div *ngIf="loginDisplay">
     <p>Login successful!</p>
     <p>Request your profile information by clicking Profile above.</p>
-</div>
+</div> -->
+<section class="" style="background-color: #eee;">
+      <div class="row justify-content-center align-items-center h-100">
+          <div class="card rounded-3 text-black " style="width: 500px">
+                <div class="card-body p-md-5 mx-md-4" >
+  
+                  <div class="text-center">
+                    <img src="./assets/toolitfull.png"
+                      style="width: 185px;" alt="logo">
+                    <!-- <h4 class="mt-1 mb-5 pb-1">toolit</h4> -->
+                  </div>
+  
+                  <form>
+                    <p class="row justify-content-center align-items-center" *ngIf="!loginDisplay">Please login to your account</p>
+                    <p class="row justify-content-center align-items-center" *ngIf="loginDisplay">You're logged in!</p>
+  
+                    <div class="text-center pt-1 mb-5 pb-1">
+                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 bi bi-microsoft" type="button" (click)="login()" *ngIf="!loginDisplay"> Log
+                        in with Microsoft</button>
+                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" routerLink="/chatbot" *ngIf="loginDisplay"> Head to ChatBot <i class="bi bi-arrow-bar-right"></i></button>
+                    </div>  
+                      <!-- <a class="text-muted row justify-content-center align-items-center" href="#!">Already logged in? Go straight to the </a> -->
+                    
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+  </section>

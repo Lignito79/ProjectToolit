@@ -4,6 +4,7 @@ import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 import { GraphApiService } from '../services/graph-api.service';
 import { parsingHandler } from './parsingHandler';
 import { Message } from './Message';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 interface chatHistory {
   chatNum: number;
@@ -27,15 +28,18 @@ export class ChatbotComponent implements OnInit {
   constructor(
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
-    private graphService: GraphApiService
+    private graphService: GraphApiService,
   ) { }
 
   result : string = "";
   query : string  = "";
+  // lQuestion : string = "";
+  // sQuestion : string = "";
   command: { link: string, body: { key: string, value: string }[] };
   commandQuery: string = "";
   counter = 1;
   currentChat = 0;
+  currentFAQ = 0;
   chats = [];
   chatLog: chatHistory[];
   public frequentQuestions : frequentQuestion[];
@@ -118,8 +122,8 @@ export class ChatbotComponent implements OnInit {
 
     this.frequentQuestions = [
       // "query" es el target
-      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
-      { shortQuestion: "Juntas", query: "fdsa"},
+      { shortQuestion: "Dress Code", query: "asdf"},
+      { shortQuestion: "Meetings", query: "fdsa"},
       { shortQuestion: "Tasks", query: "tyty"},
     ];
   }
@@ -135,15 +139,36 @@ export class ChatbotComponent implements OnInit {
 
   }
 
+  // Regresa currentChat a 0 (Regresa al primer chat)
   setCurrentChatDef(){
     this.currentChat = 0;
     console.log(this.currentChat)
   }
   
+  // Clic a un FAQ
   frequentQuestionsClick(target){
     console.log(target)
     // this.postCompletion()
   }
+
+  setCurrentFAQ(target){
+    this.currentFAQ = target;
+    console.log(this.currentFAQ)
+
+  }
+
+  frequentQuestionEdit(){
+    let sQuestion = document.getElementById('sQ') as HTMLInputElement;
+    let lQuestion = document.getElementById("lQ") as HTMLInputElement;
+    let sQuestionValue = sQuestion?.value;
+    let lQuestionValue = lQuestion?.value;
+    this.frequentQuestions[this.currentFAQ] = {
+      shortQuestion: sQuestionValue,
+      query: lQuestionValue
+    }
+  }
+
+
 
   postCompletion(){
     

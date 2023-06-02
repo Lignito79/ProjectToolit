@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { InteractionStatus, RedirectRequest } from '@azure/msal-browser';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { GeneralSecurity } from '../generalSecurity';
+import { Buffer } from "buffer";
 
 @Component({
   selector: 'app-home',
@@ -10,31 +14,71 @@ import { filter } from 'rxjs/operators';
 })
 
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  title = 'Toolit';
+  isIframe = false;
   loginDisplay = false;
+  private readonly _destroying$ = new Subject<void>();
 
-  constructor(private authService: MsalService, private msalBroadcastService: MsalBroadcastService) { }
+  constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration, 
+  private broadcastService: MsalBroadcastService, private authService: MsalService, private http: HttpClient) { }
 
-  ngOnInit(): void {
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
-      )
-      .subscribe((result: EventMessage) => {
-        console.log(result);
-      });
+  ngOnInit() {
+    this.isIframe = window !== window.parent && !window.opener;
 
-    this.msalBroadcastService.inProgress$
-      .pipe(
-        filter((status: InteractionStatus) => status === InteractionStatus.None)
-      )
-      .subscribe(() => {
-        this.setLoginDisplay();
-      })
+    this.broadcastService.inProgress$
+    .pipe(
+      filter((status: InteractionStatus) => status === InteractionStatus.None),
+      takeUntil(this._destroying$)
+    )
+    .subscribe(() => {
+      this.setLoginDisplay();
+      this.getDevopsPermit();
+    })
+  }
+
+  login() {
+    if (this.msalGuardConfig.authRequest){
+      this.authService.loginRedirect({...this.msalGuardConfig.authRequest} as RedirectRequest);
+    } else {
+      this.authService.loginRedirect();
+    }
+  }
+
+  logout() { // Add log out function here
+    this.authService.logoutRedirect({
+      postLogoutRedirectUri: 'http://localhost:4200'
+    });
   }
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-    console.log(this.authService.instance.getAllAccounts()[0].username);
+  }
+
+  getDevopsPermit() {
+
+    const header = new HttpHeaders({
+      'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
+    });
+
+    this.http.get("https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", { headers: header }).subscribe((data: any) => {
+      const mailAddressToCheck = this.authService.instance.getAllAccounts()[0].username;
+
+      const isDisplayNamePresent = data.value.some(member => member.mailAddress === mailAddressToCheck);
+
+      if (isDisplayNamePresent) {
+        GeneralSecurity.isUserAbleToRetrieveDevopsInfo = true;
+        console.log(`${mailAddressToCheck} is present.`);
+      } else {
+        console.log(`${mailAddressToCheck} is not present.`);
+        GeneralSecurity.isUserAbleToRetrieveDevopsInfo = false;
+      }
+
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
   }
 }
