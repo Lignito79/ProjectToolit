@@ -5,6 +5,7 @@ import { GraphApiService } from '../services/graph-api.service';
 import { parsingHandler } from './parsingHandler';
 import { Message } from './Message';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ClearChatService } from '../clear-chat.service';
 
 interface chatHistory {
   chatNum: number;
@@ -29,6 +30,7 @@ export class ChatbotComponent implements OnInit {
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
     private graphService: GraphApiService,
+    private eventClearChat: ClearChatService
   ) { }
 
   result : string = "";
@@ -42,6 +44,7 @@ export class ChatbotComponent implements OnInit {
   currentFAQ = 0;
   chats = [];
   chatLog: chatHistory[];
+  isTyping = false;
   public frequentQuestions : frequentQuestion[];
   
   public messages: Message[] = [
@@ -117,7 +120,7 @@ export class ChatbotComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatLog = [
-      { chatNum: 0, questions: [], answers: [] }
+      // { chatNum: 0, questions: [], answers: [] }
     ];
 
     this.frequentQuestions = [
@@ -126,6 +129,16 @@ export class ChatbotComponent implements OnInit {
       { shortQuestion: "Meetings", query: "fdsa"},
       { shortQuestion: "Tasks", query: "tyty"},
     ];
+
+    if (this.eventClearChat.subsVar==undefined) {
+      this.eventClearChat.subsVar = this.eventClearChat.invokeClearChat.subscribe(()=> {
+        this.emptyChat();
+      });
+    }
+
+    this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"))
+    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
+
   }
 
   // Incremental chat
@@ -136,6 +149,7 @@ export class ChatbotComponent implements OnInit {
 
   setCurrentChat(target){
     this.currentChat = this.chats.indexOf(target)+1;
+    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
 
   }
 
@@ -143,6 +157,7 @@ export class ChatbotComponent implements OnInit {
   setCurrentChatDef(){
     this.currentChat = 0;
     console.log(this.currentChat)
+    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
   }
   
   // Clic a un FAQ
@@ -168,9 +183,36 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  emptyChat(){
+    // console.log(this.chatLog)
+    
+    this.chatLog[this.currentChat] = {
+      chatNum: this.currentChat,
+      questions: [],
+      answers: []
+    }
+  }
 
+  storeFAQ(){
+    localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions))
+    console.log("Local Storage:",localStorage.frequentQuestions)
+  }
+
+  getFAQ(){
+    this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"))
+  }
+
+  storeChat(){
+    localStorage.setItem("chatLog", JSON.stringify(this.chatLog))
+    console.log("Local Storage:",localStorage.chatLog)
+  }
+
+  getChat(){
+    this.frequentQuestions = JSON.parse(localStorage.getItem("chatLog"))
+  }
 
   postCompletion(){
+    this.isTyping =true;
     
     this.messages.push({'role': 'user', 'content': `${this.query}`});
 
@@ -223,6 +265,7 @@ export class ChatbotComponent implements OnInit {
     // se imprime directamente en el chat sin procesarla
     } catch (error) {
       console.error(`Error parsing JSON on line '${this.commandQuery}': ${error}`);
+      this.isTyping = false;
       this.displayChat(query, this.commandQuery);
     } 
   }
@@ -242,6 +285,7 @@ export class ChatbotComponent implements OnInit {
 
         stringResult = parsingHandler.parseCalendarEventResponse(data);
         // Se despliega la respuesta en el chat
+        this.isTyping = false;
         this.displayChat(query, stringResult);
         return;
 
@@ -249,13 +293,15 @@ export class ChatbotComponent implements OnInit {
         
         stringResult = parsingHandler.parseEmailsResponse(data);
         // Se despliega la respuesta en el chat
+        this.isTyping = false;
         this.displayChat(query, stringResult);
         return;
 
       } else if(data.hasOwnProperty("attendees")) {
 
         const stringResult = 'Subject: ' + data.subject + ', Description: ' + data.bodyPreview + ', Date and Time: ' + data.start['dateTime'];
-        
+
+        this.isTyping = false;
         this.displayChat(query, stringResult);
         return;
 
@@ -283,6 +329,7 @@ export class ChatbotComponent implements OnInit {
         this.devopsService.getBatchWorkItems(workItemIDs).subscribe((dataWIB: any) => {
           stringResult = parsingHandler.processAndParseWIQLResponse(dataWIB);
           // Insertar en el chat
+          this.isTyping = false;
           this.displayChat(query, stringResult);
 
         });
@@ -292,6 +339,7 @@ export class ChatbotComponent implements OnInit {
         
         stringResult = parsingHandler.processSimpleWorkItemResponse(data);
         
+        this.isTyping = false;
         this.displayChat(query, stringResult);
 
         return;
@@ -300,12 +348,14 @@ export class ChatbotComponent implements OnInit {
 
         stringResult = parsingHandler.processActivitiesResponse(data);          
         // Insertar en el chat
+        this.isTyping = false;
         this.displayChat(query, stringResult);
         return;
 
       } else if (data.value[0].hasOwnProperty("directoryAlias")){
 
         stringResult = parsingHandler.processDevOpsMembers(data);
+        this.isTyping = false;
         this.displayChat(query,stringResult);
         return;
 
@@ -315,6 +365,7 @@ export class ChatbotComponent implements OnInit {
       console.log(stringResponse);
 
       // Se despliega en el chat el string obtenido
+      this.isTyping = false;
       this.displayChat(query, stringResponse);     
     });
 
@@ -326,8 +377,9 @@ export class ChatbotComponent implements OnInit {
       questions: [question],
       answers: [answer]
   });
+  this.storeChat();
   }
-
+  
 }
 
 

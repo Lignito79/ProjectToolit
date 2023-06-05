@@ -1,22 +1,23 @@
-#container{
+.screen{
 	width: 100%;
 	height: 100%;
 	background:#eff3f7;
-	margin:0 auto;
+	margin:0;
 	font-size:0;
 	border-radius:5px;
 	overflow:hidden;
 }
 
 aside{
-	width:15%;
-	height: 100%;
+	/* width:50vw; */
+	/* min-width: 195px;
+	height: 100%; */
 	background-color:#d7dade;
 	display:inline-block;
 	font-size:15px;
 	vertical-align:top;
 	/* border: 1px solid black; */
-	border-radius:5px;
+	border-radius:0 0 5px 0;
 }
 
 
@@ -81,37 +82,19 @@ aside li h3{
 	font-weight:normal;
 }
 
-.status{
-	width:8px;
-	height:8px;
-	border-radius:50%;
-	display:inline-block;
-	margin-right:7px;
-}
-.green{
-	background-color:#58b666;
-}
-.orange{
-	background-color:#ff725d;
-}
-.blue{
-	background-color:#ed776f;
-	margin-right:0;
-	margin-left:7px;
-}
-
-
 main{
 	width:83%;
-	min-height: 100%;
+	height: 100%;
 	display:inline-block;
 	font-size:15px;
 	vertical-align:top;
 }
 
 main header{
+	background-color: #7e818a;
 	height:30px;
 	padding:30px 20px 30px 40px;
+	border-radius: 0px 0 10px 10px;
 }
 main header > *{
 	display:inline-block;
@@ -144,8 +127,8 @@ main header h3{
 	list-style-type:none;
 	overflow-y:auto;
 	height:480px;
-	border-top:2px solid #fff;
-	border-bottom:2px solid #fff;
+	/* border-top:2px solid #fff;
+	border-bottom:2px solid #fff; */
     display: flex;
     /* justify-content: flex-end; */
     flex-direction: column;
@@ -213,21 +196,6 @@ main header h3{
 #chat .me .message{
 	background-color:#ed776f;
 } */
-#chat .triangle{
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 10px 10px 10px;
-    transform: rotate(180deg);
-}
-#chat .you .triangle{
-		border-color: transparent transparent #58b666 transparent;
-		margin-left:0.5%;
-}
-#chat .me .triangle{
-		border-color: transparent transparent #ed776f transparent;
-		margin-left:98.5%;
-}
 
 #FAQ {
 	width: 100%;
@@ -247,7 +215,8 @@ main header h3{
 #FAQ .button{
 	background-color: #3D5D6F;
 	color:#fff;
-	width: 150px;
+	width: 80%;
+	word-wrap: break-word;
 }
 
 #FAQ .button:hover{
@@ -256,7 +225,7 @@ main header h3{
 }
 
 #FAQ .button-edit{
-	width: 40px;
+	width: 10%;
 	background-color: #3D5D6F;
 	display: right;
 	color:#fff;
@@ -290,10 +259,9 @@ main header h3{
 	border-radius:20px;
 	word-wrap: break-word;
 	word-break: break-all;
-	white-space: normal;
 	/* inline-size: 90%; */
 	overflow-wrap: break-word;
-	margin: 10px 10px 10px 10px;
+	margin: 10px;
 }
 .mat-add{
 	height: 50px;
@@ -316,7 +284,7 @@ img.icon{
 	height: 20px;
 }
 
-/* img.profile{
+img.profile{
 	position: absolute;
 	border-radius: 50%;
 	top: 50%;
@@ -325,4 +293,4 @@ img.icon{
 	transform: translate(-50%, -50%);
 	width: 45px;
 	height: 45px;
-} */
+}

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ManageFaqService } from './manage-faq.service';
+import { ClearChatService } from './clear-chat.service';
 
-describe('ManageFaqService', () => {
-  let service: ManageFaqService;
+describe('ClearChatService', () => {
+  let service: ClearChatService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ManageFaqService);
+    service = TestBed.inject(ClearChatService);
   });
 
   it('should be created', () => {

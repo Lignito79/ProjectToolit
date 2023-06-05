@@ -1,5 +1,5 @@
-<div id="container">
-  <aside>
+<div class="screen" class="row g-0">
+  <aside class="col-3 col-md-3 col-lg-2 col-xl-2">
     <h1>CHATS</h1>
     <ul>
       <li (click)="setCurrentChatDef()">
@@ -46,7 +46,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="frequentQuestionEdit()"
+                    <button type="button" class="btn btn-primary" (click)="frequentQuestionEdit(); storeFAQ()" 
                       data-bs-dismiss="modal">Save</button>
                   </div>
               </form>
@@ -58,10 +58,23 @@
       <!-- (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}} -->
     </div>
     <div>
-      <app-dropdown-menu></app-dropdown-menu>
+      <!-- drop up -->
+      <div class="dropup">
+        <a style="padding: 25px;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
+      </a>
+        <div class="dropdown-menu" aria-labelledby="triggerId">
+            <a class="dropdown-item" routerLink="/home">Home</a>
+            <a class="dropdown-item" routerLink="/profile">Profile</a>
+            <a class="dropdown-item" routerLink="/profile">Terms and Conditions</a>
+            <a class="dropdown-item" (click)="emptyChat();storeChat()">Clear chat</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/profile">Log Out</a>
+        </div>
+    </div>
     </div>
   </aside>
-  <main>
+  <main class="col">
     <header style="padding-bottom: 60px;">
       <img
         src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
@@ -104,12 +117,22 @@
           </li>
         </div>
       </div>
+      <!-- <li>
+        <div class="message" *ngIf="isTyping">
+          <div class="inChatIMG">
+            <img class="chatIMG"
+              src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
+              alt="">
+          </div>
+          ...
+        </div>
+        </li> -->
     </ul>
 
-    <div>
+    <div style="flex-wrap: nowrap;">
       <form>
         <input id="textfield" type="text" name="query" placeholder="Enter a message" [(ngModel)]="query" />
-        <a (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon"
+        <a style="bottom: 5px;" (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon"
             src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
       </form>
     </div>

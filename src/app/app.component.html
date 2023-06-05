@@ -1,4 +1,4 @@
-<div class="container">
+
 <mat-toolbar color="warn">
   <a class="title" href="/"[routerLink]="['home']">{{ title }}</a>
 
@@ -11,6 +11,7 @@
   <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
 
 </mat-toolbar>
+<div class="screen">
 
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
   <router-outlet *ngIf="!isIframe"></router-outlet>

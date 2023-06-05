@@ -13,9 +13,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor } from '@azure/msal-angular'; // Import MsalInterceptor
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { ChatbotComponent } from './chatbot/chatbot.component';
-import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
+
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ReactiveFormsModule} from '@angular/forms';
+import { ClearChatService } from './clear-chat.service';
+
 
 
 
@@ -26,8 +28,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    ChatbotComponent,
-    DropdownMenuComponent
+    ChatbotComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +70,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       multi: true
     },
     MsalGuard,
-    ChatbotComponent
+    ChatbotComponent,
+    ClearChatService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
