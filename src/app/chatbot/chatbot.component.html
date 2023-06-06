@@ -59,15 +59,15 @@
     </div>
     <div>
       <!-- drop up -->
-      <div class="dropup">
-        <a style="padding: 25px;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+      <div class="dropup" style="align-items: center;display: flex;justify-content: center;">
+        <a style="padding: 25px;align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
             <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
       </a>
-        <div class="dropdown-menu" aria-labelledby="triggerId">
+        <div class="dropdown-menu" aria-labelledby="triggerId" >
             <a class="dropdown-item" routerLink="/home">Home</a>
             <a class="dropdown-item" routerLink="/profile">Profile</a>
             <a class="dropdown-item" routerLink="/profile">Terms and Conditions</a>
-            <a class="dropdown-item" (click)="emptyChat();storeChat()">Clear chat</a>
+            <a class="dropdown-item" (click)="emptyChat();">Clear chat</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" routerLink="/profile">Log Out</a>
         </div>
@@ -77,10 +77,13 @@
   <main class="col">
     <header style="padding-bottom: 60px;">
       <img
-        src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
+        src="../assets/toolit.png"
         alt="" width="55px" height="55px">
-      <div>
-        <h2>Chat {{currentChat+1}} Header</h2>
+      <div class="">
+        <h2>Chat {{currentChat+1}} Bot</h2>
+      </div>
+      <div class="" *ngIf="isTyping">
+        is typing...
       </div>
     </header>
     <ul id="chat">
@@ -88,8 +91,9 @@
         <div class="message">
           <div class="inChatIMG">
             <img class="chatIMG"
-              src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
+              src="../assets/toolit.png"
               alt="">
+              <!-- https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg -->
           </div>
           Hello! How can I help you?
         </div>
@@ -109,7 +113,7 @@
             <div class="message" *ngIf="element.chatNum == this.currentChat">
               <div class="inChatIMG">
                 <img class="chatIMG"
-                  src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
+                  src="../assets/toolit.png"
                   alt="">
               </div>
               {{element.answers[i]}}
@@ -131,7 +135,7 @@
 
     <div style="flex-wrap: nowrap;">
       <form>
-        <input id="textfield" type="text" name="query" placeholder="Enter a message" [(ngModel)]="query" />
+        <input id="textfield" type="text" name="query" placeholder="Enter a message" [(ngModel)]="query"/>
         <a style="bottom: 5px;" (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon"
             src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
       </form>

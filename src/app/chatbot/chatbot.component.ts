@@ -137,7 +137,7 @@ export class ChatbotComponent implements OnInit {
     }
 
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"))
-    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
+    // this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
 
   }
 
@@ -202,14 +202,14 @@ export class ChatbotComponent implements OnInit {
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"))
   }
 
-  storeChat(){
-    localStorage.setItem("chatLog", JSON.stringify(this.chatLog))
-    console.log("Local Storage:",localStorage.chatLog)
-  }
+  // storeChat(){
+  //   localStorage.setItem("chatLog", JSON.stringify(this.chatLog))
+  //   console.log("Local Storage:",localStorage.chatLog)
+  // }
 
-  getChat(){
-    this.frequentQuestions = JSON.parse(localStorage.getItem("chatLog"))
-  }
+  // getChat(){
+  //   this.frequentQuestions = JSON.parse(localStorage.getItem("chatLog"))
+  // }
 
   postCompletion(){
     this.isTyping =true;
@@ -377,7 +377,7 @@ export class ChatbotComponent implements OnInit {
       questions: [question],
       answers: [answer]
   });
-  this.storeChat();
+  // this.storeChat();
   }
   
 }

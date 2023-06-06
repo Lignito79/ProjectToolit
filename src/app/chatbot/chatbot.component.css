@@ -33,7 +33,7 @@ aside ul{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:238px;
+	height:40vh;
 
 }
 aside li{
@@ -92,7 +92,7 @@ main{
 
 main header{
 	background-color: #7e818a;
-	height:30px;
+	height:8vh;
 	padding:30px 20px 30px 40px;
 	border-radius: 0px 0 10px 10px;
 }
@@ -126,7 +126,7 @@ main header h3{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:480px;
+	height:80vh;
 	/* border-top:2px solid #fff;
 	border-bottom:2px solid #fff; */
     display: flex;
@@ -201,7 +201,7 @@ main header h3{
 	width: 100%;
 	float: center;
 	text-align: center;
-	height:238px;
+	height:40vh;
 }
 
 #FAQ .faq-group{
@@ -252,17 +252,25 @@ main header h3{
 
 #textfield{
 	width: 85%;
-	min-height: 50px;
+	height: 5vh;
 	padding:0 50px 0 20px;
 	background-color:white;
 	border: 1px,solid,black;
 	border-radius:20px;
-	word-wrap: break-word;
-	word-break: break-all;
+	/* word-wrap: break-word;
+	word-break: break-all; */
 	/* inline-size: 90%; */
-	overflow-wrap: break-word;
+	overflow-wrap: normal;
+	overflow-y: scroll;
 	margin: 10px;
+	vertical-align: middle;
 }
+
+.textfield::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
 .mat-add{
 	height: 50px;
 	width: 50px;
