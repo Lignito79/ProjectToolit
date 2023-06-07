@@ -123,6 +123,7 @@ export class ChatbotComponent implements OnInit {
       // { chatNum: 0, questions: [], answers: [] }
     ];
 
+    
     this.frequentQuestions = [
       // "query" es el target
       { shortQuestion: "Dress Code", query: "asdf"},
@@ -130,11 +131,11 @@ export class ChatbotComponent implements OnInit {
       { shortQuestion: "Tasks", query: "tyty"},
     ];
 
-    if (this.eventClearChat.subsVar==undefined) {
-      this.eventClearChat.subsVar = this.eventClearChat.invokeClearChat.subscribe(()=> {
-        this.emptyChat();
-      });
-    }
+    // if (this.eventClearChat.subsVar==undefined) {
+    //   this.eventClearChat.subsVar = this.eventClearChat.invokeClearChat.subscribe(()=> {
+    //     this.emptyChat();
+    //   });
+    // }
 
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"))
     // this.chatLog = JSON.parse(localStorage.getItem("chatLog"))

@@ -94,10 +94,10 @@ main header{
 	background-color: #7e818a;
 	height:8vh;
 	padding:30px 20px 30px 40px;
-	border-radius: 0px 0 10px 10px;
+	/* border-radius: 0px 0 10px 10px; */
 }
 main header > *{
-	display:inline-block;
+	/* display:inline-block; */
 	vertical-align:top;
 }
 main header img:first-child{

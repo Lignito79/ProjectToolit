@@ -1,5 +1,21 @@
 <div class="screen" class="row g-0">
   <aside class="col-3 col-md-3 col-lg-2 col-xl-2">
+    <div>
+      <!-- drop up -->
+      <div class="dropup" style="align-items: center;display: flex;justify-content: center; padding: 20px;">
+        <a style="padding: 25px;align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
+      </a>
+        <div class="dropdown-menu" aria-labelledby="triggerId" >
+            <!-- <a class="dropdown-item" routerLink="/home">Home</a> -->
+            <a class="dropdown-item" routerLink="/profile">Profile</a>
+            <a class="dropdown-item" routerLink="/profile">Terms and Conditions</a>
+            <a class="dropdown-item" (click)="emptyChat();">Clear chat</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/profile">Log Out</a>
+        </div>
+    </div>
+    </div>
     <h1>CHATS</h1>
     <ul>
       <li (click)="setCurrentChatDef()">
@@ -57,33 +73,16 @@
       </div>
       <!-- (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}} -->
     </div>
-    <div>
-      <!-- drop up -->
-      <div class="dropup" style="align-items: center;display: flex;justify-content: center;">
-        <a style="padding: 25px;align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-            <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
-      </a>
-        <div class="dropdown-menu" aria-labelledby="triggerId" >
-            <a class="dropdown-item" routerLink="/home">Home</a>
-            <a class="dropdown-item" routerLink="/profile">Profile</a>
-            <a class="dropdown-item" routerLink="/profile">Terms and Conditions</a>
-            <a class="dropdown-item" (click)="emptyChat();">Clear chat</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" routerLink="/profile">Log Out</a>
-        </div>
-    </div>
-    </div>
+
   </aside>
   <main class="col">
     <header style="padding-bottom: 60px;">
       <img
         src="../assets/toolit.png"
         alt="" width="55px" height="55px">
-      <div class="">
+      <div class="" style="display: inline-block;">
         <h2>Chat {{currentChat+1}} Bot</h2>
-      </div>
-      <div class="" *ngIf="isTyping">
-        is typing...
+        <small *ngIf="isTyping">Is typing... </small>
       </div>
     </header>
     <ul id="chat">
