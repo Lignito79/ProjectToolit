@@ -49,26 +49,26 @@ export class ChatbotComponent implements OnInit {
     the user based on the queries provided. \
     DO NOT APOLOGIZE IF I ALREADY ASKED YOU THE SAME THING\
     Important: It does not matter if I already asked you the same question, just answer it like you already did. No need to apologize'},
-    {'role': 'user', 'content': 'Give me all the work items from my Azure DevOps project called "MultiAgentesTC3004B.103"'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}'},
-    {'role': 'user', 'content': 'Could you give me the work item with an ID of 12, from the project "MultiAgentesTC3004B.103"?'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0", "body": []}'},
+    {'role': 'user', 'content': 'Give me all the work items from my Azure DevOps project called "toolitDevelopment"'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}'},
+    {'role': 'user', 'content': 'Could you give me the work item with an ID of 12, from the project "toolitDevelopment"?'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/12?api-version=7.0", "body": []}'},
     {'role': 'user', 'content': 'What are the company\'s policies regarding remote work?'},
     {'role': 'assistant', 'content': 'The company has a flexible remote work policy. Employees can work remotely up to two days per week with manager approval. However, for certain roles that require on-site presence, remote work options may be limited.'},
-    {'role': 'user', 'content': 'Give me the work item from my Azure DevOps project with an ID of 47 from the project "MultiAgentesTC3004B.103"'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0", "body": []}'},
+    {'role': 'user', 'content': 'Give me the work item from my Azure DevOps project with an ID of 47 from the project "toolitDevelopment"'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/47?api-version=7.0", "body": []}'},
     {'role': 'user', 'content': 'Give me a list of all teams from my Azure DevOps organization'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3", "body": []}'},
-    {'role': 'user', 'content': 'Give me the recent work item activities from the Azure DevOps project "MultiAgentesTC3004B.103"'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}'},
-    {'role': 'user', 'content': 'Give me all the tasks from the project "MultiAgentesTC3004B.103" in a descending order'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] desc"}]}'},
-    {'role': 'user', 'content': 'Give me all the tasks from the project "MultiAgentesTC3004B.103" in a ascending order'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] asc"}]}'},
-    {'role': 'user', 'content': 'Create a new user story called "As a user I want to login" in the project "MultiAgentesTC3004B.103"'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}'},
-    {'role': 'user', 'content': 'Give me the recent work item activities from the project "MultiAgentesTC3004B.103"'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/teams?api-version=7.0-preview.3", "body": []}'},
+    {'role': 'user', 'content': 'Give me the recent work item activities from the Azure DevOps project "toolitDevelopment"'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}'},
+    {'role': 'user', 'content': 'Give me all the tasks from the project "toolitDevelopment" in a descending order'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] desc"}]}'},
+    {'role': 'user', 'content': 'Give me all the tasks from the project "toolitDevelopment" in an ascending order'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = \'Task\' order by [System.CreatedDate] asc"}]}'},
+    {'role': 'user', 'content': 'Create a new user story called "As a user I want to login" in the project "toolitDevelopment"'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}'},
+    {'role': 'user', 'content': 'Give me the recent work item activities from the project "toolitDevelopment"'},
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/ToolitOrg/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}'},
     {'role': 'user', 'content': 'Get me all my calendar events'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/events", "body": []}'},
     {'role': 'user', 'content': 'Get me all my calendar events from today'},
@@ -83,15 +83,15 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "1","timeZone": "America/Mexico_City"},"end": {"dateTime": "1","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
     {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for 24/06/23'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
-    {'role': 'user', 'content': 'Can you give me all work items from the "prueba1" project?'}, 
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}'}, 
-    {'role': 'user', 'content': 'Give me all members of the "multiAgentes" organization'}, 
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", "body": []}'}, 
+    {'role': 'user', 'content': 'Can you give me all work items from the "toolitProject2" project?'}, 
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitProject2/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}'}, 
+    {'role': 'user', 'content': 'Give me all members of the "ToolitOrg" organization'}, 
+    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/ToolitOrg/_apis/graph/users?api-version=7.0-preview.1", "body": []}'}, 
     {'role': 'user', 'content': 'Can you delete a work item?'}, 
     {'role': 'assistant', 'content': 'Apologies, I am not able to delete work items or any other form of data from any service'}, 
     {'role': 'user', 'content': 'Can you delete a calendar event?'}, 
     {'role': 'assistant', 'content': 'Apologies, I am not able to delete calendar events or any other form of data from any service'}, 
-    {'role': 'user', 'content': 'Can you delete the work item with an ID of 131 from the project called "MultiAgentesTC3004B.103"?'}, 
+    {'role': 'user', 'content': 'Can you delete the work item with an ID of 131 from the project called "toolitDevelopment"?'}, 
     {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'},
     {'role': 'user', 'content': 'Can you give me the calendar events of the user with an email of a01284202@tec.mx on the date 2023/06/17 between 9 and 22 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/users/a01284202@tec.mx/calendar/calendarView?startDateTime=2023-05-26T09:00:00&endDateTime=2023-05-26T22:00:00", "body": []}'},
@@ -109,8 +109,8 @@ export class ChatbotComponent implements OnInit {
     
     {'role': 'user', 'content': 'Could you edit a work item?'},
     {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but I can give you a link for you to do it directly'},
-    {'role': 'user', 'content': 'Help me edit the work item with an ID of 219 from the Azure DevOps project called "MultiAgentesTC3004B.103" from the organization "multiAgentes"'},
-    {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but here is a link for you to do it directly: https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_workitems/edit/219'},
+    {'role': 'user', 'content': 'Help me edit the work item with an ID of 219 from the Azure DevOps project called "toolitDevelopment" from the organization "ToolitOrg"'},
+    {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but here is a link for you to do it directly: https://dev.azure.com/ToolitOrg/toolitDevelopment/_workitems/edit/219'},
     {'role': 'user', 'content': 'Help me edit my calendar events from today'},
     {'role': 'assistant', 'content': 'I can\'t edit a calendar event or any other item from Outlook or other services, but I can fetch information from your calendar events. Ask me to get calendar events from any date, and I\'ll give you their information, including a link for you to access those items and edit them directly'},
   ];
@@ -395,32 +395,32 @@ export class ChatbotComponent implements OnInit {
     Q:Can you explain the company's retirement plan and how I can enroll or change my contributions?
     A:The company offers a 401(k) retirement plan to eligible employees. Employees can enroll in the plan by completing the enrollment form and submitting it to the Human Resources department. Employees can also change their contribution amounts at any time by submitting a new form. The company matches employee contributions up to a certain percentage.
     
-    Q:Give me all the work items from my Azure DevOps project called "MultiAgentesTC3004B.103"
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}
+    Q:Give me all the work items from my Azure DevOps project called "toolitDevelopment"
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}
     
-    Q:Could you give me the work item with an ID of 12, from the project "MultiAgentesTC3004B.103"?
-    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/12?api-version=7.0", "body": []}
+    Q:Could you give me the work item with an ID of 12, from the project "toolitDevelopment"?
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/12?api-version=7.0", "body": []}
     
-    Q:Give me the work item from my Azure DevOps project with an ID of 47 from the project "MultiAgentesTC3004B.103"
-    A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/47?api-version=7.0", "body": []}
+    Q:Give me the work item from my Azure DevOps project with an ID of 47 from the project "toolitDevelopment"
+    A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/47?api-version=7.0", "body": []}
     
     Q:Give me a list of all teams from my Azure DevOps organization
-    A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/teams?api-version=7.0-preview.3", "body": []}
+    A: {"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/teams?api-version=7.0-preview.3", "body": []}
     
-    Q:Give me the recent work item activities from the Azure DevOps project "MultiAgentesTC3004B.103"
-    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}
+    Q:Give me the recent work item activities from the Azure DevOps project "toolitDevelopment"
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}
     
-    Q:Give me all the tasks from the project "MultiAgentesTC3004B.103" in a descending  order
-    A:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"}]}
+    Q:Give me all the tasks from the project "toolitDevelopment" in a descending  order
+    A:{"service": "DevOps", "type": "POST"", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] desc"}]}
     
-    Q:Give me all the tasks from the project "MultiAgentesTC3004B.103" in an ascending order
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"}]}
+    Q:Give me all the tasks from the project "toolitDevelopment" in an ascending order
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=7.0", "body": [{"query": "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' order by [System.CreatedDate] asc"}]}
     
-    Q:Create a new user story called "As a user I want to login" in the project "MultiAgentesTC3004B.103"
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/multiAgentes/MultiAgentesTC3004B.103/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}
+    Q:Create a new user story called "As a user I want to login" in the project "toolitDevelopment"
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json-patch+json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/$User Story?api-version=7.0", "body": [[{"op":"add","path":"/fields/System.Title","from":null,"value":"As a user I want to login"}]]}
     
-    Q:Give me the recent work item activities from the project "MultiAgentesTC3004B.103"
-    A:{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/multiAgentes/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}
+    Q:Give me the recent work item activities from the project "toolitDevelopment"
+    A:{"service": "DevOps", "type": "GET", "link": "https://dev.azure.com/ToolitOrg/_apis/work/accountmyworkrecentactivity?api-version=7.0", "body": []}
     
     Q:Get me all my calendar events
     A:{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/events", "body": []}
@@ -446,11 +446,11 @@ export class ChatbotComponent implements OnInit {
     Q:Can you create a calendar appointment called "Event Test" with A00832436@tec.mx for 24/06/23?
     A:{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "end": {"dateTime": "2023-06-24T12:00:00", "timeZone": "America/Mexico_City"}, "attendees": [{"emailAddress": {"address": "A00832436@tec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}
     
-    Q:Can you give me all work items from the "prueba1" project?
-    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/multiAgentes/prueba1/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
+    Q:Can you give me all work items from the "toolitProject2" project?
+    A:{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitProject2/_apis/wit/wiql?api-version=6.0", "body": [["query","SELECT [System.Title] from WorkItems"]]}
     
-    Q:Give me all members of the "multiAgentes" organization
-    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", "body": []}
+    Q:Give me all members of the "ToolitOrg" organization
+    A:{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://vssps.dev.azure.com/ToolitOrg/_apis/graph/users?api-version=7.0-preview.1", "body": []}
     
     Q:Can you delete a work item?
     A:Apologies, I am not able to delete work items or any other form of data from any service
@@ -458,7 +458,7 @@ export class ChatbotComponent implements OnInit {
     Q:Can you delete a calendar event?
     A:Apologies, I am not able to delete calendar events or any other form of data from any service
     
-    Q:Can you delete the work item with an ID of 131 from the project called "MultiAgentesTC3004B.103"?
+    Q:Can you delete the work item with an ID of 131 from the project called "toolitDevelopment"?
     A:Apologies, I am not able to delete work items or any other form of data from any service`;
     */
     /*

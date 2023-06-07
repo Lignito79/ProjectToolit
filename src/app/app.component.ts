@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
       'Authorization': 'Basic ' + Buffer.from(':' + process.env['NG_APP_TOK']).toString('base64')
     });
 
-    this.http.get("https://vssps.dev.azure.com/multiAgentes/_apis/graph/users?api-version=7.0-preview.1", { headers: header }).subscribe((data: any) => {
+    this.http.get("https://vssps.dev.azure.com/ToolitOrg/_apis/graph/users?api-version=7.0-preview.1", { headers: header }).subscribe((data: any) => {
       const mailAddressToCheck = this.authService.instance.getAllAccounts()[0].username;
 
       const isDisplayNamePresent = data.value.some(member => member.mailAddress === mailAddressToCheck);
