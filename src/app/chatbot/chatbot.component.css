@@ -11,12 +11,13 @@ aside{
 	/* width:50vw; */
 	/* min-width: 195px; */
 	height: 80%;
-	width: 10%;
-	background-color:#d7dade;
+	width: 17%;
+	background-color: hsl(218, 57%, 97%);
 	display:flex;
 	font-size:15px;
 	vertical-align:top;
 	/* border: 1px solid black; */
+	box-shadow: 2px 5px  hsl(218, 57%, 97%);
 	border-radius:0 0 5px 0;
 	align-content: center;
 	justify-content: center;
@@ -26,7 +27,7 @@ aside{
 
 aside header{
 	padding:30px 20px;
-	height: 8vh;
+	height: 10vh;
 	vertical-align: top;
 }
 
@@ -38,7 +39,7 @@ aside ul{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:45vh;
+	height:44vh;
 	overflow-anchor: auto;
 
 }
@@ -102,11 +103,10 @@ main{
 }
 
 main header{
-	background-color: #7e818a;
-	height:8vh;
-	padding:30px 20px;
-
-	/* border-radius: 0px 0 10px 10px; */
+	background-color:  hsl(218, 57%, 97%);
+	height:10vh;
+	padding:10px 20px;
+	box-shadow: 2px 5px hsl(218, 57%, 97%);
 }
 main header > *{
 	/* display:inline-block; */
@@ -140,7 +140,7 @@ main header h3{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:79vh;
+	height:77vh;
 	/* border-top:2px solid #fff;
 	border-bottom:2px solid #fff; */
     display: flex;
@@ -157,7 +157,7 @@ main header h3{
 	font-weight:normal;
 }
 #chat h3{
-	color:#bbb;
+	color:#D8DBE7;
 }
 
 #chat .message{
@@ -195,7 +195,7 @@ main header h3{
 
 #chat .me{
 	/* text-align:right; */
-	background-color:lightgray;
+	background-color: hsl(218, 57%, 97%);
 
 	
 }
@@ -290,7 +290,7 @@ main header h3{
 .mat-add{
 	height: 50px;
 	width: 50px;
-	background-color: #B79967;
+	background-color: #F4AC45;
 }
 .mat-send{
 	height: 50px;

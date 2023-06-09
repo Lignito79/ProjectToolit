@@ -14,6 +14,10 @@ interface chatHistory {
   answers: string[];
 }
 
+interface ChatConversations {
+  messages: Message[];
+}
+
 interface frequentQuestion {
   shortQuestion: string;
   query: string;
@@ -48,6 +52,7 @@ export class ChatbotComponent implements OnInit {
   chatLog: chatHistory[];
   isTyping = false;
   public frequentQuestions : frequentQuestion[];
+  public conversations: ChatConversations[];
   
   public messages: Message[] = [
     {'role': 'system', 'content': 'You are a conversational chatbot assistant called Toolit. \
@@ -184,6 +189,8 @@ export class ChatbotComponent implements OnInit {
       shortQuestion: sQuestionValue,
       query: lQuestionValue
     }
+    sQuestion.value = '';
+    lQuestion.value = '';
   }
 
   emptyChat(){

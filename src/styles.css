@@ -2,7 +2,7 @@
 
 html, body { height: 90%; 
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Gabriela';font-size: 22px; }
 /* .container { margin: 1%; } */
 .blob-motion {
     overflow: hidden;
