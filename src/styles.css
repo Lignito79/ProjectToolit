@@ -1,5 +1,17 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-html, body { height: 100%; }
+html, body { height: 90%; 
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* .container { margin: 1%; } */
+.blob-motion {
+    overflow: hidden;
+    position: absolute;
+    transform: translateY(-95%);
+    height: 120vh;
+    z-index: -100;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

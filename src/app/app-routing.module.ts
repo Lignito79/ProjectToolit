@@ -9,19 +9,31 @@ import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {
+    path: '',
+    component: HomeComponent,
+    pathMatch:'full'
+
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [MsalGuard],
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'chatbot',
     component: ChatbotComponent,
     canActivate: [MsalGuard],
-  }
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch:'full'
+
+  },
 ];
 
 const isIframe = window !== window.parent && !window.opener;
@@ -30,6 +42,7 @@ const isIframe = window !== window.parent && !window.opener;
   imports: [RouterModule.forRoot(routes, {
     // Don't perform initial navigation in iframes or popups
    initialNavigation: !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup() ? 'enabledNonBlocking' : 'disabled' // Set to enabledBlocking to use Angular Universal
+  
   })],
   exports: [RouterModule]
 })

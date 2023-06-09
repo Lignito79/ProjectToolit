@@ -6,6 +6,7 @@ import { parsingHandler } from './parsingHandler';
 import { Message } from './Message';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClearChatService } from '../clear-chat.service';
+import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
 
 interface chatHistory {
   chatNum: number;
@@ -30,7 +31,8 @@ export class ChatbotComponent implements OnInit {
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
     private graphService: GraphApiService,
-    private eventClearChat: ClearChatService
+    private eventClearChat: ClearChatService,
+    private authService: MsalService
   ) { }
 
   result : string = "";
@@ -150,7 +152,7 @@ export class ChatbotComponent implements OnInit {
 
   setCurrentChat(target){
     this.currentChat = this.chats.indexOf(target)+1;
-    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
+    // this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
 
   }
 
@@ -158,7 +160,7 @@ export class ChatbotComponent implements OnInit {
   setCurrentChatDef(){
     this.currentChat = 0;
     console.log(this.currentChat)
-    this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
+    // this.chatLog = JSON.parse(localStorage.getItem("chatLog"))
   }
   
   // Clic a un FAQ
@@ -211,6 +213,12 @@ export class ChatbotComponent implements OnInit {
   // getChat(){
   //   this.frequentQuestions = JSON.parse(localStorage.getItem("chatLog"))
   // }
+
+  logout() { // Add log out function here
+    this.authService.logoutRedirect({
+      postLogoutRedirectUri: 'http://localhost:4200'
+    });
+  }
 
   postCompletion(){
     this.isTyping =true;
@@ -373,6 +381,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   displayChat( question, answer){
+    this.query = '';
     this.chatLog.push({
       chatNum: this.currentChat,
       questions: [question],

@@ -5,11 +5,10 @@
     <p><strong>Id: </strong> {{profile?.id}}</p>
     <input type="button" value="Get Calendar" (click)="getCalendar()" />
 </div> -->
-
-<div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> 
+<div class="screen">
     <div class="card p-4"> 
         <div class=" image d-flex flex-column justify-content-center align-items-center"> 
-            <button class="btn btn-secondary"> 
+            <button class="btn btn-secondary" style="cursor: default;"> 
                 <img src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg" height="120" width="120" style="border-radius: 50%;"/></button> 
                 <span class="name mt-3">{{profile?.givenName}} {{profile?.surname}}</span>
                 <div class="text mt-3"> <span>{{profile?.userPrincipalName}}</span> 

@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { InteractionStatus, RedirectRequest } from '@azure/msal-browser';
-import { Subject } from 'rxjs';
+import { Subject, from } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { GeneralSecurity } from '../generalSecurity';
 import { Buffer } from "buffer";
+
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ import { Buffer } from "buffer";
 
 
 export class HomeComponent implements OnInit, OnDestroy {
+
   title = 'Toolit';
   isIframe = false;
   loginDisplay = false;

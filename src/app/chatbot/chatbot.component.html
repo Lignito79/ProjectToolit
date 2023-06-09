@@ -1,23 +1,23 @@
-<div class="screen" class="row g-0">
+<div class="row g-0 center screen">
   <aside class="col-3 col-md-3 col-lg-2 col-xl-2">
     <div>
       <!-- drop up -->
-      <div class="dropup" style="align-items: center;display: flex;justify-content: center; padding: 20px;">
-        <a style="padding: 25px;align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+      <div class="dropup" style="align-items: center;display: flex;justify-content: center; height: 8vh; background-color: #7e818a;">
+        <a style="align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
             <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
       </a>
         <div class="dropdown-menu" aria-labelledby="triggerId" >
             <!-- <a class="dropdown-item" routerLink="/home">Home</a> -->
-            <a class="dropdown-item" routerLink="/profile">Profile</a>
-            <a class="dropdown-item" routerLink="/profile">Terms and Conditions</a>
-            <a class="dropdown-item" (click)="emptyChat();">Clear chat</a>
+            <a class="dropdown-item" routerLink="/profile"><i class="bi bi-person-square" style="margin-right: 5px;"></i>Profile</a>
+            <a class="dropdown-item" routerLink="/profile"><i class="bi bi-pencil-square" style="margin-right: 5px;"></i>Terms and Conditions</a>
+            <a class="dropdown-item" (click)="emptyChat();" style="cursor: pointer;"><i class="bi bi-trash" style="margin-right: 5px;"></i>Clear chat</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" routerLink="/profile">Log Out</a>
+            <a class="dropdown-item" routerLink="/home" (click)="logout()"><i class="bi bi-box-arrow-right" style="margin-right: 5px;"></i>Log Out</a>
         </div>
     </div>
     </div>
-    <h1>CHATS</h1>
     <ul>
+      <h1>CHATS</h1>
       <li (click)="setCurrentChatDef()">
         <!-- <img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px"> -->
         <h2>CHAT 1</h2>
@@ -29,8 +29,9 @@
       <a (click)="incChat()" mat-fab svgIcon="plus" style="display: block; margin: 0 auto;" color="add"><img
           class="icon" src="https://img.uxwing.com/wp-content/themes/uxwing/download/user-interface/plus-icon.png"></a>
     </ul>
-    <h1>FAQs</h1>
+    
     <div id="FAQ">
+      <h1>FAQs</h1>
       <div class="btn-group faq-group" *ngFor="let faq of frequentQuestions; let i=index">
         <button type="button" class="btn button" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</button>
         <button type="button" class="btn button button-edit" data-bs-toggle="modal" data-bs-target="#modalId"
@@ -76,7 +77,7 @@
 
   </aside>
   <main class="col">
-    <header style="padding-bottom: 60px;">
+    <header class="align-middle">
       <img
         src="../assets/toolit.png"
         alt="" width="55px" height="55px">
