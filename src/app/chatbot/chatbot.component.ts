@@ -257,28 +257,25 @@ export class ChatbotComponent implements OnInit {
       console.log(data);
       let stringResult = "";
 
-      // Si lo obtenido tiene una propiedad llamada "value", entonces la respuesta es procesada considerando que lo que obtuvimos es una
-      // lista de eventos del calendario del usuario
-
+      // Si lo obtenido tiene una propiedad llamada "value"
       if (data.hasOwnProperty("value")) {
-        
-        if (typeof data.value !== "undefined"){
-          this.displayChat(query,"Sorry, I could not find the calendar entries");
-          return;
-        } else if (data.value[0].hasOwnProperty("attendees")){
-          stringResult = ParsingHandler.parseCalendarEventResponse(data);
-          // Se despliega la respuesta en el chat
-          this.displayChat(query, stringResult);
+        if (data.value.length > 0 && typeof data.value[0] !== 'undefined'){
+            if (data.value[0].hasOwnProperty("attendees")){
+              stringResult = ParsingHandler.parseCalendarEventResponse(data);
+              // Se despliega la respuesta en el chat
+              this.displayChat(query, stringResult);
+              return;
+            } else if(data.value[1].hasOwnProperty("sender")){
+              stringResult = ParsingHandler.parseEmailsResponse(data);
+              // Se despliega la respuesta en el chat
+              this.displayChat(query, stringResult);
+              return;
+            }
+        } else {
+          this.displayChat(query, "Sorry, I was not able to find the information you want");
           return;
         }
-
-      } else if(data.hasOwnProperty("value") && data.value[1].hasOwnProperty("sender")){
         
-        stringResult = ParsingHandler.parseEmailsResponse(data);
-        // Se despliega la respuesta en el chat
-        this.displayChat(query, stringResult);
-        return;
-
       } else if(data.hasOwnProperty("attendees")) {
 
         stringResult = '📂 Subject: ' + data.subject + '\n📝 Description: ' + data.bodyPreview + '\n📅 Date and Time: ' + data.start['dateTime'];
