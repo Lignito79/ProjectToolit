@@ -11,9 +11,23 @@ import { ChatbotComponent } from './chatbot.component';
   providedIn: 'root'
 })
 
-export abstract class parsingHandler {
+export abstract class ParsingHandler {
 
     static devopsService: AzureDevopsAPIService;
+
+    static parseResponse(commandQuery: string, query) {
+      let parsedResponse;
+      try {
+        parsedResponse = JSON.parse(commandQuery);
+        console.log(parsedResponse);
+      // Si hay un error parseando la respuesta del bot, significa que no regresó un JSON y por lo tanto
+      // se imprime directamente en el chat sin procesarla
+      } catch (error) {
+        return null;
+      }
+      console.log(commandQuery);
+      return parsedResponse;
+    }
     
     //
     static parseCalendarEventResponse(data): string{
@@ -58,7 +72,7 @@ export abstract class parsingHandler {
         // Hacer for que recorre los workitems y los almacena en un string bonito :)
         data.value.forEach(function (item) {
             const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.fields['System.Title'] + '\n🔲 Work item type: ' 
-            + item.fields['System.WorkItemType'] + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + item.id + '\n';
+            + item.fields['System.WorkItemType'] + '\n🔗 Link: ' + requestLink + "/_workitems/edit/" + item.id + '\n';
             stringResult = stringResult + eachResultString + '-----------------------------------------------------\n';
         });
 
@@ -70,7 +84,7 @@ export abstract class parsingHandler {
       let stringResult: string = '';
 
       stringResult = "🆔 ID: " + data.id + "\n📂 Title: " + data.fields['System.Title'] + "\n🔲 Work item type: " + data.fields['System.WorkItemType'] + 
-      "\nCreated By: " + data.fields['System.CreatedBy'].displayName + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + data.id;
+      "\nCreated By: " + data.fields['System.CreatedBy'].displayName + '\n🔗 Link: ' + requestLink + "/_workitems/edit/" + data.id;
 
       return stringResult;
     }
@@ -83,7 +97,7 @@ export abstract class parsingHandler {
         data.value.forEach(function (item) {
           if(item.activityType != "visited"){
             const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.title + '\n🔲 Work item type: ' + item.workItemType + 
-            '\n🔳 Activity Type: ' + item.activityType + '\n📅 Activity Date: ' + item.activityDate + '\n🔗 Link: ' + requestLink + "_workitems/edit/" + data.id + '\n';
+            '\n🔳 Activity Type: ' + item.activityType + '\n📅 Activity Date: ' + item.activityDate + '\n🔗 Link: ' + requestLink + "/_workitems/edit/" + data.id + '\n';
 
             stringResult = stringResult + eachResultString + '-----------------------------------------------------\n';
           }

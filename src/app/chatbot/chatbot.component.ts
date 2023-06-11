@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
 import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 import { GraphApiService } from '../services/graph-api.service';
-import { parsingHandler } from './parsingHandler';
+import { ParsingHandler } from './parsingHandler';
+import { GeneralSecurity } from '../generalSecurity';
 import { Message } from './Message';
 
 interface chatHistory {
@@ -47,7 +48,6 @@ export class ChatbotComponent implements OnInit {
     If I ask you a question that is rooted in truth, you will give me an answer \
     that focuses on solving general company questions. Have a conversation with \
     the user based on the queries provided. \
-    DO NOT APOLOGIZE IF I ALREADY ASKED YOU THE SAME THING\
     Important: It does not matter if I already asked you the same question, just answer it like you already did. No need to apologize'},
     {'role': 'user', 'content': 'Give me all the work items from my Azure DevOps project called "toolitDevelopment"'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}'},
@@ -268,7 +268,7 @@ export class ChatbotComponent implements OnInit {
           this.displayChat(query,"Sorry, I could not find the calendar entries");
           return;
         } else if (data.value[0].hasOwnProperty("attendees")){
-          stringResult = parsingHandler.parseCalendarEventResponse(data);
+          stringResult = ParsingHandler.parseCalendarEventResponse(data);
           // Se despliega la respuesta en el chat
           this.displayChat(query, stringResult);
           return;
@@ -276,7 +276,7 @@ export class ChatbotComponent implements OnInit {
 
       } else if(data.hasOwnProperty("value") && data.value[1].hasOwnProperty("sender")){
         
-        stringResult = parsingHandler.parseEmailsResponse(data);
+        stringResult = ParsingHandler.parseEmailsResponse(data);
         // Se despliega la respuesta en el chat
         this.displayChat(query, stringResult);
         return;
@@ -303,6 +303,11 @@ export class ChatbotComponent implements OnInit {
   }
 
   processAzureDevOpsRequest(parsedResponse, pairs, query){
+    
+    if(!GeneralSecurity.isUserAbleToRetrieveDevopsInfo){
+      this.displayChat(query,"You are unable to fetch information from the organization's Azure DevOps projects");
+      return;
+    }
 
     this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
@@ -327,9 +332,9 @@ export class ChatbotComponent implements OnInit {
 
         // Mandamos llamar la función especialmente hecha para obtener los datos
         // de varios work items en bache, tomando en cuenta sus IDs
-        this.devopsService.getBatchWorkItems(workItemIDs).subscribe((dataWIB: any) => {
+        this.devopsService.getBatchWorkItems(workItemIDs, extractedString).subscribe((dataWIB: any) => {
 
-          stringResult = parsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
+          stringResult = ParsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
           // Insertar en el chat
           this.displayChat(query, stringResult);
 
@@ -338,7 +343,7 @@ export class ChatbotComponent implements OnInit {
         
       } else if (data.hasOwnProperty("fields")) {
         
-        stringResult = parsingHandler.processSimpleWorkItemResponse(data, extractedString);
+        stringResult = ParsingHandler.processSimpleWorkItemResponse(data, extractedString);
         
         this.displayChat(query, stringResult);
 
@@ -346,14 +351,14 @@ export class ChatbotComponent implements OnInit {
 
       } else if (data.value[0].hasOwnProperty("activityType")) {
 
-        stringResult = parsingHandler.processActivitiesResponse(data, extractedString);          
+        stringResult = ParsingHandler.processActivitiesResponse(data, extractedString);          
         // Insertar en el chat
         this.displayChat(query, stringResult);
         return;
 
       } else if (data.value[0].hasOwnProperty("directoryAlias")){
 
-        stringResult = parsingHandler.processDevOpsMembers(data);
+        stringResult = ParsingHandler.processDevOpsMembers(data);
         this.displayChat(query,stringResult);
         return;
 
