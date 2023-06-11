@@ -162,8 +162,10 @@ export class GraphApiService {
         let endTime: any;
 
         if(!isNaN(body[0].start.dateTime)){
+          const numberOfDays = body[0].start.dateTime;
 
           body[0].start.dateTime = now;
+          body[0].start.dateTime.setDate(now.getDate + numberOfDays);
           body[0].start.dateTime.setHours(now.getHours() + 1);
           body[0].end.dateTime = body[0].start.dateTime;
           body[0].end.dateTime.setHours(now.getHours() + 1);
