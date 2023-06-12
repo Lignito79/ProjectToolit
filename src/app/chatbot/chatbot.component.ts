@@ -57,8 +57,6 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': 'The company has a flexible remote work policy. Employees can work remotely up to two days per week with manager approval. However, for certain roles that require on-site presence, remote work options may be limited.'},
     {'role': 'user', 'content': 'Give me the work item from my Azure DevOps project with an ID of 47 from the project "toolitDevelopment"'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/workitems/47?api-version=7.0", "body": []}'},
-    {'role': 'user', 'content': 'Give me a list of all teams from my Azure DevOps organization'},
-    {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/teams?api-version=7.0-preview.3", "body": []}'},
     {'role': 'user', 'content': 'Give me the recent work item activities from the Azure DevOps project "toolitDevelopment"'},
     {'role': 'assistant', 'content': '{"service": "DevOps", "type": "GET", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/_apis/work/accountmyworkrecentactivity?api-version=7.0", "ContentType": "application/json", "body": []}'},
     {'role': 'user', 'content': 'Give me all the tasks from the project "toolitDevelopment" in a descending order'},
@@ -91,8 +89,6 @@ export class ChatbotComponent implements OnInit {
     {'role': 'assistant', 'content': 'Apologies, I am not able to delete calendar events or any other form of data from any service'}, 
     {'role': 'user', 'content': 'Can you delete the work item with an ID of 131 from the project called "toolitDevelopment"?'}, 
     {'role': 'assistant', 'content': 'I am not able to delete work items or any other form of data from any service.'},
-    {'role': 'user', 'content': 'Can you give me the calendar events of the user with an email of a01284202@tec.mx on the date 2023/06/17 between 9 and 22 hours'},
-    {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/users/a01284202@tec.mx/calendar/calendarView?startDateTime=2023-05-26T09:00:00&endDateTime=2023-05-26T22:00:00", "body": []}'},
     {'role': 'user', 'content': 'Can you tell me if A01284202@sistematec.mx is free on the date 2023/06/22 between 9 and 10 hours'},
     {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/findMeetingTimes", "body": [{"attendees":[{"type":"required","emailAddress":{"address":"A01284202@sistematec.mx"}}],"timeConstraint":{"activityDomain":"work","timeSlots":[{"start":{"dateTime":"2023-06-22T09:00:00","timeZone":"Central America Standard Time"},"end":{"dateTime":"2023-06-22T10:00:00","timeZone":"Central America Standard Time"}}]},"isOrganizerOptional":"true","meetingDuration":"PT1H","returnSuggestionReasons":"true","minimumAttendeePercentage":"100"}]}'},
     
