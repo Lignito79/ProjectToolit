@@ -1,5 +1,6 @@
-<mat-toolbar color="warn">
-  <a class="title" href="/">{{ title }}</a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/kute.js/2.0.0/kute.min.js"></script>
+<!-- <mat-toolbar color="warn">
+  <a class="title" href="/"[routerLink]="['home']">{{ title }}</a>
 
   <div class="toolbar-spacer"></div>
 
@@ -9,8 +10,13 @@
   <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
   <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
 
-</mat-toolbar>
-<div class="container">
+</mat-toolbar> -->
+<div class="containerOne">
+<div class="screen">
+
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
   <router-outlet *ngIf="!isIframe"></router-outlet>
+  <!-- <app-home></app-home> -->
+
+</div>
 </div>

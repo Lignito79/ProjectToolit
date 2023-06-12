@@ -1,71 +1,144 @@
-
-<div id="container">
-	<aside>
-    <h1>CHATS</h1>
-		<ul>
-			<li (click)="setCurrentChatDef()">
-				<!-- <img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px"> -->
-					<h2>CHAT 1</h2>
-
-			</li>
-      <li *ngFor="let count of chats; let i=index"><h2 (click)="setCurrentChat(count)">CHAT {{count}}</h2></li>
-      <a (click)="incChat()" mat-fab svgIcon="plus" style="display: block; margin: 0 auto;" color="add"><img class="icon" src="https://img.uxwing.com/wp-content/themes/uxwing/download/user-interface/plus-icon.png"></a>
-		</ul>
-    <h1>FAQs</h1>
-    <div id="FAQ">
-      <ul>
-        <li *ngFor="let faq of frequentQuestions; let i=index" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</li>
-      </ul>
+<div class="row g-0 center screen">
+  <aside class="col-3 col-md-3 col-lg-2 col-xl-2">
+    <div>
+      <!-- drop up -->
+      <div class="dropup" style="align-items: center;display: flex;justify-content: center; height: 8vh; background-color: hsl(218, 57%, 97%); padding: 36px 30px;">
+        <a style="align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
+      </a>
+        <div class="dropdown-menu" aria-labelledby="triggerId" >
+            <!-- <a class="dropdown-item" routerLink="/home">Home</a> -->
+            <a class="dropdown-item" routerLink="/profile"><i class="bi bi-person-square" style="margin-right: 5px;"></i>Profile</a>
+            <a class="dropdown-item" routerLink="/profile"><i class="bi bi-pencil-square" style="margin-right: 5px;"></i>Terms and Conditions</a>
+            <a class="dropdown-item" (click)="emptyChat();" style="cursor: pointer;"><i class="bi bi-trash" style="margin-right: 5px;"></i>Clear chat</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/home" (click)="logout()"><i class="bi bi-box-arrow-right" style="margin-right: 5px;"></i>Log Out</a>
+        </div>
     </div>
-	</aside>
-	<main>
-		<header>
-			<img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px">
-			<div>
-				<h2>Chat {{currentChat+1}} Header</h2>
-			</div>
-		</header>
-		<ul id="chat">
+    </div>
+    <ul>
+      <h1>Chats</h1>
+      <li (click)="setCurrentChatDef()">
+        <!-- <img src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg" alt="" width="55px" height="55px"> -->
+        <h2>Chat 1</h2>
+
+      </li>
+      <li *ngFor="let count of chats; let i=index">
+        <h2 (click)="setCurrentChat(count)">Chat {{count}}</h2>
+      </li>
+      <a (click)="incChat()" mat-fab svgIcon="plus" style="display: block; margin: 0 auto; box-shadow: none;" color="add"><img
+          class="icon" src="https://img.uxwing.com/wp-content/themes/uxwing/download/user-interface/plus-icon.png"></a>
+    </ul>
+    
+    <div id="FAQ">
+      <h1>FAQs</h1>
+      <div class="btn-group faq-group" *ngFor="let faq of frequentQuestions; let i=index">
+        <button type="button" class="btn button" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</button>
+        <button type="button" class="btn button button-edit" data-bs-toggle="modal" data-bs-target="#modalId"
+          (click)="setCurrentFAQ(i)">
+          <i class="bi bi-three-dots-vertical"></i>
+          <!-- <span class="visually-hidden">Toggle Dropdown</span> -->
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">Edit FAQ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form>
+                <div class="modal-body">
+                  <label for="" class="form-label">Query Title</label>
+                  <input type="text" class="form-control" name="1" id="sQ"  aria-describedby="helpId"
+                    placeholder="" [(ngModel)]="sQuestion">
+                  <small id="helpId" class="form-text text-muted">Text to be displayed on button</small>
+                </div>
+                  <div class="modal-body">
+                  <label for="" class="form-label">Query</label>
+                  <input type="text" class="form-control" name="2" id="lQ" aria-describedby="helpId"
+                    placeholder="" [(ngModel)]="lQuestion">
+                  <small id="helpId" class="form-text text-muted">This is the actual message that will be sent</small>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="frequentQuestionEdit(); storeFAQ()" 
+                      data-bs-dismiss="modal">Save</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}} -->
+    </div>
+
+  </aside>
+  <main class="col">
+    <header class="align-middle">
+      <img
+        src="../assets/toolit.png"
+        alt="" width="55px" height="55px">
+      <div class="" style="display: inline-block;">
+        <h2>Chat {{currentChat+1}} Bot</h2>
+        <small *ngIf="isTyping">Is typing... </small>
+      </div>
+    </header>
+    <ul id="chat">
       <li class="you">
         <div class="message">
+          <div class="inChatIMG">
+            <img class="chatIMG"
+              src="../assets/toolit.png"
+              alt="">
+              <!-- https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg -->
+          </div>
           Hello! How can I help you?
         </div>
       </li>
       <div *ngFor="let element of chatLog;">
-      <div *ngFor="let n of element.questions;let i = index">
-        <li class="me" >
-          <div class="message" *ngIf="element.chatNum == this.currentChat">
-            {{n}}
-          </div>
-        </li>
-        <li class="you">
-          <div class="message" *ngIf="element.chatNum == this.currentChat" style="white-space: pre-line">
-            {{element.answers[i]}}
-          </div>
-        </li>
+        <div *ngFor="let n of element.questions;let i = index">
+          <li class="me">
+            <div class="message" *ngIf="element.chatNum == this.currentChat">
+              <div class="inChatIMG">
+                <img class="chatIMG" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg"
+                  alt="">
+              </div>
+              {{element.questions[i]}}
+            </div>
+          </li>
+          <li class="you">
+            <div class="message" *ngIf="element.chatNum == this.currentChat">
+              <div class="inChatIMG">
+                <img class="chatIMG"
+                  src="../assets/toolit.png"
+                  alt="">
+              </div>
+              {{element.answers[i]}}
+            </div>
+          </li>
+        </div>
       </div>
-      </div>
-      </ul>
-      <!-- <div id="FAQ">
-        <ul>
-          <li>First item</li>
-          <li>Second item</li>
-          <li>Third item</li>
-        </ul>
-      </div> -->
-      <div>
+      <!-- <li>
+        <div class="message" *ngIf="isTyping">
+          <div class="inChatIMG">
+            <img class="chatIMG"
+              src="https://st3.depositphotos.com/30456762/37578/v/600/depositphotos_375780486-stock-illustration-chat-bot-robot-avatar-in.jpg"
+              alt="">
+          </div>
+          ...
+        </div>
+        </li> -->
+    </ul>
+
+    <div style="flex-wrap: nowrap;">
       <form>
-        <input
-          id="textfield"
-          type="text"
-          name="query"
-          placeholder="Enter a message"
-          [(ngModel)] = "query"
-        />
-        <a (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon" src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
-        <!-- <input type="button" value="Send" style="width: 50px; width: 50px; border-radius: 100%;" (click)="postCompletion()" /> -->
-        </form>
-      </div>
-        <!-- <div className=result> {{result}} </div> -->
-    </main>
+        <input id="textfield" type="text" name="query" placeholder="Enter a message" [(ngModel)]="query"/>
+        <a style="bottom: 5px;" (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon"
+            src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
+      </form>
+    </div>
+  </main>
 </div>

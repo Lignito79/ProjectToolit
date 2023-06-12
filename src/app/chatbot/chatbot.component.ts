@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { ChatbotOpenAIService } from '../services/chatbot-open-ai.service';
 import { AzureDevopsAPIService } from '../services/azure-devops-api.service';
 import { GraphApiService } from '../services/graph-api.service';
@@ -28,7 +29,8 @@ export class ChatbotComponent implements OnInit {
   constructor(
     private chatbot : ChatbotOpenAIService, 
     private devopsService : AzureDevopsAPIService,
-    private graphService: GraphApiService
+    private graphService: GraphApiService,
+    private appComponent: AppComponent
   ) { }
 
   result : string = "";
@@ -37,10 +39,12 @@ export class ChatbotComponent implements OnInit {
   commandQuery: string = "";
   counter = 1;
   currentChat = 0;
+  currentFAQ = 0;
   chats = [];
   chatLog: chatHistory[];
   frequentQuestions : frequentQuestion[];
   messagesOfAllChats: MessagesPerChat[];
+  isTyping: boolean = false;
   
 
   ngOnInit(): void {
@@ -60,6 +64,68 @@ export class ChatbotComponent implements OnInit {
       { shortQuestion: "Juntas", query: "fdsa"},
       { shortQuestion: "Tasks", query: "tyty"},
     ];
+
+    this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
+    //localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
+    
+    
+  }
+
+  emptyChat(){
+    // console.log(this.chatLog)
+    
+    this.chatLog[this.currentChat] = {
+      chatNum: this.currentChat,
+      questions: [],
+      answers: []
+    }
+  }
+
+  storeFAQ(){
+    localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
+    console.log("Local Storage:",localStorage.frequentQuestions);
+  }
+
+  getFAQ(){
+    this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
+  }
+
+  // Clic a un FAQ
+  frequentQuestionsClick(target){
+    console.log(target)
+    // this.postCompletion()
+  }
+
+  setCurrentFAQ(target){
+    this.currentFAQ = target;
+    console.log(this.currentFAQ)
+
+  }
+
+  frequentQuestionEdit(){
+    let sQuestion = document.getElementById('sQ') as HTMLInputElement;
+    let lQuestion = document.getElementById("lQ") as HTMLInputElement;
+    let sQuestionValue = sQuestion?.value;
+    let lQuestionValue = lQuestion?.value;
+    this.frequentQuestions[this.currentFAQ] = {
+      shortQuestion: sQuestionValue,
+      query: lQuestionValue
+    }
+    sQuestion.value = '';
+    lQuestion.value = '';
+  }
+
+  // storeChat(){
+  //   localStorage.setItem("chatLog", JSON.stringify(this.chatLog))
+  //   console.log("Local Storage:",localStorage.chatLog)
+  // }
+
+  // getChat(){
+  //   this.frequentQuestions = JSON.parse(localStorage.getItem("chatLog"))
+  // }
+
+  logout() { // Add log out function here
+    this.appComponent.logout();
   }
 
   // Incremental chat
@@ -78,11 +144,6 @@ export class ChatbotComponent implements OnInit {
     this.currentChat = 0;
     console.log(this.currentChat)
   }
-  
-  frequentQuestionsClick(target){
-    console.log(target)
-    // this.postCompletion()
-  }
 
   countLines(lines): number {
     return lines.length;
@@ -94,6 +155,7 @@ export class ChatbotComponent implements OnInit {
 
   postCompletion(){
     
+    this.isTyping = true;
     this.messagesOfAllChats[this.currentChat].messages.push(
       {'role': 'user', 'content': `${this.query}`}
     );
@@ -311,6 +373,8 @@ export class ChatbotComponent implements OnInit {
   }
 
   displayChat( question, answer){
+    this.isTyping = false;
+    this.query = "";
     this.chatLog.push({
       chatNum: this.currentChat,
       questions: [question],

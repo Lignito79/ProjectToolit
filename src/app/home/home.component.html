@@ -1,8 +1,41 @@
-<div *ngIf="!loginDisplay">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/kute.js/1.6.2/kute.min.js"></script>
+<script src="https://cdn.jsdelivr.net/kute.js/1.6.2/kute.min.js"></script>
+<!-- <div *ngIf="!loginDisplay">
     <p>Please sign-in to see your profile information.</p>
 </div>
 
 <div *ngIf="loginDisplay">
     <p>Login successful!</p>
     <p>Request your profile information by clicking Profile above.</p>
-</div>
+</div> -->
+<section class="screen" style="">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="card rounded-3 text-black align-middle" style="width: 500px">
+      <div class="card-body p-md-5 mx-md-4">
+
+        <div class="text-center">
+          <img src="./assets/toolitfull.png" style="width: 185px;" alt="logo">
+          <!-- <h4 class="mt-1 mb-5 pb-1">toolit</h4> -->
+        </div>
+
+        <form>
+          <p class="row justify-content-center align-items-center" *ngIf="!loginDisplay">Please login to your account
+          </p>
+          <p class="row justify-content-center align-items-center" *ngIf="loginDisplay">You're logged in!</p>
+
+          <div class="text-center pt-1 mb-5 pb-1">
+            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 bi bi-microsoft" type="button"
+              (click)="login()" *ngIf="!loginDisplay"> Log
+              in with Microsoft</button>
+            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" routerLink="/chatbot"
+              *ngIf="loginDisplay"> Head to ChatBot <i class="bi bi-arrow-bar-right"></i></button>
+              <small style="display: flex;list-style: columns;justify-content: center;color: #8D0E11;text-decoration: underline; cursor: pointer;" (click)="logout()">Logout?</small>
+          </div>
+          
+          <!-- <a class="text-muted row justify-content-center align-items-center" href="#!">Already logged in? Go straight to the </a> -->
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

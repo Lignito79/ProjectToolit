@@ -1,40 +1,36 @@
-#container{
-	width: 100%;
-	height: 100%;
-	background:#eff3f7;
-	margin:0 auto;
+.screen{
+	background:white;
 	font-size:0;
-	border-radius:5px;
+	border-radius:10px;
 	overflow:hidden;
+	align-content: center;
+	justify-content: center;
 }
 
 aside{
-	width:10%;
-	height: 100%;
-	background-color:#3b3e49;
-	display:inline-block;
+	/* width:50vw; */
+	/* min-width: 195px; */
+	height: 80%;
+	width: 17%;
+	background-color: hsl(218, 57%, 97%);
+	display:flex;
 	font-size:15px;
 	vertical-align:top;
+	/* border: 1px solid black; */
+	box-shadow: 2px 5px  hsl(218, 57%, 97%);
+	border-radius:0 0 5px 0;
+	align-content: center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 
 aside header{
 	padding:30px 20px;
+	height: 10vh;
+	vertical-align: top;
 }
-aside input{
-	width:100%;
-	height:50px;
-	line-height:50px;
-	padding:0 50px 0 20px;
-	background-color:#5e616a;
-	border:none;
-	border-radius:3px;
-	color:#fff;
-	background-image:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_search.png);
-	background-repeat:no-repeat;
-	background-position:170px;
-	background-size:40px;
-}
+
 aside input::placeholder{
 	color:#fff;
 }
@@ -43,30 +39,34 @@ aside ul{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:370px;
+	height:44vh;
+	overflow-anchor: auto;
+
 }
 aside li{
+	cursor: pointer;
 	float: center;
 	margin: 10px;
 	padding:10px;
 	color:#fff;
 	border-radius:10px;
-	background-color: #de5a51;
+	background-color: #8D0E11;
 	text-align: center;
+	overflow-anchor: auto;
 }
 
 aside li:hover{
-	background-color:#ed776f;
+	background-color:#CC1F20;
 }
-
 h2,h3{
 	margin:0;
 }
 h1{
+	font-size: large;
 	margin:0;
 	padding: 15px;
 	text-align: center;
-	color: white;
+	color: black;
 }
 aside li img{
 	border-radius:50%;
@@ -90,42 +90,30 @@ aside li h3{
 	font-weight:normal;
 }
 
-.status{
-	width:8px;
-	height:8px;
-	border-radius:50%;
-	display:inline-block;
-	margin-right:7px;
-}
-.green{
-	background-color:#58b666;
-}
-.orange{
-	background-color:#ff725d;
-}
-.blue{
-	background-color:#ed776f;
-	margin-right:0;
-	margin-left:7px;
-}
-
-
 main{
-	width:90%;
-	min-height: 100%;
-	display:inline-block;
+	width:83%;
+	height: 100%;
+	display:flex;
 	font-size:15px;
 	vertical-align:top;
+	align-content: center;
+	justify-content: center;
+	flex-direction: column;
+
 }
 
 main header{
-	height:55px;
-	padding:30px 20px 30px 40px;
+	background-color:  hsl(218, 57%, 97%);
+	height:10vh;
+	padding:10px 20px;
+	box-shadow: 2px 5px hsl(218, 57%, 97%);
 }
 main header > *{
-	display:inline-block;
+	/* display:inline-block; */
 	vertical-align:top;
 }
+
+
 main header img:first-child{
 	border-radius:50%;
 }
@@ -152,15 +140,15 @@ main header h3{
 	margin:0;
 	list-style-type:none;
 	overflow-y:auto;
-	height:535px;
-	border-top:2px solid #fff;
-	border-bottom:2px solid #fff;
+	height:77vh;
+	/* border-top:2px solid #fff;
+	border-bottom:2px solid #fff; */
     display: flex;
     /* justify-content: flex-end; */
     flex-direction: column;
 }
 #chat li{
-	padding:10px 1%;
+	/* padding:10px 1%; */
 	margin-top: auto !important;
 }
 #chat h2,#chat h3{
@@ -169,41 +157,97 @@ main header h3{
 	font-weight:normal;
 }
 #chat h3{
-	color:#bbb;
+	color:#D8DBE7;
 }
 
 #chat .message{
-	padding:20px;
-	color:#fff;
+	display: flex;
+	padding:20px 0px;
+	color: black;
 	line-height:25px;
-	max-width:90%;
-	display:inline-block;
-	text-align:left;
+	max-width:100%;
+	vertical-align: middle;
 	border-radius:5px;
+	margin-left:30px;
+	text-align: left;
+	word-wrap: break-word;
 }
+
+#chat .inChatIMG{
+	vertical-align: middle;
+	height: 100%;
+	display: inline-block;
+}
+
+
+#chat img.chatIMG{
+	height: 55px;
+	width: 55px;
+	float: left;
+	border-radius:50%;
+	margin-right: 10px;
+	position: sticky;
+	margin-left: 10px;
+	top: 30%;
+	/* left: 20px; */
+
+}
+
 #chat .me{
-	text-align:right;
+	/* text-align:right; */
+	background-color: hsl(218, 57%, 97%);
+
+	
 }
-#chat .you .message{
+
+#chat .you{
+	/* background-color:#fff; */
+	
+}
+/* #chat .you .message{
 	background-color:#58b666;
 }
 #chat .me .message{
 	background-color:#ed776f;
+} */
+
+#FAQ {
+	width: 100%;
+	float: center;
+	text-align: center;
+	height:43vh;
 }
-#chat .triangle{
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 10px 10px 10px;
-    transform: rotate(180deg);
+
+#FAQ .faq-group{
+	/* margin: 10px; */
+	width: 87%;
+	margin-bottom: 10px;
 }
-#chat .you .triangle{
-		border-color: transparent transparent #58b666 transparent;
-		margin-left:0.5%;
+
+
+
+#FAQ .button{
+	background-color: #8D0E11;
+	color:#fff;
+	width: 80%;
+	word-wrap: break-word;
+	border-radius:10px 0px 0px 10px;
 }
-#chat .me .triangle{
-		border-color: transparent transparent #ed776f transparent;
-		margin-left:98.5%;
+
+#FAQ .button:hover{
+	background-color: #CC1F20;
+	
+}
+
+#FAQ .button-edit{
+	width: 10%;
+	background-color: #8D0E11;
+	display: right;
+	color:#fff;
+	border-radius:0 10px 10px 0;
+}
+#FAQ .button-edit:hover{
+	background-color: #CC1F20;
 }
 
 #FAQ ul{
@@ -212,38 +256,46 @@ main header h3{
 }
 
 #FAQ li{
-	background-color: #de5a51;
+	background-color: #8D0E11;
 
 }
 
 #FAQ li:hover{
-	background-color: #ed776f;
+	background-color: #5e616a;
 
 }
 
 #textfield{
-	width : 85%;
-	min-height: 50px;
+	max-width: 90%;
+	width: 90vw;
+	height: 7vh;
 	padding:0 50px 0 20px;
 	background-color:white;
 	border: 1px,solid,black;
 	border-radius:20px;
-	word-wrap: break-word;
-	word-break: break-all;
-	white-space: normal;
+	/* word-wrap: break-word;
+	word-break: break-all; */
 	/* inline-size: 90%; */
-	overflow-wrap: break-word;
-	margin: 10px 10px 10px 10px;
+	overflow-wrap: normal;
+	overflow-y: scroll;
+	margin: 10px;
+	vertical-align: middle;
 }
+
+.textfield::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
 .mat-add{
 	height: 50px;
 	width: 50px;
-	background-color: #FFBD33;
+	background-color: #F4AC45;
 }
 .mat-send{
 	height: 50px;
 	width: 50px;
-	background-color: #89CFF0;
+	background-color: #81A7BB;
 }
 
 img.icon{
@@ -254,4 +306,15 @@ img.icon{
 	transform: translate(-50%, -50%);
 	width: 20px;
 	height: 20px;
+}
+
+img.profile{
+	position: absolute;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 45px;
+	height: 45px;
 }
