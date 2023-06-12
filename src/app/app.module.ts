@@ -38,7 +38,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       auth: {
         clientId: 'ddb3d3d8-5eae-4059-8e75-004a9f96555a', // Application (client) ID from the app registration
         authority: 'https://login.microsoftonline.com/common', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-        redirectUri: 'http://localhost:4200'// This is your redirect URI
+        redirectUri: 'https://toolitwebapp.web.app'// This is your redirect URI
       },
       cache: {
         cacheLocation: 'localStorage',

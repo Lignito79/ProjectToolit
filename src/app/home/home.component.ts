@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   logout() { // Add log out function here
     this.authService.logoutRedirect({
-      postLogoutRedirectUri: 'http://localhost:4200'
+      postLogoutRedirectUri: 'https://toolitwebapp.web.app'
     });
   }
 
