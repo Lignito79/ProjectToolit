@@ -192,7 +192,12 @@ export class ChatbotComponent implements OnInit {
     const lines = this.commandQuery.split('\n');
     const numLinesOfContent = this.countLines(lines);
 
-    parsedResponse = this.parseResponse(lines[0], query);
+    parsedResponse = ParsingHandler.parseResponse(lines[0], query);
+
+    if(parsedResponse == null){
+      this.displayChat(query,this.commandQuery);
+      return;
+    }
 
     // Si el comando es de más de una línea, entonces significa que se va a agendar una cita
     // Si no, es un comando normal o sólo es una respuesta a una pregunta
@@ -203,7 +208,7 @@ export class ChatbotComponent implements OnInit {
         // Checar por qué está mal
         if(data.emptySuggestionsReason == ''){
           console.log("Sí está libre");
-          parsedResponse = this.parseResponse(lines[1], query);
+          parsedResponse = ParsingHandler.parseResponse(lines[1], query);
           this.decideProcess(parsedResponse, query);
         } else {
           this.displayChat(query, "Sorry, I could not find a free time slot for the meeting. Try with another date and time");
@@ -213,25 +218,6 @@ export class ChatbotComponent implements OnInit {
     } else {
       this.decideProcess(parsedResponse, query);
     }
-    
-  }
-
-  parseResponse(commandQuery: string, query) {
-    let parsedResponse;
-
-    try {
-      parsedResponse = JSON.parse(commandQuery);
-      console.log(parsedResponse);
-    // Si hay un error parseando la respuesta del bot, significa que no regresó un JSON y por lo tanto
-    // se imprime directamente en el chat sin procesarla
-    } catch (error) {
-      console.error(`Error parsing JSON on line '${commandQuery}': ${error}`);
-      this.displayChat(query, commandQuery);
-      return null;
-    }
-
-    console.log(commandQuery);
-    return parsedResponse;    
     
   }
 
@@ -308,7 +294,8 @@ export class ChatbotComponent implements OnInit {
       return;
     }
 
-    this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
+    this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body)
+    .subscribe({next: (data: any) => {
       console.log(data);
 
       // Expresión regular para hacer "match" con el string del link del comando del bot
@@ -368,8 +355,12 @@ export class ChatbotComponent implements OnInit {
 
       // Se despliega en el chat el string obtenido
       this.displayChat(query, stringResponse);     
+    },
+    error: (error) => {
+      this.displayChat(query,"Sorry, I could not find the Azure DevOps information you asked for");
+      return;
+    }
     });
-
   }
 
   displayChat( question, answer){

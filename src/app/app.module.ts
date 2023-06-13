@@ -36,9 +36,12 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     HttpClientModule,
     MsalModule.forRoot( new PublicClientApplication({
       auth: {
-        clientId: 'ddb3d3d8-5eae-4059-8e75-004a9f96555a', // Application (client) ID from the app registration
+        // Cliend ID de deployment
+        //clientId: 'ddb3d3d8-5eae-4059-8e75-004a9f96555a', // Application (client) ID from the app registration
+        // Cliend ID de desarrollo
+        clientId: '8adab850-a8e9-4ba7-bae2-558f8ea89ba7',
         authority: 'https://login.microsoftonline.com/common', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-        redirectUri: 'https://toolitwebapp.web.app'// This is your redirect URI
+        redirectUri: 'http://localhost:4200'// This is your redirect URI
       },
       cache: {
         cacheLocation: 'localStorage',
