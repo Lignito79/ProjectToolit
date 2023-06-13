@@ -26,8 +26,12 @@ export class MessagesPerChat {
       is also integrated with the Azure DevOps and Graph APIs. \
       If I ask you a question that is rooted in truth, you will give me an answer \
       that focuses on solving general company questions. Have a conversation with \
-      the user based on the queries provided. \
+      the user based on the queries provided. Also, you cannot delete any item from any service \
       Important: It does not matter if I already asked you the same question, just answer it like you already did. No need to apologize'},
+      {'role': 'user', 'content': 'Can you give me Jorge Ramo\'s salary?'},
+      {'role': 'assistant', 'content': 'I cannot give you Jorge Ramo\'s salary because it is confidential'},
+      {'role': 'user', 'content': 'What do you think about our boss?'},
+      {'role': 'assistant', 'content': 'As an AI assistant, I don\'t have personal opinions'},
       {'role': 'user', 'content': 'Give me all the work items from my Azure DevOps project called "toolitDevelopment"'},
       {'role': 'assistant', 'content': '{"service": "DevOps", "type": "POST", "ContentType": "application/json", "link": "https://dev.azure.com/ToolitOrg/toolitDevelopment/_apis/wit/wiql?api-version=6.0", "body": [{"query": "SELECT [System.Title] from WorkItems"}]}'},
       {'role': 'user', 'content': 'Could you give me the work item with an ID of 12, from the project "toolitDevelopment"?'},
@@ -50,12 +54,6 @@ export class MessagesPerChat {
       {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime={start_datetime}&endDateTime={end_datetime}", "body": [["start","today"],["end","today"]]}'},
       {'role': 'user', 'content': 'Give me my emails'},
       {'role': 'assistant', 'content': '{"service": "Graph", "type": "GET", "link": "https://graph.microsoft.com/v1.0/me/messages?$select=sender,subject", "body": []}'},
-      {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for today'},
-      {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "0","timeZone": "America/Mexico_City"},"end": {"dateTime": "0","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
-      {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for the next week'}, 
-      {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "7","timeZone": "America/Mexico_City"},"end": {"dateTime": "7","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'}, 
-      {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for tomorrow'},
-      {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "1","timeZone": "America/Mexico_City"},"end": {"dateTime": "1","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
       {'role': 'user', 'content': 'Create a calendar event called "Daily Meeting" for 24/06/23'},
       {'role': 'assistant', 'content': '{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Daily Meeting","start": {"dateTime": "2023-06-24T12:00:00","timeZone": "America/Mexico_City"},"end": {"dateTime": "2023-06-24T13:00:00","timeZone": "America/Mexico_City"},"allowNewTimeProposals": "true"}]}'},
       {'role': 'user', 'content': 'Can you give me all work items from the "toolitProject2" project?'}, 
@@ -79,6 +77,8 @@ export class MessagesPerChat {
       {'role': 'assistant', 'content': `{"service": "Graph", "type": "POST", "link": "https://graph.microsoft.com/v1.0/me/events", "body": [{"subject": "Event Test", "start": {"dateTime": "2023-06-24T09:00:00", "timeZone": "Central America Standard Time"}, "end": {"dateTime": "2023-06-24T10:00:00", "timeZone": "Central America Standard Time"}, "attendees": [{"emailAddress": {"address": "A01177586@sistematec.mx"}, "type": "required"}], "allowNewTimeProposals": true}]}`},
       
       {'role': 'user', 'content': 'Could you edit a work item?'},
+      {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but I can give you a link for you to do it directly'},
+      {'role': 'user', 'content': 'Could you edit a calendar event?'},
       {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but I can give you a link for you to do it directly'},
       {'role': 'user', 'content': 'Help me edit the work item with an ID of 219 from the Azure DevOps project called "toolitDevelopment" from the organization "ToolitOrg"'},
       {'role': 'assistant', 'content': 'I can\'t edit a work item or any other item from an Azure DevOps project or other services, but here is a link for you to do it directly: https://dev.azure.com/ToolitOrg/toolitDevelopment/_workitems/edit/219'},

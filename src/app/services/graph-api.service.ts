@@ -157,29 +157,11 @@ export class GraphApiService {
     } else if (typeOperation == "POST") {
 
       if (link == "https://graph.microsoft.com/v1.0/me/events"){
-
-        let startTime: any;
-        let endTime: any;
-
-        if(!isNaN(body[0].start.dateTime)){
-          const numberOfDays = body[0].start.dateTime;
-
-          body[0].start.dateTime = now;
-          body[0].start.dateTime.setDate(now.getDate + numberOfDays);
-          body[0].start.dateTime.setHours(now.getHours() + 1);
-          body[0].end.dateTime = body[0].start.dateTime;
-          body[0].end.dateTime.setHours(now.getHours() + 1);
-
-          console.log(body);
-
-          const event = body[0];
-          return this.http.post(link, event);
-
-        } else {
-          const event = body[0];
-          console.log(event);
-          return this.http.post(link, event);
-        }
+        
+        const event = body[0];
+        console.log(event);
+        return this.http.post(link, event);
+        
       } else if (link == "https://graph.microsoft.com/v1.0/me/findMeetingTimes") { //America/Mexico_City
         console.log(body[0]);
         return this.http.post(link, body[0]);
