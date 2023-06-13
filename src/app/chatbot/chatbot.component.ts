@@ -72,13 +72,29 @@ export class ChatbotComponent implements OnInit {
   }
 
   emptyChat(){
+    let index = 0;
+    // console.log(this.chatLog)
+    for (let n of this.chatLog){
+      index++;
+      console.log(n.chatNum)
+      console.log(this.currentChat)
+      // if (n.chatNum == this.currentChat){
+      //   this.chatLog.splice(index,1);
+      //   console.log(index + 'hi')
+      // }
+      if (n.chatNum == this.currentChat){
+        n.questions = [];
+        n.answers = [];
+        console.log(index + 'hi')
+      }
+
+      
+    }
     // console.log(this.chatLog)
     
-    this.chatLog[this.currentChat] = {
-      chatNum: this.currentChat,
-      questions: [],
-      answers: []
-    }
+    // // this.chatLog.splice(this.currentChat,1);
+    // console.log(this.currentChat)
+    // console.log(this.chatLog)
   }
 
   storeFAQ(){
@@ -185,7 +201,7 @@ export class ChatbotComponent implements OnInit {
     // La respuesta que da el bot se guarda directamente en el objeto de conversación
     this.messagesOfAllChats[this.currentChat].messages.push(data.choices[0].message);
 
-    console.log(this.messagesOfAllChats[this.currentChat].messages);
+    // console.log(this.messagesOfAllChats[this.currentChat].messages);
     //this.saveMessages(this.messages);
 
     // Contamos el número de lineas en el contenido que regresó el bot

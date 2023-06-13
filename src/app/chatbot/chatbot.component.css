@@ -318,3 +318,15 @@ img.profile{
 	width: 45px;
 	height: 45px;
 }
+
+a.profiledropdown{
+	background-color: white;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+
+a.profiledropdown:hover {
+	background-color: gray;
+
+}
