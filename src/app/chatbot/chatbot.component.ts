@@ -27,14 +27,14 @@ interface frequentQuestion {
 
 export class ChatbotComponent implements OnInit {
   constructor(
-    private chatbot : ChatbotOpenAIService, 
-    private devopsService : AzureDevopsAPIService,
+    private chatbot: ChatbotOpenAIService,
+    private devopsService: AzureDevopsAPIService,
     private graphService: GraphApiService,
     private appComponent: AppComponent
   ) { }
 
-  result : string = "";
-  query : string  = "";
+  result: string = "";
+  query: string = "";
   command: { link: string, body: { key: string, value: string }[] };
   commandQuery: string = "";
   counter = 1;
@@ -42,10 +42,10 @@ export class ChatbotComponent implements OnInit {
   currentFAQ = 0;
   chats = [];
   chatLog: chatHistory[];
-  frequentQuestions : frequentQuestion[];
+  frequentQuestions: frequentQuestion[];
   messagesOfAllChats: MessagesPerChat[];
   isTyping: boolean = false;
-  
+
 
   ngOnInit(): void {
     this.chatLog = [
@@ -57,52 +57,67 @@ export class ChatbotComponent implements OnInit {
     this.messagesOfAllChats.push(new MessagesPerChat());
 
     console.log(this.messagesOfAllChats[0].messages);
-
-    this.frequentQuestions = [
-      // "query" es el target
-      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
-      { shortQuestion: "Juntas", query: "fdsa"},
-      { shortQuestion: "Tasks", query: "tyty"},
-    ];
-
+    // localStorage.removeItem("frequentQuestions");
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
+
+    if (this.frequentQuestions == null) {
+      this.frequentQuestions = [
+        // "query" es el target
+        { shortQuestion: "Dress Code", query: "What is the company´s dress code?" },
+        { shortQuestion: "Meetings", query: "Give me today´s meetings" },
+        { shortQuestion: "Tasks", query: "Give me my tasks for today" },
+      ];
+      localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
+
+    }
     //localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
-    
-    
   }
 
-  emptyChat(){
+  emptyChat() {
+    let index = 0;
     // console.log(this.chatLog)
-    
-    this.chatLog[this.currentChat] = {
-      chatNum: this.currentChat,
-      questions: [],
-      answers: []
+    for (let n of this.chatLog) {
+      index++;
+      console.log(n.chatNum)
+      console.log(this.currentChat)
+      // if (n.chatNum == this.currentChat){
+      //   this.chatLog.splice(index,1);
+      //   console.log(index + 'hi')
+      // }
+      if (n.chatNum == this.currentChat) {
+        n.questions = [];
+        n.answers = [];
+        console.log(index + 'hi')
+      }
     }
   }
 
-  storeFAQ(){
+  storeFAQ() {
     localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
-    console.log("Local Storage:",localStorage.frequentQuestions);
+    console.log("Local Storage:", localStorage.frequentQuestions);
   }
 
-  getFAQ(){
+  getFAQ() {
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
   }
 
   // Clic a un FAQ
-  frequentQuestionsClick(target){
+  frequentQuestionsClick(target) {
     console.log(target)
     // this.postCompletion()
   }
 
-  setCurrentFAQ(target){
+  setCurrentFAQ(target) {
     this.currentFAQ = target;
     console.log(this.currentFAQ)
+    let sQuestion = document.getElementById('sQ') as HTMLInputElement;
+    let lQuestion = document.getElementById("lQ") as HTMLInputElement;
+    sQuestion.value = this.frequentQuestions[target].shortQuestion;
+    lQuestion.value = this.frequentQuestions[target].query;
 
   }
 
-  frequentQuestionEdit(){
+  frequentQuestionEdit() {
     let sQuestion = document.getElementById('sQ') as HTMLInputElement;
     let lQuestion = document.getElementById("lQ") as HTMLInputElement;
     let sQuestionValue = sQuestion?.value;
@@ -113,6 +128,28 @@ export class ChatbotComponent implements OnInit {
     }
     sQuestion.value = '';
     lQuestion.value = '';
+  }
+
+  postCompletionFAQ(query) {
+
+    this.isTyping = true;
+    this.messagesOfAllChats[this.currentChat].messages.push(
+      { 'role': 'user', 'content': `${query}` }
+    );
+
+    var payload = {
+      model: "gpt-3.5-turbo",
+      messages: this.messagesOfAllChats[this.currentChat].messages,
+      temperature: 0.2
+      //top_p: 1,
+      //frequency_penalty: 0,
+      //presence_penalty: 0,
+    }
+
+    this.chatbot.postCompletion(payload).subscribe((data: any) => {
+      // Podríamos llamar a processResponse aquí.
+      this.processResponse(data, query);
+    });
   }
 
   // storeChat(){
@@ -129,18 +166,18 @@ export class ChatbotComponent implements OnInit {
   }
 
   // Incremental chat
-  incChat(){
+  incChat() {
     this.counter += 1;
     this.chats.push(this.counter);
     this.messagesOfAllChats.push(new MessagesPerChat);
   }
 
-  setCurrentChat(target){
-    this.currentChat = this.chats.indexOf(target)+1;
+  setCurrentChat(target) {
+    this.currentChat = this.chats.indexOf(target) + 1;
 
   }
 
-  setCurrentChatDef(){
+  setCurrentChatDef() {
     this.currentChat = 0;
     console.log(this.currentChat)
   }
@@ -153,15 +190,15 @@ export class ChatbotComponent implements OnInit {
     return str === null;
   }
 
-  postCompletion(){
-    
+  postCompletion() {
+
     this.isTyping = true;
     this.messagesOfAllChats[this.currentChat].messages.push(
-      {'role': 'user', 'content': `${this.query}`}
+      { 'role': 'user', 'content': `${this.query}` }
     );
 
-    var payload = { 
-      model: "gpt-3.5-turbo", 
+    var payload = {
+      model: "gpt-3.5-turbo",
       messages: this.messagesOfAllChats[this.currentChat].messages,
       temperature: 0.2
       //top_p: 1,
@@ -174,8 +211,8 @@ export class ChatbotComponent implements OnInit {
       this.processResponse(data, this.query);
     });
   }
- 
-  processResponse(data, query){
+
+  processResponse(data, query) {
     let parsedResponse;
     let pairs;
 
@@ -194,19 +231,19 @@ export class ChatbotComponent implements OnInit {
 
     parsedResponse = ParsingHandler.parseResponse(lines[0], query);
 
-    if(parsedResponse == null){
-      this.displayChat(query,this.commandQuery);
+    if (parsedResponse == null) {
+      this.displayChat(query, this.commandQuery);
       return;
     }
 
     // Si el comando es de más de una línea, entonces significa que se va a agendar una cita
     // Si no, es un comando normal o sólo es una respuesta a una pregunta
-    if (numLinesOfContent > 1){
+    if (numLinesOfContent > 1) {
       this.graphService.requestFindMeetingTimes(parsedResponse.link, parsedResponse.body).subscribe((data: any) => {
         console.log("Sí entró:")
         console.log(data);
         // Checar por qué está mal
-        if(data.emptySuggestionsReason == ''){
+        if (data.emptySuggestionsReason == '') {
           console.log("Sí está libre");
           parsedResponse = ParsingHandler.parseResponse(lines[1], query);
           this.decideProcess(parsedResponse, query);
@@ -218,10 +255,10 @@ export class ChatbotComponent implements OnInit {
     } else {
       this.decideProcess(parsedResponse, query);
     }
-    
+
   }
 
-  decideProcess(parsedResponse, query){
+  decideProcess(parsedResponse, query) {
     let pairs;
 
     try {
@@ -230,18 +267,18 @@ export class ChatbotComponent implements OnInit {
       pairs = 1;
     }
 
-    if(this.isStringNull(parsedResponse)){
+    if (this.isStringNull(parsedResponse)) {
       return;
-    } else if (parsedResponse.service == "Graph"){
+    } else if (parsedResponse.service == "Graph") {
       this.processOutlookRequest(parsedResponse, pairs, query);
-    } else if (parsedResponse.service == "DevOps"){
+    } else if (parsedResponse.service == "DevOps") {
       this.processAzureDevOpsRequest(parsedResponse, pairs, query);
     }
   }
 
 
   // Esta función sirve para procesar solicitudes a la API de Graph
-  processOutlookRequest(parsedResponse, pairs, query){
+  processOutlookRequest(parsedResponse, pairs, query) {
     // Llamamos al "makeRequest" del servicio GraphApiService
     this.graphService.makeRequestOutlook(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body).subscribe((data: any) => {
       console.log(data);
@@ -249,133 +286,136 @@ export class ChatbotComponent implements OnInit {
 
       // Si lo obtenido tiene una propiedad llamada "value"
       if (data.hasOwnProperty("value")) {
-        if (data.value.length > 0 && typeof data.value[0] !== 'undefined'){
-            if (data.value[0].hasOwnProperty("attendees")){
-              stringResult = ParsingHandler.parseCalendarEventResponse(data);
-              // Se despliega la respuesta en el chat
-              this.displayChat(query, stringResult);
-              return;
-            } else if(data.value[1].hasOwnProperty("sender")){
-              stringResult = ParsingHandler.parseEmailsResponse(data);
-              // Se despliega la respuesta en el chat
-              this.displayChat(query, stringResult);
-              return;
-            }
+        if (data.value.length > 0 && typeof data.value[0] !== 'undefined') {
+          if (data.value[0].hasOwnProperty("attendees")) {
+            stringResult = ParsingHandler.parseCalendarEventResponse(data);
+            // Se despliega la respuesta en el chat
+            this.displayChat(query, stringResult);
+            return;
+          } else if (data.value[1].hasOwnProperty("sender")) {
+            stringResult = ParsingHandler.parseEmailsResponse(data);
+            // Se despliega la respuesta en el chat
+            this.displayChat(query, stringResult);
+            return;
+          }
         } else {
           this.displayChat(query, "Sorry, I was not able to find the information you want");
           return;
         }
-        
-      } else if(data.hasOwnProperty("attendees")) {
+
+      } else if (data.hasOwnProperty("attendees")) {
 
         stringResult = '📂 Subject: ' + data.subject + '\n📝 Description: ' + data.bodyPreview + '\n📅 Date and Time: ' + data.start['dateTime'];
-        
+
         this.displayChat(query, stringResult);
         return;
 
-      } else if(data.hasOwnProperty("meetingTimeSuggestions")){
+      } else if (data.hasOwnProperty("meetingTimeSuggestions")) {
 
-        if (data.emptySuggestionsReason == ""){
+        if (data.emptySuggestionsReason == "") {
           stringResult = 'The attendees are available';
         } else {
           stringResult = 'The attendees are not available';
         }
-        
+
         this.displayChat(query, stringResult);
         return;
       }
     });
   }
 
-  processAzureDevOpsRequest(parsedResponse, pairs, query){
-    
-    if(!GeneralSecurity.isUserAbleToRetrieveDevopsInfo){
-      this.displayChat(query,"You are unable to fetch information from the organization's Azure DevOps projects");
+  processAzureDevOpsRequest(parsedResponse, pairs, query) {
+
+    if (!GeneralSecurity.isUserAbleToRetrieveDevopsInfo) {
+      this.displayChat(query, "You are unable to fetch information from the organization's Azure DevOps projects");
       return;
     }
 
     this.devopsService.makeRequest(parsedResponse.type, parsedResponse.ContentType, parsedResponse.link, pairs, parsedResponse.body)
-    .subscribe({next: (data: any) => {
-      console.log(data);
+      .subscribe({
+        next: (data: any) => {
+          console.log(data);
 
-      // Expresión regular para hacer "match" con el string del link del comando del bot
-      const regex = /^(https?:\/\/.*?\/.*?\/.*?)\/.*$/;
-          
-      // Se extrae la primera parte del link con la función "match"
-      const match = parsedResponse.link.match(regex);
-      
-      // Se checa el match y se asigna el resultado en una variable
-      const extractedString = match ? match[1] : '';
-      
-      // Primero que nada, verificamos si los datos obtenidos contienen un atributo llamado "workItems".
-      // Esto para saber si tenemos que obtener los datos de cada ID de los workItems obtenidos por medio
-      // de WiQl.
-      let stringResult = "";
-      if (data.hasOwnProperty("workItems")) {
-        
-        // Extraemos los IDs de cada work item obtenido
-        const workItemIDs: number[] = data.workItems.map((product) => product.id);
+          // Expresión regular para hacer "match" con el string del link del comando del bot
+          const regex = /^(https?:\/\/.*?\/.*?\/.*?)\/.*$/;
 
-        // Mandamos llamar la función especialmente hecha para obtener los datos
-        // de varios work items en bache, tomando en cuenta sus IDs
-        this.devopsService.getBatchWorkItems(workItemIDs, extractedString).subscribe({next: (dataWIB: any) => {
-          console.log(dataWIB);
+          // Se extrae la primera parte del link con la función "match"
+          const match = parsedResponse.link.match(regex);
 
-          stringResult = ParsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
-          // Insertar en el chat
-          this.displayChat(query, stringResult);
+          // Se checa el match y se asigna el resultado en una variable
+          const extractedString = match ? match[1] : '';
 
-        },error: (error) => {
-          this.displayChat(query,"Sorry, I could not find the work items you asked for. You either did not give me the project's name, or there was an error with the endpoint.");
+          // Primero que nada, verificamos si los datos obtenidos contienen un atributo llamado "workItems".
+          // Esto para saber si tenemos que obtener los datos de cada ID de los workItems obtenidos por medio
+          // de WiQl.
+          let stringResult = "";
+          if (data.hasOwnProperty("workItems")) {
+
+            // Extraemos los IDs de cada work item obtenido
+            const workItemIDs: number[] = data.workItems.map((product) => product.id);
+
+            // Mandamos llamar la función especialmente hecha para obtener los datos
+            // de varios work items en bache, tomando en cuenta sus IDs
+            this.devopsService.getBatchWorkItems(workItemIDs, extractedString).subscribe({
+              next: (dataWIB: any) => {
+                console.log(dataWIB);
+
+                stringResult = ParsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
+                // Insertar en el chat
+                this.displayChat(query, stringResult);
+
+              }, error: (error) => {
+                this.displayChat(query, "Sorry, I could not find the work items you asked for. You either did not give me the project's name, or there was an error with the endpoint.");
+                return;
+              }
+            });
+
+            return;
+
+          } else if (data.hasOwnProperty("fields")) {
+
+            stringResult = ParsingHandler.processSimpleWorkItemResponse(data, extractedString);
+
+            this.displayChat(query, stringResult);
+
+            return;
+
+          } else if (data.value[0].hasOwnProperty("activityType")) {
+
+            stringResult = ParsingHandler.processActivitiesResponse(data, extractedString);
+            // Insertar en el chat
+            this.displayChat(query, stringResult);
+            return;
+
+          } else if (data.value[0].hasOwnProperty("directoryAlias")) {
+
+            stringResult = ParsingHandler.processDevOpsMembers(data);
+            this.displayChat(query, stringResult);
+            return;
+
+          }
+          // Se convierte el objeto obtenido en un string
+          const stringResponse = JSON.stringify(data);
+          console.log(stringResponse);
+
+          // Se despliega en el chat el string obtenido
+          this.displayChat(query, stringResponse);
+        },
+        error: (error) => {
+          this.displayChat(query, "Sorry, I could not find the Azure DevOps information you asked for");
           return;
-        }});
-
-        return;    
-        
-      } else if (data.hasOwnProperty("fields")) {
-        
-        stringResult = ParsingHandler.processSimpleWorkItemResponse(data, extractedString);
-        
-        this.displayChat(query, stringResult);
-
-        return;
-
-      } else if (data.value[0].hasOwnProperty("activityType")) {
-
-        stringResult = ParsingHandler.processActivitiesResponse(data, extractedString);          
-        // Insertar en el chat
-        this.displayChat(query, stringResult);
-        return;
-
-      } else if (data.value[0].hasOwnProperty("directoryAlias")){
-
-        stringResult = ParsingHandler.processDevOpsMembers(data);
-        this.displayChat(query,stringResult);
-        return;
-
-      }
-      // Se convierte el objeto obtenido en un string
-      const stringResponse = JSON.stringify(data);
-      console.log(stringResponse);
-
-      // Se despliega en el chat el string obtenido
-      this.displayChat(query, stringResponse);     
-    },
-    error: (error) => {
-      this.displayChat(query,"Sorry, I could not find the Azure DevOps information you asked for");
-      return;
-    }
-    });
+        }
+      });
   }
 
-  displayChat( question, answer){
+  displayChat(question, answer) {
     this.isTyping = false;
     this.query = "";
     this.chatLog.push({
       chatNum: this.currentChat,
       questions: [question],
       answers: [answer]
-  });
+    });
 
   }
 
@@ -464,15 +504,15 @@ export class ChatbotComponent implements OnInit {
     Q:Can you delete the work item with an ID of 131 from the project called "toolitDevelopment"?
     A:Apologies, I am not able to delete work items or any other form of data from any service`;
     */
-    /*
-    let myprompt=
-    `You are a conversational chatbot assistant called Toolit. 
-    Toolit is a knowledge management bot that uses individual employee and \
-    company information with its agencies: Outlook and Azure DevOps. Toolit \
-    is also integrated with the Azure DevOps and Graph APIs. \
-    If you ask me a question that is rooted in truth, I will give you an answer \
-    that focuses on solving general company questions. Have a conversation with \
-    the user based on the queries provided based \
-    on the responses delimited by the brackets.
-    Conversation: [${responses}]` + this.query + "\n";
-    */
+/*
+let myprompt=
+`You are a conversational chatbot assistant called Toolit. 
+Toolit is a knowledge management bot that uses individual employee and \
+company information with its agencies: Outlook and Azure DevOps. Toolit \
+is also integrated with the Azure DevOps and Graph APIs. \
+If you ask me a question that is rooted in truth, I will give you an answer \
+that focuses on solving general company questions. Have a conversation with \
+the user based on the queries provided based \
+on the responses delimited by the brackets.
+Conversation: [${responses}]` + this.query + "\n";
+*/

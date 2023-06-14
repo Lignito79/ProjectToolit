@@ -161,7 +161,6 @@ main header h3{
 }
 
 #chat .message{
-	white-space: pr;
 	display: flex;
 	padding:20px 0px;
 	color: black;
@@ -318,4 +317,16 @@ img.profile{
 	transform: translate(-50%, -50%);
 	width: 45px;
 	height: 45px;
+}
+
+a.profiledropdown{
+	background-color: white;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+
+a.profiledropdown:hover {
+	background-color: gray;
+
 }

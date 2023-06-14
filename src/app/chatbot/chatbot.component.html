@@ -3,7 +3,7 @@
     <div>
       <!-- drop up -->
       <div class="dropup" style="align-items: center;display: flex;justify-content: center; height: 8vh; background-color: hsl(218, 57%, 97%); padding: 36px 30px;">
-        <a style="align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+        <a class="profiledropdown" style="align-items: center;" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
             <img class="profile" src="https://i.pinimg.com/222x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg">
       </a>
         <div class="dropdown-menu" aria-labelledby="triggerId" >
@@ -33,7 +33,7 @@
     <div id="FAQ">
       <h1>FAQs</h1>
       <div class="btn-group faq-group" *ngFor="let faq of frequentQuestions; let i=index">
-        <button type="button" class="btn button" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</button>
+        <button type="button" class="btn button" (click)="postCompletionFAQ(faq.query)">{{faq.shortQuestion}}</button>
         <button type="button" class="btn button button-edit" data-bs-toggle="modal" data-bs-target="#modalId"
           (click)="setCurrentFAQ(i)">
           <i class="bi bi-three-dots-vertical"></i>
@@ -44,27 +44,25 @@
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header" style="background-color: hsl(218, 57%, 97%);">
                 <h5 class="modal-title" id="modalTitleId">Edit FAQ</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form>
                 <div class="modal-body">
                   <label for="" class="form-label">Query Title</label>
-                  <input type="text" class="form-control" name="1" id="sQ"  aria-describedby="helpId"
-                    placeholder="" [(ngModel)]="sQuestion">
+                  <input type="text" class="form-control" name="1" id="sQ" >
                   <small id="helpId" class="form-text text-muted">Text to be displayed on button</small>
                 </div>
                   <div class="modal-body">
                   <label for="" class="form-label">Query</label>
-                  <input type="text" class="form-control" name="2" id="lQ" aria-describedby="helpId"
-                    placeholder="" [(ngModel)]="lQuestion">
+                  <input type="text" class="form-control" name="2" id="lQ" >
                   <small id="helpId" class="form-text text-muted">This is the actual message that will be sent</small>
                   </div>
-                  <div class="modal-footer">
+                  <div class="modal-footer" style="background-color: hsl(218, 57%, 97%);">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="frequentQuestionEdit(); storeFAQ()" 
-                      data-bs-dismiss="modal">Save</button>
+                    <a type="button" class="btn btn-primary" style="background-color: #8D0E11; border-color: #8D0E11; color: white;" (click)="frequentQuestionEdit(); storeFAQ()" 
+                      data-bs-dismiss="modal">Save</a>
                   </div>
               </form>
             </div>
@@ -110,7 +108,7 @@
             </div>
           </li>
           <li class="you">
-            <div class="message" style="white-space: pre-line" *ngIf="element.chatNum == this.currentChat">
+            <div class="message" *ngIf="element.chatNum == this.currentChat">
               <div class="inChatIMG">
                 <img class="chatIMG"
                   src="../assets/toolit.png"
@@ -135,8 +133,8 @@
 
     <div style="flex-wrap: nowrap;">
       <form>
-        <input id="textfield" type="text" name="query" placeholder="Enter a message" [(ngModel)]="query"/>
-        <a style="bottom: 5px;" (click)="postCompletion()" mat-mini-fab color="send"> <img class="icon"
+        <input id="textfield" type="text" name="query" placeholder="Enter a message" (keyup.enter)="postCompletion()" [(ngModel)]="query"/>
+        <a style="bottom: 5px;" (click)="postCompletion()" mat-mini-fab color="send" > <img class="icon"
             src="https://cdn4.iconfinder.com/data/icons/core-ui-filled-rounded/32/filled_rounded_send-512.png"> </a>
       </form>
     </div>
