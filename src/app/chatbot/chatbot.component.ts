@@ -57,15 +57,23 @@ export class ChatbotComponent implements OnInit {
     this.messagesOfAllChats.push(new MessagesPerChat());
 
     console.log(this.messagesOfAllChats[0].messages);
-
-    this.frequentQuestions = [
-      // "query" es el target
-      { shortQuestion: "Codigo de Vestimenta", query: "asdf"},
-      { shortQuestion: "Juntas", query: "fdsa"},
-      { shortQuestion: "Tasks", query: "tyty"},
-    ];
-
+    // localStorage.removeItem("frequentQuestions");
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
+
+    if (this.frequentQuestions == null){
+      this.frequentQuestions = [
+        // "query" es el target
+        { shortQuestion: "Dress Code", query: "What is the company´s dress code?"},
+        { shortQuestion: "Meetings", query: "Give me today´s meetings"},
+        { shortQuestion: "Tasks", query: "Give me my tasks for today"},
+      ];
+      localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
+
+    }
+
+    
+
+    
     //localStorage.setItem("frequentQuestions", JSON.stringify(this.frequentQuestions));
     
     
@@ -106,15 +114,13 @@ export class ChatbotComponent implements OnInit {
     this.frequentQuestions = JSON.parse(localStorage.getItem("frequentQuestions"));
   }
 
-  // Clic a un FAQ
-  frequentQuestionsClick(target){
-    console.log(target)
-    // this.postCompletion()
-  }
-
   setCurrentFAQ(target){
     this.currentFAQ = target;
     console.log(this.currentFAQ)
+    let sQuestion = document.getElementById('sQ') as HTMLInputElement;
+    let lQuestion = document.getElementById("lQ") as HTMLInputElement;
+    sQuestion.value =this.frequentQuestions[target].shortQuestion;
+    lQuestion.value =this.frequentQuestions[target].query;
 
   }
 
@@ -188,6 +194,28 @@ export class ChatbotComponent implements OnInit {
     this.chatbot.postCompletion(payload).subscribe((data: any) => {
       // Podríamos llamar a processResponse aquí.
       this.processResponse(data, this.query);
+    });
+  }
+
+  postCompletionFAQ(query){
+    
+    this.isTyping = true;
+    this.messagesOfAllChats[this.currentChat].messages.push(
+      {'role': 'user', 'content': `${query}`}
+    );
+
+    var payload = { 
+      model: "gpt-3.5-turbo", 
+      messages: this.messagesOfAllChats[this.currentChat].messages,
+      temperature: 0.2
+      //top_p: 1,
+      //frequency_penalty: 0,
+      //presence_penalty: 0,
+    }
+
+    this.chatbot.postCompletion(payload).subscribe((data: any) => {
+      // Podríamos llamar a processResponse aquí.
+      this.processResponse(data, query);
     });
   }
  

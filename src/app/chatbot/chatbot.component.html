@@ -33,7 +33,7 @@
     <div id="FAQ">
       <h1>FAQs</h1>
       <div class="btn-group faq-group" *ngFor="let faq of frequentQuestions; let i=index">
-        <button type="button" class="btn button" (click)="frequentQuestionsClick(faq.query)">{{faq.shortQuestion}}</button>
+        <button type="button" class="btn button" (click)="postCompletionFAQ(faq.query)">{{faq.shortQuestion}}</button>
         <button type="button" class="btn button button-edit" data-bs-toggle="modal" data-bs-target="#modalId"
           (click)="setCurrentFAQ(i)">
           <i class="bi bi-three-dots-vertical"></i>
@@ -51,14 +51,12 @@
               <form>
                 <div class="modal-body">
                   <label for="" class="form-label">Query Title</label>
-                  <input type="text" class="form-control" name="1" id="sQ"  aria-describedby="helpId"
-                    placeholder="" [(ngModel)]="sQuestion">
+                  <input type="text" class="form-control" name="1" id="sQ" >
                   <small id="helpId" class="form-text text-muted">Text to be displayed on button</small>
                 </div>
                   <div class="modal-body">
                   <label for="" class="form-label">Query</label>
-                  <input type="text" class="form-control" name="2" id="lQ" aria-describedby="helpId"
-                    placeholder="" [(ngModel)]="lQuestion">
+                  <input type="text" class="form-control" name="2" id="lQ" >
                   <small id="helpId" class="form-text text-muted">This is the actual message that will be sent</small>
                   </div>
                   <div class="modal-footer" style="background-color: hsl(218, 57%, 97%);">
