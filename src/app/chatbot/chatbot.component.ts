@@ -318,13 +318,18 @@ export class ChatbotComponent implements OnInit {
 
         // Mandamos llamar la función especialmente hecha para obtener los datos
         // de varios work items en bache, tomando en cuenta sus IDs
-        this.devopsService.getBatchWorkItems(workItemIDs, extractedString).subscribe((dataWIB: any) => {
+        this.devopsService.getBatchWorkItems(workItemIDs, extractedString).subscribe({next: (dataWIB: any) => {
+          console.log(dataWIB);
 
           stringResult = ParsingHandler.processAndParseWIQLResponse(dataWIB, extractedString);
           // Insertar en el chat
           this.displayChat(query, stringResult);
 
-        });
+        },error: (error) => {
+          this.displayChat(query,"Sorry, I could not find the work items you asked for. You either did not give me the project's name, or there was an error with the endpoint.");
+          return;
+        }});
+
         return;    
         
       } else if (data.hasOwnProperty("fields")) {

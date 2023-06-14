@@ -72,7 +72,7 @@ export abstract class ParsingHandler {
         // Hacer for que recorre los workitems y los almacena en un string bonito :)
         data.value.forEach(function (item) {
             const eachResultString = '🆔 ID: ' + item.id + '\n📂 Title: ' + item.fields['System.Title'] + '\n🔲 Work item type: ' 
-            + item.fields['System.WorkItemType'] + '\n🔗 Link: ' + requestLink + "/_workitems/edit/" + item.id + '\n';
+            + item.fields['System.WorkItemType'] + '\n👤 Assigned to: ' + item.fields['System.AssignedTo'].displayName + '\n✅ State: ' + item.fields['System.State'] +'\n🔗 Link: ' + requestLink + "/_workitems/edit/" + item.id + '\n';
             stringResult = stringResult + eachResultString + '-----------------------------------------------------\n';
         });
 

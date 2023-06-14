@@ -129,7 +129,9 @@ export class AzureDevopsAPIService {
       "fields": [
         "System.Id",
         "System.Title",
-        "System.WorkItemType"
+        "System.WorkItemType",
+        "System.AssignedTo",
+        "System.State"
       ]
     }
 
