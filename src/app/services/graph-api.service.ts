@@ -130,6 +130,13 @@ export class GraphApiService {
     const startTime = startOfDay.toISOString();
     const endTime = endOfDay.toISOString();
 
+    const httpOptionsEvents = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Prefer': 'outlook.timezone="Central America Standard Time"'
+      })
+    };
+
     if (typeOperation == "GET") {
 
       // Si el link obtenido se refiere a la solicitud de eventos de calendario por tiempo y fecha,
@@ -148,8 +155,11 @@ export class GraphApiService {
 
           console.log(newLink);
 
-          return this.http.get(newLink);
+          return this.http.get(newLink, httpOptionsEvents);
         }
+      } else if(link == "https://graph.microsoft.com/v1.0/me/calendar/events"){
+        
+        return this.http.get(link, httpOptionsEvents);
       }
 
       return this.http.get(link);
